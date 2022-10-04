@@ -1,11 +1,13 @@
 import React from "react";
 import Home from "./pages/Home";
-
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <React.Fragment>
-      <Home/>
+      <BrowserRouter>
+        <Home/>
+      </BrowserRouter>
     </React.Fragment>
   );
 }

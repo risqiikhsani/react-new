@@ -4,23 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-} from "react-router-dom";
+// import {
+//   createBrowserRouter,
+//   RouterProvider,
+//   Route,
+// } from "react-router-dom";
 
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 
-import ErrorPage from './pages/ErrorPage';
+// import ErrorPage from './pages/ErrorPage';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App/>,
-    errorElement: <ErrorPage />,
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <App/>,
+//     errorElement: <ErrorPage />,
+//   },
+// ]);
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
