@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-export default function HomePage() {
+export default function MyUserProfile() {
   return (
     <div>
-      <h1>Homepage</h1>
+      <h1>MyUserProfile page</h1>
 
     </div>
   );
