@@ -104,7 +104,7 @@ const routeNav = [
   },
 ];
 
-function HomeContainer(props) {
+function AppContainer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -269,7 +269,7 @@ function HomeContainer(props) {
   );
 }
 
-HomeContainer.propTypes = {
+AppContainer.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -277,4 +277,4 @@ HomeContainer.propTypes = {
   window: PropTypes.func,
 };
 
-export default HomeContainer;
+export default AppContainer;
