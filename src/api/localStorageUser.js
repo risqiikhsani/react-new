@@ -5,3 +5,19 @@
 // or this https://www.npmjs.com/package/reactjs-localstorage
 
 
+
+
+export function getUser() {
+    return JSON.parse(localStorage.getItem("user"));
+}
+
+export function setUser(user) {
+    console.log(JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
+}
+
+export function removeUser() {
+    localStorage.removeItem("user");
+}
+
+
