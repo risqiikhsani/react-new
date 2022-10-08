@@ -1,27 +1,27 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
+
+import { useSelector,useDispatch } from "react-redux";
+import { decrement,increment, } from "../redux/slices/counterSlice";
+
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+
 
 
 export default function Home() {
 
-  // const fetchPostList = () => {
-  //   fetch('https://api.github.com/repos/tannerlinsley/react-query').then(res =>res.json())
-  // }
-  
-  // const { isLoading, isError, data, error } = useQuery(['posts'], fetchPostList)
-
-  // if(isLoading){
-  //   return <span>Loading...</span>
-  // }
-
-  // if(isError){
-  //   return <span>Error: {error.message}</span>
-  // }
+  const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
 
   return (
     <React.Fragment>
-      homepage
+      <Stack spacing={2} direction="row">
+        <Button variant="contained" onClick={() => dispatch(increment())}>Add</Button>
+        <p>{count}</p>
+        <Button variant="contained" onClick={() => dispatch(decrement())}>Remove</Button>
+      </Stack>
     </React.Fragment>
   );
 }
