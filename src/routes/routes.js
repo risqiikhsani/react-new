@@ -72,6 +72,7 @@ const router = createBrowserRouter([
             {
                 path:"",
                 element:<RootApp/>,
+                loader:null,
                 children:[
                     {
                         path:"",
@@ -98,6 +99,7 @@ const router = createBrowserRouter([
             {
                 path:"auth",
                 element:<RootAuth/>,
+                loader:null,
                 children:[
                     {
                         path:"login",
