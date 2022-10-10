@@ -40,12 +40,14 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import Button from '@mui/material/Button';
 
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-
+import GrassIcon from '@mui/icons-material/Grass';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -95,11 +97,13 @@ const drawerWidth = 240;
 
 const routeNav = [
   {
-    name: "User",
+    name: "Myprofile",
+    route:"/myprofile",
     icon: <AccountCircleIcon />,
   },
   {
     name: "Setting",
+    route:"/setting",
     icon: <SettingsIcon />,
   },
 ];
@@ -141,14 +145,18 @@ function AppContainer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            MUI
-          </Typography>
+
+          <Button component={Link} to="/" sx={{color:'white'}} startIcon={<GrassIcon />}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              // sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              MUI
+            </Typography>
+          </Button>
+
           <Search sx={{ display: { xs: 'none', md: 'flex' } }}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -160,31 +168,15 @@ function AppContainer(props) {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={null}
-              aria-haspopup="true"
-              onClick={null}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {
+              routeNav.map((item) => (
+              <IconButton component={Link} to={item.route} size="large" aria-label='show {item.name}' color="inherit">
+                <Badge badgeContent={0} color="error">
+                  {item.icon}
+                </Badge>
+              </IconButton>
+              ))
+            }
           </Box>
         </Toolbar>
       </AppBar>
@@ -236,7 +228,7 @@ function AppContainer(props) {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { md: `calc(100% - ${drawerWidth}px` },
+          // width: { md: `calc(100% - ${drawerWidth}px` },
         }}
       >
         <Toolbar />

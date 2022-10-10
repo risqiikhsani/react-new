@@ -4,29 +4,31 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// import {
-//   createBrowserRouter,
-//   RouterProvider,
-//   Route,
-// } from "react-router-dom";
 
-// import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
-// import ErrorPage from './pages/ErrorPage';
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { router } from "./routes/routes";
+import { router2 } from "./routes/routes";
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App/>,
-//     errorElement: <ErrorPage />,
-//   },
-// ]);
-
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App/>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </Provider>
   </React.StrictMode>
 );
 

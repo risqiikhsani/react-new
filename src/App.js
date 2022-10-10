@@ -11,6 +11,7 @@ import {
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { router } from "./routes/routes";
+import { router2 } from "./routes/routes";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,7 @@ function App() {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
+            <ReactQueryDevtools initialIsOpen={false} />
           <RouterProvider router={router} />
         </QueryClientProvider>
       </Provider>

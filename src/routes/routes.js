@@ -4,10 +4,11 @@ import {
   createBrowserRouter,
   RouterProvider,
   Route,
+  Routes,
   Link,
+  redirect,
+  createRoutesFromElements,
 } from "react-router-dom";
-
-
 
 import Error from "../pages/Error";
 import Root from "../pages/Root";
@@ -19,6 +20,9 @@ import ChatRoom from "../pages/Chat/ChatRoom";
 import PostDetail from "../pages/Post/PostDetail";
 
 import User from "../pages/User";
+import MyUserProfile from "../pages/MyUserProfile";
+import MySettings from "../pages/MySettings";
+
 
 import RootApp from "../pages/RootApp";
 import RootAuth from "../pages/RootAuth";
@@ -27,97 +31,71 @@ import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 
-
-// const router = createBrowserRouter([
-//     {
-//         path:"/",
-//         element: <Root/>,
-//         errorElement: <Error/>,
-//         loader:null,
-//         children:[
-//             {
-//                 path:"",
-//                 element:<Home/>,
-//             },
-//             {
-//                 path:"post/:postId",
-//                 element: <PostDetail/>,
-//             },
-//             {
-//                 path:"user/:userId",
-//                 element: <User/>,
-//             },
-//             {
-//                 path:"chat",
-//                 element:<Chat/>,
-//             },
-//             {
-//                 path:"chat/:roomId",
-//                 element:<ChatRoom/>,
-//             },
-//         ],
-//     },
-    
-// ])
-
-
+let user = false;
 
 const router = createBrowserRouter([
-    {
-        path:"/",
-        element: <Root/>,
-        errorElement: <Error/>,
-        loader:null,
-        children:[
-            {
-                path:"",
-                element:<RootApp/>,
-                loader:null,
-                children:[
-                    {
-                        path:"",
-                        element:<Home/>,
-                    },
-                    {
-                        path:"post/:postId",
-                        element: <PostDetail/>,
-                    },
-                    {
-                        path:"user/:userId",
-                        element: <User/>,
-                    },
-                    {
-                        path:"chat",
-                        element:<Chat/>,
-                    },
-                    {
-                        path:"chat/:roomId",
-                        element:<ChatRoom/>,
-                    },
-                ],
-            },
-            {
-                path:"auth",
-                element:<RootAuth/>,
-                loader:null,
-                children:[
-                    {
-                        path:"login",
-                        element:<Login/>,
-                    },
-                    {
-                        path:"signup",
-                        element: <Signup/>,
-                    },
-                    {
-                        path:"forgot-password",
-                        element: <ForgotPassword/>,
-                    },
-                ],
-            },
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <Error />,
+    children: [
+      {
+        element: <RootApp />,
+        loader: null,
+        children: [
+          {
+            path: "",
+            element: <Home />,
+          },
+          {
+            path: "post/:postId",
+            element: <PostDetail />,
+          },
+          {
+            path: "user/:userId",
+            element: <User />,
+          },
+          {
+            path: "chat",
+            element: <Chat />,
+          },
+          {
+            path: "chat/:roomId",
+            element: <ChatRoom />,
+          },
+          {
+            path: "myprofile",
+            element: <MyUserProfile />,
+          },
+          {
+            path: "setting",
+            element: <MySettings />,
+          },
         ],
-    },
-    
-])
+      },
+      {
+        element: <RootAuth />,
+        path:"auth",
+        loader: null,
+        children: [
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "signup",
+            element: <Signup />,
+          },
+          {
+            path: "forgot-password",
+            element: <ForgotPassword />,
+          },
+        ],
+      },
+    ],
+  },
+]);
 
-export {router};
+
+
+export { router };

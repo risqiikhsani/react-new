@@ -32,13 +32,12 @@ const routeDrawer = [
       name: "Home",
       route: "/",
       icon: <HomeIcon />,
-      page: <Home/>,
+  
     },
     {
       name: "Chat",
       route: "/chat",
       icon: <ChatIcon />,
-      page: <Chat/>,
     },
   ];
 
