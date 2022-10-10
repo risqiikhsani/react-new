@@ -23,6 +23,10 @@ import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import PeopleIcon from '@mui/icons-material/People';
+
+
 
 import Home from "../pages/Home";
 import Chat from "../pages/Chat/Chat";
@@ -35,9 +39,19 @@ const routeDrawer = [
   
     },
     {
-      name: "Chat",
-      route: "/chat",
+      name: "Chats",
+      route: "/chats",
       icon: <ChatIcon />,
+    },
+    {
+      name: "Groups",
+      route: "/groups",
+      icon: <WorkspacesIcon />,
+    },
+    {
+      name: "Friends",
+      route: "/contact",
+      icon: <PeopleIcon/>,
     },
   ];
 

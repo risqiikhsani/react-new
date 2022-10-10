@@ -49,6 +49,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -92,7 +93,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 //
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
+const drawerWidth = 180;
+const drawerColor = "#f8f9fa";
 
 
 const routeNav = [
@@ -193,6 +196,11 @@ function AppContainer(props) {
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
+          PaperProps={{
+            sx:{
+              backgroundColor:drawerColor,
+            }
+          }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -209,6 +217,11 @@ function AppContainer(props) {
         {/* this is the Left Drawer (hiden when xs screen) */}
         <Drawer
           variant="permanent"
+          PaperProps={{
+            sx:{
+              backgroundColor:drawerColor,
+            }
+          }}
           sx={{
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {

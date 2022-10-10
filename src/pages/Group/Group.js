@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-export default function User() {
+export default function Group() {
   return (
     <div>
-      <h1>User page</h1>
+      <h1>cgroups page</h1>
 
     </div>
   );

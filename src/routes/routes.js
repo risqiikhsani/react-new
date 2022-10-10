@@ -19,7 +19,7 @@ import ChatRoom from "../pages/Chat/ChatRoom";
 
 import PostDetail from "../pages/Post/PostDetail";
 
-import User from "../pages/User";
+import UserDetail from "../pages/UserDetail";
 import MyUserProfile from "../pages/MyUserProfile";
 import MySettings from "../pages/MySettings";
 
@@ -27,9 +27,17 @@ import MySettings from "../pages/MySettings";
 import RootApp from "../pages/RootApp";
 import RootAuth from "../pages/RootAuth";
 
+import Group from "../pages/Group/Group";
+import GroupDetail from "../pages/Group/GroupDetail";
+
+import Contact from "../pages/Contact";
+
+
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+
+
 
 let user = false;
 
@@ -53,10 +61,10 @@ const router = createBrowserRouter([
           },
           {
             path: "user/:userId",
-            element: <User />,
+            element: <UserDetail />,
           },
           {
-            path: "chat",
+            path: "chats",
             element: <Chat />,
           },
           {
@@ -70,6 +78,18 @@ const router = createBrowserRouter([
           {
             path: "setting",
             element: <MySettings />,
+          },
+          {
+            path: "groups",
+            element: <Group/>,
+          },
+          {
+            path: "group/:groupId",
+            element: <GroupDetail/>,
+          },
+          {
+            path: "contact",
+            element: <Contact/>,
           },
         ],
       },
