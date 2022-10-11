@@ -51,6 +51,10 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import PeopleIcon from '@mui/icons-material/People';
 import RightDrawer from "./RightDrawer";
 
+import PersonIcon from '@mui/icons-material/Person';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 
 
@@ -121,7 +125,7 @@ const routeNav = [
   },
   {
     name: "Myprofile",
-    route:"/myprofile",
+    route:null,
     icon: <AccountCircleIcon />,
   },
   {
@@ -145,6 +149,20 @@ function AppContainer(props) {
   }
 
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+
+
+
   
 
 
@@ -153,6 +171,7 @@ function AppContainer(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
+      
       <CssBaseline />
       {/* this is the NavBar */}
       <AppBar
@@ -198,7 +217,23 @@ function AppContainer(props) {
           <Box>
             {
               routeNav.map((item) => (
-              <IconButton component={Link} to={item.route} size="large" aria-label='show {item.name}' color="inherit" onClick={item.name=="Setting"? handleSettingDrawerToggle : null}>
+              <IconButton 
+              aria-controls={open? (item.name==="Myprofile"? 'basic-menu':'notification-menu'): undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              component={Link} 
+              to={item.route} 
+              size="large" 
+              aria-label='show {item.name}' 
+              color="inherit" 
+              onClick={
+                item.name==="Setting"?
+                handleSettingDrawerToggle : 
+                item.name==="Myprofile" || item.name==="Notification"?
+                handleClick :
+                null
+              }
+              >
                 <Badge badgeContent={0} color="error">
                   {item.icon}
                 </Badge>
@@ -284,6 +319,49 @@ function AppContainer(props) {
         >
           <RightDrawer/>
         </Drawer>
+
+        <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+        <ListItemIcon>
+            <PersonIcon/>
+          </ListItemIcon>
+          <ListItemText>My Profile</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+        <ListItemIcon>
+          <ManageAccountsIcon fontSize="small" />
+            
+          </ListItemIcon>
+          <ListItemText>My Account</ListItemText>
+        </MenuItem>
+        <Divider/>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Log out</ListItemText>
+        </MenuItem>
+      </Menu>
+
+      <Menu
+        id="notification-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        notification
+      </Menu>
 
       </Box>
 
