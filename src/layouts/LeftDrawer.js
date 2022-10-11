@@ -18,7 +18,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-
+import { Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -31,27 +31,30 @@ import PeopleIcon from '@mui/icons-material/People';
 import Home from "../pages/Home";
 import Chat from "../pages/Chat/Chat";
 
+const fontDrawerColor = '#9A9FA7';
+const iconDrawerColor = '#F9FAFC';
+
 const routeDrawer = [
     {
       name: "Home",
       route: "/",
-      icon: <HomeIcon />,
+      icon: <HomeIcon sx={{color:iconDrawerColor}}/>,
   
     },
     {
       name: "Chats",
       route: "/chats",
-      icon: <ChatIcon />,
+      icon: <ChatIcon sx={{color:iconDrawerColor}}/>,
     },
     {
       name: "Groups",
       route: "/groups",
-      icon: <WorkspacesIcon />,
+      icon: <WorkspacesIcon sx={{color:iconDrawerColor}}/>,
     },
     {
       name: "Friends",
       route: "/contact",
-      icon: <PeopleIcon/>,
+      icon: <PeopleIcon sx={{color:iconDrawerColor}}/>,
     },
   ];
 
@@ -61,17 +64,27 @@ export default function LeftDrawer(props) {
         <React.Fragment>
         <Toolbar />
         <Divider />
-        <List>
+        <List sx={{color:fontDrawerColor}}>
             {routeDrawer.map((item) => (
             <ListItem key={item} disablePadding>
-                <ListItemButton component={Link} to={item.route}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemButton component={Link} to={item.route} >
+                <ListItemIcon >{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />
                 </ListItemButton>
             </ListItem>
             ))}
         </List>
         <Divider/>
+        <Box sx={{p:2, }}>
+        <Typography variant="body1" gutterBottom align="center" sx={{color:fontDrawerColor}}>
+        Need help ? 
+      </Typography>
+      <Typography variant="body2" gutterBottom align="center" sx={{color:fontDrawerColor}}>
+        Visit our CS
+      </Typography>
+      <Button variant="outlined" sx={{width:'100%'}}>CS VISIT</Button>
+        </Box>
+
         </React.Fragment>
 
     );

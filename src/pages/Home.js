@@ -6,11 +6,13 @@ import { useSelector,useDispatch } from "react-redux";
 import { decrement,decrementByAmount,increment, incrementByAmount, } from "../redux/slices/counterSlice";
 import { setUser,clearUser } from "../redux/slices/userSlice";
 import { Typography } from "@mui/material";
+import {Grid} from "@mui/material";
 
 
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import PostCard from "../components/PostCard";
+import { Container } from "@mui/system";
 
 
 export default function Home() {
@@ -42,23 +44,22 @@ export default function Home() {
         <Button variant="contained" onClick={() => dispatch(decrementByAmount(10))}>Remove by 10</Button>
       </Stack> */}
 
+    <Grid container spacing={2}>
+      <Grid xs={12} md={8}>
+        <Container spacing={2}>
+        <PostCard/>
+      <PostCard/>
+      <PostCard/>
+        </Container>
+      </Grid>
+      <Grid xs={12} md={4}>
+      <Container spacing={2}>
+      <PostCard/>
+      </Container>
+      </Grid>
+    </Grid>
 
-      <PostCard/>
-      <PostCard/>
-      <PostCard/>
-              <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+
 
     </React.Fragment>
   );
