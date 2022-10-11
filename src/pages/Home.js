@@ -48,17 +48,28 @@ export default function Home() {
 
       <Grid container spacing={2}>
         <Grid xs={12} md={8}>
-          <Box >
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
             <PostCard />
             <PostCard />
             <PostCard />
-          </Box>
+          </Stack>
         </Grid>
-        <Grid xs={12} md={4} >
-          <Box >
-            <BannerCard/>
-            <BannerCard/>
-          </Box>
+        <Grid xs={12} md={4} sx={{display: { xs: 'none', sm: 'none', md: 'block' }}}>
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+            sx={{ position: "fixed" }}
+          >
+            <BannerCard />
+            <BannerCard />
+          </Stack>
         </Grid>
       </Grid>
     </React.Fragment>

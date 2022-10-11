@@ -24,8 +24,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-
-
 //
 
 import { styled, alpha } from "@mui/material/styles";
@@ -35,6 +33,8 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
+import { ListItemAvatar } from "@mui/material";
+import {Avatar} from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -44,10 +44,10 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 import PeopleIcon from "@mui/icons-material/People";
 
-
 import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Stack } from "@mui/system";
 
 export default function ProfileMenuIcon(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -86,7 +86,10 @@ export default function ProfileMenuIcon(props) {
         }}
         PaperProps={{
           elevation: 0,
+          
           sx: {
+            borderRadius:'10px 5px 10px 10px',
+            width:'300px',
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
@@ -113,6 +116,16 @@ export default function ProfileMenuIcon(props) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar>
+            <PersonIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary="Ricks" secondary="Ricks@gmail.com" />
+      </ListItem>
+
+        <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonIcon />
