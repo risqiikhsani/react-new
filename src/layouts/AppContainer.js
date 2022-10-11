@@ -49,6 +49,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import PeopleIcon from '@mui/icons-material/People';
+import RightDrawer from "./RightDrawer";
 
 
 
@@ -105,17 +106,17 @@ const drawerColor = "#111827";
 const routeNav = [
   {
     name: "Search",
-    route:"/search",
+    route:null,
     icon: <SearchIcon />,
   },
   {
     name: "People",
-    route:"/people",
+    route:null,
     icon: <PeopleIcon />,
   },
   {
     name: "Notification",
-    route:"/notification",
+    route:null,
     icon: <NotificationsIcon />,
   },
   {
@@ -125,7 +126,7 @@ const routeNav = [
   },
   {
     name: "Setting",
-    route:"/setting",
+    route:null,
     icon: <SettingsIcon />,
   },
 ];
@@ -133,10 +134,15 @@ const routeNav = [
 function AppContainer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [settingOpen,setSettingOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleSettingDrawerToggle = () => {
+    setSettingOpen(!settingOpen);
+  }
 
 
   
@@ -192,7 +198,7 @@ function AppContainer(props) {
           <Box>
             {
               routeNav.map((item) => (
-              <IconButton component={Link} to={item.route} size="large" aria-label='show {item.name}' color="inherit">
+              <IconButton component={Link} to={item.route} size="large" aria-label='show {item.name}' color="inherit" onClick={item.name=="Setting"? handleSettingDrawerToggle : null}>
                 <Badge badgeContent={0} color="error">
                   {item.icon}
                 </Badge>
@@ -252,6 +258,33 @@ function AppContainer(props) {
         >
           <LeftDrawer/>
         </Drawer>
+
+        <Drawer
+          anchor="right"
+          open={settingOpen}
+          onClose={handleSettingDrawerToggle}
+          PaperProps={{
+            sx:{
+              backgroundColor:drawerColor,
+              borderRadius:'20px 0 0 20px',
+              
+            }
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+            zIndex: 'modal'
+          }}
+          
+        >
+          <RightDrawer/>
+        </Drawer>
+
       </Box>
 
       {/* this is the main page */}

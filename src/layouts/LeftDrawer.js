@@ -74,7 +74,7 @@ export default function LeftDrawer(props) {
             </ListItem>
             ))}
         </List>
-        <Divider/>
+        <Divider sx={{bgcolor:'#ECECEC'}} variant="middle"/>
         <Box sx={{p:2, }}>
         <Typography variant="body1" gutterBottom align="center" sx={{color:fontDrawerColor}}>
         Need help ? 
