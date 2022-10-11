@@ -6,6 +6,8 @@ import AddIcon from "@mui/icons-material/Add";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import ContactTable from "./ContactTable";
+import ContactSearchFilter from "./ContactSearchFilter";
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
 //   padding: theme.spacing(1),
@@ -83,18 +85,27 @@ export default function Contact(props) {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
+              <Tab label="Connected" {...a11yProps(0)} />
+              <Tab label="Connected (Pinned)" {...a11yProps(1)} />
+              <Tab label="Request in Pending" {...a11yProps(2)} />
+              <Tab label="Request out Pending" {...a11yProps(3)} />
+              <Tab label="Blocked" {...a11yProps(4)} />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            Item One
+            <ContactSearchFilter/>
+            <ContactTable/>
           </TabPanel>
           <TabPanel value={value} index={1}>
             Item Two
           </TabPanel>
           <TabPanel value={value} index={2}>
+            Item Three
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            Item Two
+          </TabPanel>
+          <TabPanel value={value} index={4}>
             Item Three
           </TabPanel>
           </Paper>
