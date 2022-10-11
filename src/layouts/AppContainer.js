@@ -53,6 +53,7 @@ import SearchMenuIcon from "./Navbar/SearchMenuIcon";
 import NotificationMenuIcon from "./Navbar/NotificationMenuIcon";
 import ProfileMenuIcon from "./Navbar/ProfileMenuIcon";
 import SettingDrawerIcon from "./Navbar/SettingDrawerIcon";
+import OnlineContactIcon from "./Navbar/OnlineContactIcon";
 
 // const drawerWidth = 240;
 const drawerWidth = 240;
@@ -111,7 +112,9 @@ function AppContainer(props) {
           <Box sx={{ flexGrow: 1 }} />
           <Box>
             {/* here is the icons */}
+            
             <SearchMenuIcon />
+            <OnlineContactIcon/>
             <NotificationMenuIcon />
             <ProfileMenuIcon />
             <SettingDrawerIcon />

@@ -24,8 +24,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-
-
 //
 
 import { styled, alpha } from "@mui/material/styles";
@@ -35,6 +33,8 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
+import { ListItemAvatar } from "@mui/material";
+import {Avatar} from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -44,12 +44,13 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 import PeopleIcon from "@mui/icons-material/People";
 
-
 import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Stack } from "@mui/system";
 
-export default function NotificationMenuIcon(props) {
+
+export default function OnlineContactIcon(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -63,34 +64,62 @@ export default function NotificationMenuIcon(props) {
   return (
     <React.Fragment>
       <IconButton
-        aria-controls={open ? "notification-menu" : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         size="large"
-        aria-label="show notification"
+        aria-label="show profile"
         color="inherit"
         onClick={handleClick}
       >
-        <Badge badgeContent={12} color="error">
-            <NotificationsIcon />
+        <Badge badgeContent={0} color="error">
+          <PeopleIcon />
         </Badge>
       </IconButton>
 
       <Menu
-        id="notification-menu"
+        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-
+        PaperProps={{
+          elevation: 0,
+          
+          sx: {
+            borderRadius:'10px 5px 10px 10px',
+            width:'300px',
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
       
       <Typography variant="h6" sx={{px:'10px'}}>
-        Notification
+        Contact
       </Typography>
 
         <Divider />
@@ -124,8 +153,6 @@ export default function NotificationMenuIcon(props) {
           </ListItemIcon>
           <ListItemText>Bris</ListItemText>
         </MenuItem>
-       
-        
 
       </Menu>
     </React.Fragment>
