@@ -27,151 +27,50 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 import LeftDrawer from "./LeftDrawer";
 import RightSidePage from "./RightSidePage";
 
-
-
 //
 
+import { styled, alpha } from "@mui/material/styles";
 
-import { styled, alpha } from '@mui/material/styles';
+import InputBase from "@mui/material/InputBase";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import Button from "@mui/material/Button";
 
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import GrassIcon from "@mui/icons-material/Grass";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MoreIcon from "@mui/icons-material/MoreVert";
 
-
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Button from '@mui/material/Button';
-
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import GrassIcon from '@mui/icons-material/Grass';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
-
-import PeopleIcon from '@mui/icons-material/People';
+import PeopleIcon from "@mui/icons-material/People";
 import RightDrawer from "./RightDrawer";
 
-import PersonIcon from '@mui/icons-material/Person';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LogoutIcon from '@mui/icons-material/Logout';
-
-
-
-
-// const Search = styled('div')(({ theme }) => ({
-//   position: 'relative',
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   '&:hover': {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginRight: theme.spacing(2),
-//   marginLeft: 0,
-//   width: '100%',
-//   [theme.breakpoints.up('sm')]: {
-//     marginLeft: theme.spacing(3),
-//     width: 'auto',
-//   },
-// }));
-
-// const SearchIconWrapper = styled('div')(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: '100%',
-//   position: 'absolute',
-//   pointerEvents: 'none',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// }));
-
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: 'inherit',
-//   '& .MuiInputBase-input': {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create('width'),
-//     width: '100%',
-//     [theme.breakpoints.up('md')]: {
-//       width: '20ch',
-//     },
-//   },
-// }));
-
-
-//
+import PersonIcon from "@mui/icons-material/Person";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SearchMenuIcon from "./Navbar/SearchMenuIcon";
+import NotificationMenuIcon from "./Navbar/NotificationMenuIcon";
+import ProfileMenuIcon from "./Navbar/ProfileMenuIcon";
+import SettingDrawerIcon from "./Navbar/SettingDrawerIcon";
 
 // const drawerWidth = 240;
 const drawerWidth = 240;
 const drawerColor = "#111827";
 
-
-
-const routeNav = [
-  {
-    name: "Search",
-    route:null,
-    icon: <SearchIcon />,
-  },
-  {
-    name: "People",
-    route:null,
-    icon: <PeopleIcon />,
-  },
-  {
-    name: "Notification",
-    route:null,
-    icon: <NotificationsIcon />,
-  },
-  {
-    name: "Myprofile",
-    route:null,
-    icon: <AccountCircleIcon />,
-  },
-  {
-    name: "Setting",
-    route:null,
-    icon: <SettingsIcon />,
-  },
-];
-
 function AppContainer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [settingOpen,setSettingOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const handleSettingDrawerToggle = () => {
-    setSettingOpen(!settingOpen);
-  }
-
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
-
-
-
-  
-
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
-      
       <CssBaseline />
       {/* this is the NavBar */}
       <AppBar
@@ -193,7 +92,12 @@ function AppContainer(props) {
             <MenuIcon />
           </IconButton>
 
-          <Button component={Link} to="/" sx={{color:'white'}} startIcon={<GrassIcon />}>
+          <Button
+            component={Link}
+            to="/"
+            sx={{ color: "white" }}
+            startIcon={<GrassIcon />}
+          >
             <Typography
               variant="h6"
               noWrap
@@ -204,42 +108,13 @@ function AppContainer(props) {
             </Typography>
           </Button>
 
-          {/* <Search sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            {
-              routeNav.map((item) => (
-              <IconButton 
-              aria-controls={open? (item.name==="Myprofile"? 'basic-menu':'notification-menu'): undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              component={Link} 
-              to={item.route} 
-              size="large" 
-              aria-label='show {item.name}' 
-              color="inherit" 
-              onClick={
-                item.name==="Setting"?
-                handleSettingDrawerToggle : 
-                item.name==="Myprofile" || item.name==="Notification"?
-                handleClick :
-                null
-              }
-              >
-                <Badge badgeContent={0} color="error">
-                  {item.icon}
-                </Badge>
-              </IconButton>
-              ))
-            }
+            {/* here is the icons */}
+            <SearchMenuIcon />
+            <NotificationMenuIcon />
+            <ProfileMenuIcon />
+            <SettingDrawerIcon />
           </Box>
         </Toolbar>
       </AppBar>
@@ -249,7 +124,7 @@ function AppContainer(props) {
         aria-label="drawer"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        
+
         {/* this is the Left Drawer (in navbar) */}
         <Drawer
           container={container}
@@ -257,9 +132,9 @@ function AppContainer(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           PaperProps={{
-            sx:{
-              backgroundColor:drawerColor,
-            }
+            sx: {
+              backgroundColor: drawerColor,
+            },
           }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
@@ -272,15 +147,15 @@ function AppContainer(props) {
             },
           }}
         >
-          <LeftDrawer/>
+          <LeftDrawer />
         </Drawer>
         {/* this is the Left Drawer (hiden when xs screen) */}
         <Drawer
           variant="permanent"
           PaperProps={{
-            sx:{
-              backgroundColor:drawerColor,
-            }
+            sx: {
+              backgroundColor: drawerColor,
+            },
           }}
           sx={{
             display: { xs: "none", sm: "block" },
@@ -291,78 +166,8 @@ function AppContainer(props) {
           }}
           open
         >
-          <LeftDrawer/>
+          <LeftDrawer />
         </Drawer>
-
-        <Drawer
-          anchor="right"
-          open={settingOpen}
-          onClose={handleSettingDrawerToggle}
-          PaperProps={{
-            sx:{
-              backgroundColor:drawerColor,
-              borderRadius:'20px 0 0 20px',
-              
-            }
-          }}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-            zIndex: 'modal'
-          }}
-          
-        >
-          <RightDrawer/>
-        </Drawer>
-
-        <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-            <PersonIcon/>
-          </ListItemIcon>
-          <ListItemText>My Profile</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-          <ManageAccountsIcon fontSize="small" />
-            
-          </ListItemIcon>
-          <ListItemText>My Account</ListItemText>
-        </MenuItem>
-        <Divider/>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <LogoutIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Log out</ListItemText>
-        </MenuItem>
-      </Menu>
-
-      <Menu
-        id="notification-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        notification
-      </Menu>
-
       </Box>
 
       {/* this is the main page */}
@@ -371,13 +176,13 @@ function AppContainer(props) {
         sx={{
           flexGrow: 1,
           p: 3,
+          bgcolor:'#F9FAFC',
           // width: { md: `calc(100% - ${drawerWidth}px` },
         }}
       >
         <Toolbar />
         {props.children}
       </Box>
-
 
       {/* this is right side page */}
       {/* <Box
