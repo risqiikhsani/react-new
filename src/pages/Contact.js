@@ -7,7 +7,9 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import ContactTable from "./ContactTable";
-import ContactSearchFilter from "./ContactSearchFilter";
+import ContactSearchSortBy from "./ContactSearchSortBy";
+import ContactFilter from "./ContactFilter";
+
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
 //   padding: theme.spacing(1),
@@ -86,26 +88,23 @@ export default function Contact(props) {
               aria-label="basic tabs example"
             >
               <Tab label="Connected" {...a11yProps(0)} />
-              <Tab label="Connected (Pinned)" {...a11yProps(1)} />
-              <Tab label="Request in Pending" {...a11yProps(2)} />
-              <Tab label="Request out Pending" {...a11yProps(3)} />
-              <Tab label="Blocked" {...a11yProps(4)} />
+              <Tab label="Request in Pending" {...a11yProps(1)} />
+              <Tab label="Request out Pending" {...a11yProps(2)} />
+              <Tab label="Blocked" {...a11yProps(3)} />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <ContactSearchFilter/>
+            <ContactSearchSortBy/>
+            <ContactFilter/>
             <ContactTable/>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2}>
             Item Three
           </TabPanel>
-          <TabPanel value={value} index={3}>
+          <TabPanel value={value} index={2}>
             Item Two
           </TabPanel>
-          <TabPanel value={value} index={4}>
+          <TabPanel value={value} index={3}>
             Item Three
           </TabPanel>
           </Paper>
