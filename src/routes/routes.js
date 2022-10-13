@@ -38,7 +38,6 @@ import Login from "../pages/Auth/Login";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 
-
 let user = false;
 
 const router = createBrowserRouter([
@@ -110,6 +109,7 @@ const router = createBrowserRouter([
             path: "forgot-password",
             element: <ForgotPassword />,
           },
+
         ],
       },
     ],
