@@ -8,7 +8,7 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 
 import { useNavigate,Navigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
-
+import { Box } from "@mui/system";
 export default function Root() {
 
   // const user_name = useSelector((state) => state.user.name)
@@ -28,6 +28,9 @@ export default function Root() {
 
 
   return (
-      <Outlet/>       
+
+<Outlet/>  
+    
+           
   );
 }

@@ -58,6 +58,7 @@ import OnlineContactIcon from "./Navbar/OnlineContactIcon";
 // const drawerWidth = 240;
 const drawerWidth = 240;
 const drawerColor = "#111827";
+const backgroundColorTheme = 'linear-gradient(to right, #fc5c7d, #6a82fb)';
 
 function AppContainer(props) {
   const { window } = props;
@@ -71,7 +72,13 @@ function AppContainer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{h:'100%',display: "flex",
+    <Box sx={{
+      display: "flex",
+      minHeight:'100vh',
+      background:backgroundColorTheme,
+      // backgroundImage:'https://i0.wp.com/css-tricks.com/wp-content/uploads/2020/11/css-gradient.png?fit=1200%2C600&ssl=1',
+      // backgroundRepeat:'no-repeat',
+      // backgroundAttachment:'fixed',
      }}>
       <CssBaseline />
       {/* this is the NavBar */}
