@@ -122,7 +122,7 @@ export default function Login() {
             component={LinkRouter}
             to="/auth/forgot-password"
             underline="hover"
-            component="button"
+            
             variant="body2"
           >
             Forgot Password?
@@ -131,7 +131,7 @@ export default function Login() {
             component={LinkRouter}
             to="/auth/signup"
             underline="hover"
-            component="button"
+            
             variant="body2"
           >
             Don't have an account? Sign Up

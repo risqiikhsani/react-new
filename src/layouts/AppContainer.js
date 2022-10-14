@@ -85,8 +85,10 @@ function AppContainer(props) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          // saat screen lg,xl maka width = width - 240
+          width: { lg: `calc(100% - ${drawerWidth}px)` },
+          // saat screen lg,xl  maka marginLeft =  240
+          ml: { lg: `${drawerWidth}px` },
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
@@ -96,7 +98,8 @@ function AppContainer(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            // icon tidak tampil saat lg,xl
+            sx={{ mr: 2, display: { lg: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -131,7 +134,9 @@ function AppContainer(props) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ 
+          
+          width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="drawer"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -151,7 +156,11 @@ function AppContainer(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            // ini drawer yang dipencet pake icon di appbar
+            // xs tampilkan ~~~~ sm,md,lg,xl hilangkan
+            // display: { xs: "block", sm: "none" },
+            // xs,sm,md tampilkan ~~~ lg,xl hilangkan
+            display: { xs: "block", lg: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -169,7 +178,11 @@ function AppContainer(props) {
             },
           }}
           sx={{
-            display: { xs: "none", sm: "block" },
+            // ini drawer yang bukan dipencet pake icon di appbar
+            // xs hilangkan ~~~ sm,md,lg,xl tampilkan
+            // display: { xs: "none", sm: "block" },
+            // xs,sm,md hilangkan ~~~ lg,xl tampilkan
+            display: { xs: "none", lg: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
