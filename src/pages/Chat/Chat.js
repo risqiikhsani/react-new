@@ -20,6 +20,7 @@ import { Avatar } from "@mui/material";
 import { ListItemAvatar } from "@mui/material";
 
 const drawerWidth = 240;
+const drawerWidthChat = 500;
 
 const data = [
   {
@@ -213,12 +214,14 @@ function Chat(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", flexGrow: 1, bgcolor: "green" }}>
+    <Box sx={{ display: "flex", flexGrow: 1,  }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth + 240}px)` },
+          // width sudah benar
+          width: { sm: `calc(100% - ${drawerWidth + drawerWidthChat}px)` },
+          // marginLeft sudah benar
           ml: { sm: `${drawerWidth}px` },
         }}
       >
@@ -240,7 +243,7 @@ function Chat(props) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { sm: drawerWidthChat }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -256,8 +259,8 @@ function Chat(props) {
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
-              left: { sm: 240 },
+              width: drawerWidthChat,
+              left: { sm: drawerWidth },
             },
           }}
         >
@@ -269,8 +272,8 @@ function Chat(props) {
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
-              left: { sm: 240 },
+              width: drawerWidthChat,
+              left: { sm: drawerWidth },
             },
           }}
           open
@@ -282,11 +285,18 @@ function Chat(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          backgroundColor:'blue',
+          width: { sm: `calc(100% - ${drawerWidthChat}px)` },
         }}
       >
+
         <Toolbar />
+        <Box sx={{
+          width:'100%',
+          backgroundColor:'red',
+        }}>
+          test
+        </Box>
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
