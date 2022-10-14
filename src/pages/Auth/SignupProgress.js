@@ -46,7 +46,7 @@ const steps = [
 ];
 
 export default function SignupProgress() {
-  const [progress, setProgress] = React.useState(2);
+  const [progress, setProgress] = React.useState(1);
 
   // perhatikan ini
   const nextStep = () => {

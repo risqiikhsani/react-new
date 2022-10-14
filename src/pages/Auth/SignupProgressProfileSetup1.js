@@ -44,7 +44,7 @@ export default function SignupProgressProfileSetup1() {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={2}
+        spacing={1}
         noValidate
         autoComplete="off"
         sx={{

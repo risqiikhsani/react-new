@@ -31,7 +31,7 @@ export default function SignupProgressDone() {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={2}
+        spacing={1}
         noValidate
         autoComplete="off"
         sx={{

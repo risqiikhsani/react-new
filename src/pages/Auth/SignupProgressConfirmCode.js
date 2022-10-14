@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/system";
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { CardMedia, TextField } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import {
   Button,
@@ -50,11 +50,14 @@ export default function SignupProgressConfirmCode(){
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={10}
+        spacing={1}
         textAlign="center"
       >
         <Typography>Verify your email address</Typography>
         <Typography>You will need to verify your email address to complete registration</Typography>
+
+        <img src={process.env.PUBLIC_URL + "/verifyemail2.png"} width="150" height="150" />
+
         <Typography>An email has been sent to kucingimut@gmail.com with a code or link to verify your account.</Typography>
         <Typography>If you have not received the email after a few minutes, please check your spam folder.</Typography>
         <FormControl sx={{ m: 1 }} variant="outlined">

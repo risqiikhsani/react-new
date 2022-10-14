@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/system";
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { CardMedia, TextField } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 
 import {
@@ -31,6 +31,7 @@ import ForgotPasswordResetPassword from "./ForgotPasswordResetPassword";
 import ForgotPasswordDone from "./ForgotPasswordDone";
 
 
+
 export default function SignupProgressVerifyEmail(){
     return(
         <React.Fragment>
@@ -38,10 +39,12 @@ export default function SignupProgressVerifyEmail(){
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={10}
+        spacing={1}
         textAlign="center"
       >
         <Typography>Verify your email address</Typography>
+
+        <img src={process.env.PUBLIC_URL + "/verifyemail1.png"} width="150" height="150" />
         <Typography>You will need to verify your email address to complete registration</Typography>
         <Button>Click to verify</Button>
       </Stack>
