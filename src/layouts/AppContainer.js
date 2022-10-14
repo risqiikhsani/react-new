@@ -89,7 +89,7 @@ function AppContainer(props) {
           width: { lg: `calc(100% - ${drawerWidth}px)` },
           // saat screen lg,xl  maka marginLeft =  240
           ml: { lg: `${drawerWidth}px` },
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+          // zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
         <Toolbar>
