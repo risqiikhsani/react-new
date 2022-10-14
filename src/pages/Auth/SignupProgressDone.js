@@ -43,7 +43,10 @@ export default function SignupProgressDone() {
         <Typography variant="h5" gutterBottom>
           Welcome!
         </Typography>
-
+        <Typography variant="h6" gutterBottom>
+          You've successfully created a profile
+        </Typography>
+        <Button >Next</Button>
         
       </Stack>
     </React.Fragment>

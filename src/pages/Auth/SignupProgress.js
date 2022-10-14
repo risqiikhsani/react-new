@@ -46,21 +46,23 @@ const steps = [
 ];
 
 export default function SignupProgress() {
-  const [progress, setProgress] = React.useState(1);
+  const [progress, setProgress] = React.useState(0);
 
   // perhatikan ini
   const nextStep = () => {
     setProgress(progress + 1);
   };
 
-  const handleBackButton = () => {
+  const prevStep = () => {
     if (progress > 0) {
       if (progress < 3) {
         setProgress(0);
       }
       setProgress(progress - 1);
     }
-  };
+  }
+
+
 
   return (
     <React.Fragment>
@@ -75,13 +77,7 @@ export default function SignupProgress() {
         <Box sx={{ width: "100%" }}>
 
 
-          {
-            progress>0 && (
-                <Button onClick={handleBackButton} sx={{ m: 2 }} startIcon={<ArrowBackIosIcon />}>
-                back
-              </Button>
-            )
-          }
+
 
           <Stepper activeStep={progress} alternativeLabel>
             {steps.map((label) => (
@@ -102,6 +98,19 @@ export default function SignupProgress() {
           <SignupProgressDone/>
         )}
 
+      
+      <Box>
+        <Typography>just trial for dev</Typography>
+        <Stack
+  direction="row"
+  justifyContent="space-around"
+  alignItems="center"
+  spacing={2}
+>
+  <Button onClick={prevStep}>back</Button>
+  <Button onClick={nextStep}>next</Button>
+</Stack>
+      </Box>
 
       </Stack>
       </Box>

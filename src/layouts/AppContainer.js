@@ -71,7 +71,8 @@ function AppContainer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{h:'100%',display: "flex",
+     }}>
       <CssBaseline />
       {/* this is the NavBar */}
       <AppBar
@@ -179,7 +180,6 @@ function AppContainer(props) {
         sx={{
           flexGrow: 1,
           p: 3,
-          bgcolor:'#F9FAFC',
           // width: { md: `calc(100% - ${drawerWidth}px` },
         }}
       >

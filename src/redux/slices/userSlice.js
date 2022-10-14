@@ -8,15 +8,15 @@ export const userSlice = createSlice({
     // email_confirmed:false,
     // role:null,
 
-    // id: 1,
-    // name: "test",
-    // email_confirmed:true,
-    // role:"basic",
-
     id: 1,
     name: "test",
-    email_confirmed:false,
+    email_confirmed:true,
     role:"basic",
+
+    // id: 1,
+    // name: "test",
+    // email_confirmed:false,
+    // role:"basic",
 
   },
   reducers: {

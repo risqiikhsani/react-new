@@ -30,9 +30,14 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 export default function SignupProgressProfileSetup1() {
 
   const [name,setName] = React.useState("");
+  const [id,setId] = React.useState("");
   
   const handleChangeName = (event) => {
     setName(event.target.value);
+  };
+
+  const handleChangeId = (event) => {
+    setId(event.target.value);
   };
  
 
@@ -52,15 +57,26 @@ export default function SignupProgressProfileSetup1() {
         }}
         textAlign="center"
       >
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{my:'20px'}}>
           Set up user profile
         </Typography>
+
         <TextField
-          id="outlined-username"
-          label="Username"
+          error
+          id="outlined-id"
+          label="public id"
+          value={id}
+          onChange={handleChangeId}
+          helperText="public id was taken."
+        />
+
+        <TextField
+          id="outlined-name"
+          label="Profile name"
           value={name}
           onChange={handleChangeName}
         />
+
         
 
         

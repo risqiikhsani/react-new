@@ -40,7 +40,7 @@ export default function ForgotPassword() {
     setProgress(progress + 1);
   };
 
-  const handleBackButton = () => {
+  const prevStep = () => {
     if (progress > 0) {
       if (progress < 3) {
         setProgress(0);
@@ -51,6 +51,9 @@ export default function ForgotPassword() {
 
   return (
     <React.Fragment>
+
+
+
       <Stack
         direction="column"
         justifyContent="center"
@@ -62,8 +65,8 @@ export default function ForgotPassword() {
 
 
           {
-            progress>0 && (
-                <Button onClick={handleBackButton} sx={{ m: 2 }} startIcon={<ArrowBackIosIcon />}>
+            progress>0&&progress<2 && (
+                <Button onClick={prevStep} sx={{ m: 2 }} startIcon={<ArrowBackIosIcon />}>
                 back
               </Button>
             )
@@ -117,7 +120,22 @@ export default function ForgotPassword() {
             Copyright © Your Website 2022.
           </Typography>
         </Stack>
+
+        <Box>
+            <Typography>just trial for dev</Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center"
+              spacing={2}
+            >
+              <Button onClick={prevStep}>back</Button>
+              <Button onClick={nextStep}>next</Button>
+            </Stack>
+          </Box>
+
       </Stack>
+
     </React.Fragment>
   );
 }
