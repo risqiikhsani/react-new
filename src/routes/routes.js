@@ -36,6 +36,7 @@ import Contact from "../pages/Contact";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+import SignupProgress from "../pages/Auth/SignupProgress";
 
 
 let user = false;
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
             path: "",
             element: <Home />,
           },
+
           {
             path: "post/:postId",
             element: <PostDetail />,
@@ -108,6 +110,10 @@ const router = createBrowserRouter([
           {
             path: "forgot-password",
             element: <ForgotPassword />,
+          },
+          {
+            path: "signup-completion",
+            element: <SignupProgress/>,
           },
 
         ],

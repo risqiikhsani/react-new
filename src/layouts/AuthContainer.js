@@ -8,7 +8,7 @@ export default function AuthContainer() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ bgcolor: "antiquewhite" }} sx={{pt:'200px'}}>
+      <Container  maxWidth="sm" sx={{ bgcolor:"violet"}} >
 
         <Outlet />
 

@@ -14,13 +14,17 @@ export default function Root() {
   // const user_name = useSelector((state) => state.user.name)
   
   let navigate = useNavigate();
-  const user_name = useSelector((state) => state.user.name)
+  const user_id = useSelector((state) => state.user.id)
+  const user_email_confirmed = useSelector((state) => state.user.email_confirmed)
 
   useEffect(() => {
-    if (!user_name){
+    if (!user_id){
        return navigate("/auth/login");
     }
- },[user_name]);
+    else if(user_id && !user_email_confirmed){
+      return navigate("/auth/signup-completion")
+    }
+ },[user_id,user_email_confirmed]);
 
 
   return (

@@ -33,7 +33,7 @@ import ForgotPasswordDone from "./ForgotPasswordDone";
 const steps = ["Select Recover Method", "Confirm Code Sent", "Reset Password"];
 
 export default function ForgotPassword() {
-  const [progress, setProgress] = React.useState(1);
+  const [progress, setProgress] = React.useState(0);
 
   // perhatikan ini
   const nextStep = () => {

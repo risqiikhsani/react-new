@@ -114,8 +114,6 @@ function ForgotPasswordMethod(props) {
         <Button
           variant="contained"
           onClick={handleClick}
-          component={LinkRouter}
-          to="/auth/forgot-password-progress"
         >
           Send Code Verification
         </Button>

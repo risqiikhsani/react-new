@@ -49,6 +49,7 @@ export default function Login() {
 
   return (
     <React.Fragment>
+      <Box>
       <Stack
         component="form"
         direction="column"
@@ -140,6 +141,8 @@ export default function Login() {
           Copyright © Your Website 2022.
         </Typography>
       </Stack>
+      </Box>
+      
     </React.Fragment>
   );
 }

@@ -16,7 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-
+import { Tooltip } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -54,6 +54,7 @@ export default function SearchMenuIcon(props) {
 
   return (
     <React.Fragment>
+      <Tooltip title="Search">
       <IconButton
         size="large"
         aria-label="search"
@@ -64,6 +65,8 @@ export default function SearchMenuIcon(props) {
             <SearchIcon />
         </Badge>
       </IconButton>
+      </Tooltip>
+
 
       
     </React.Fragment>

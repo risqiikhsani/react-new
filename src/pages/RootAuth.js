@@ -14,13 +14,13 @@ import AuthContainer from "../layouts/AuthContainer";
 export default function RootAuth() {
 
   let navigate = useNavigate();
-  const user_name = useSelector((state) => state.user.name)
-
+  const user_id = useSelector((state) => state.user.id)
+  const user_email_confirmed = useSelector((state) => state.user.email_confirmed)
   useEffect(() => {
-    if (user_name){
-       return navigate("/");
+    if (user_id && user_email_confirmed){
+      return navigate("/");
     }
-  },[user_name]);
+  },[user_id,user_email_confirmed]);
 
   return (
     <React.Fragment>

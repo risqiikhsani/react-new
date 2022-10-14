@@ -35,7 +35,7 @@ import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import { ListItemAvatar } from "@mui/material";
 import {Avatar} from "@mui/material";
-
+import {Tooltip} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import GrassIcon from "@mui/icons-material/Grass";
@@ -62,6 +62,7 @@ export default function ProfileMenuIcon(props) {
 
   return (
     <React.Fragment>
+      <Tooltip title="Profile">
       <IconButton
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -75,6 +76,8 @@ export default function ProfileMenuIcon(props) {
           <AccountCircleIcon />
         </Badge>
       </IconButton>
+      </Tooltip>
+
 
       <Menu
         id="basic-menu"

@@ -35,7 +35,7 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
-
+import Tooltip from '@mui/material/Tooltip';
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import GrassIcon from "@mui/icons-material/Grass";
@@ -62,6 +62,7 @@ export default function NotificationMenuIcon(props) {
 
   return (
     <React.Fragment>
+      <Tooltip title="Notification">
       <IconButton
         aria-controls={open ? "notification-menu" : undefined}
         aria-haspopup="true"
@@ -75,6 +76,8 @@ export default function NotificationMenuIcon(props) {
             <NotificationsIcon />
         </Badge>
       </IconButton>
+      </Tooltip>
+
 
       <Menu
         id="notification-menu"

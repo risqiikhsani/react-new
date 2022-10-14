@@ -21,7 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import { Tooltip } from "@mui/material";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
 
@@ -61,6 +61,7 @@ export default function SettingDrawerIcon(props) {
 
   return (
     <React.Fragment>
+      <Tooltip title="Setting">
       <IconButton
         size="large"
         aria-label="show setting"
@@ -71,6 +72,8 @@ export default function SettingDrawerIcon(props) {
           <SettingsIcon />
         </Badge>
       </IconButton>
+      </Tooltip>
+
       <Drawer
         anchor="right"
         open={settingOpen}

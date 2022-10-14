@@ -33,7 +33,7 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
-import { ListItemAvatar } from "@mui/material";
+import { ListItemAvatar, Tooltip } from "@mui/material";
 import {Avatar} from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -63,6 +63,7 @@ export default function OnlineContactIcon(props) {
 
   return (
     <React.Fragment>
+      <Tooltip title="Contact">
       <IconButton
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -76,6 +77,8 @@ export default function OnlineContactIcon(props) {
           <PeopleIcon />
         </Badge>
       </IconButton>
+      </Tooltip>
+
 
       <Menu
         id="basic-menu"
