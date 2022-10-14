@@ -244,7 +244,6 @@ function Chat(props) {
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidthChat }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
@@ -285,18 +284,15 @@ function Chat(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          backgroundColor:'blue',
           width: { sm: `calc(100% - ${drawerWidthChat}px)` },
         }}
       >
 
         <Toolbar />
-        <Box sx={{
-          width:'100%',
-          backgroundColor:'red',
-        }}>
-          test
-        </Box>
+        <AppBar position="sticky">
+          <Toolbar/>
+        </AppBar>
+
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
