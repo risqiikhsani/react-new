@@ -58,6 +58,7 @@ import OnlineContactIcon from "./Navbar/OnlineContactIcon";
 // const drawerWidth = 240;
 const drawerWidth = 240;
 const drawerColor = "#111827";
+const BarColor = "#eaf4f4";
 const backgroundColorTheme = 'linear-gradient(to right, #fc5c7d, #6a82fb)';
 
 function AppContainer(props) {
@@ -90,6 +91,7 @@ function AppContainer(props) {
           // saat screen lg,xl  maka marginLeft =  240
           ml: { lg: `${drawerWidth}px` },
           // zIndex: (theme) => theme.zIndex.drawer + 1,
+          bgcolor:BarColor,
         }}
       >
         <Toolbar>

@@ -24,11 +24,13 @@ import AddIcon from "@mui/icons-material/Add";
 
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
-
+import ChatRoom from "./ChatRoom";
 import SearchIcon from "@mui/icons-material/Search";
-
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const drawerWidth = 400;
 const drawerWidthOuter = 240;
+
+const ChatBarColor = "#ade8f4";
 function Chat(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -39,44 +41,17 @@ function Chat(props) {
 
   const drawer = (
     <div>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={1}
-        sx={{
-          p: "10px",
-        }}
-      >
-        <Typography variant="h5">Chat</Typography>
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="flex-start"
-          spacing={1}
-        >
-          <Button
-            sx={{ borderRadius: "20px" }}
-            variant="contained"
-            size="small"
-            startIcon={<AddIcon />}
-          >
-            Chat
-          </Button>
-          <Button
-            sx={{ borderRadius: "20px" }}
-            variant="contained"
-            size="small"
-            startIcon={<AddIcon />}
-          >
-            Group Chat
-          </Button>
-        </Stack>
-      </Stack>
-      <Divider />
+      <Toolbar>
+      <IconButton>
+          <ArrowBackIosIcon/>
+        </IconButton>
+      </Toolbar>
+
+      
+
       <Paper
         component="form"
-        sx={{ p: "2px 4px", display: "flex", alignItems: "center", m:'10px' }}
+        sx={{ p: "2px 4px", display: "flex", alignItems: "center", m: "10px" }}
       >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
@@ -88,29 +63,32 @@ function Chat(props) {
         </IconButton>
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
       </Paper>
-  
+
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </ListItemIcon>
-              <ListItemText
-                primary={<Typography>Tyler</Typography>}
-                secondary={text}
-              />
-              <Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={0}
-              >
-                <Chip label={122} color="success" size="small" />
-                <Typography variant="caption">3h</Typography>
-              </Stack>
-            </ListItemButton>
-          </ListItem>
+          <>
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemIcon>
+                <ListItemText
+                  primary={<Typography>Tyler</Typography>}
+                  secondary={text}
+                />
+                <Stack
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={0}
+                >
+                  <Chip label={122} color="success" size="small" />
+                  <Typography variant="caption">3h</Typography>
+                </Stack>
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+          </>
         ))}
       </List>
     </div>
@@ -134,6 +112,9 @@ function Chat(props) {
             md: `${drawerWidth}px`,
           },
           zIndex: "1060",
+          bgcolor:ChatBarColor,
+          // background: 'transparent', boxShadow: 'none',
+          boxShadow: 'none',
         }}
       >
         <Toolbar />
@@ -147,9 +128,23 @@ function Chat(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
-          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Button
+            sx={{ borderRadius: "20px", mx:'5px' }}
+            variant="contained"
+            size="small"
+            startIcon={<AddIcon />}
+          >
+            Chat
+          </Button>
+          <Button
+            sx={{ borderRadius: "20px", mx:'5px' }}
+            variant="contained"
+            size="small"
+            startIcon={<AddIcon />}
+          >
+            Group Chat
+          </Button>
         </Toolbar>
       </AppBar>
       <Box
@@ -171,8 +166,9 @@ function Chat(props) {
           }}
           sx={{
             zIndex: "1070",
-            display: { xs: "block", lg: "none" },
+            display: { xs: "block", lg: "none", },
             "& .MuiDrawer-paper": {
+              bgcolor:ChatBarColor,
               zIndex: "1070",
               boxSizing: "border-box",
               width: drawerWidth,
@@ -188,6 +184,7 @@ function Chat(props) {
             zIndex: "1070",
             display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
+              bgcolor:ChatBarColor,
               zIndex: "1070",
               boxSizing: "border-box",
               width: drawerWidth,
@@ -202,38 +199,14 @@ function Chat(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ 
+          
+          flexGrow: 1, width: { md: `calc(100% - ${drawerWidth}px)` } ,
+          
+        }}
       >
         <Toolbar />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <ChatRoom />
       </Box>
     </Box>
   );
