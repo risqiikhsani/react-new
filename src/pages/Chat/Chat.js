@@ -16,165 +16,19 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Avatar } from "@mui/material";
-import { ListItemAvatar } from "@mui/material";
+import { Stack } from "@mui/system";
+import Avatar from "@mui/material/Avatar";
+import { Chip } from "@mui/material";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
-const drawerWidth = 240;
-const drawerWidthChat = 500;
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
 
-const data = [
-  {
-    id: 1,
-    room: {
-      room_name: "Kucing",
-      room_type: "person",
-      room_image: null,
-      pinned: true,
-    },
-    last_text: {
-      message_sender: "kucing",
-      text: "halo..",
-    },
-    timestamp: "10:30 AM",
-    unread_messages: 3,
-  },
-  {
-    id: 2,
-    room: {
-      room_name: "Semut",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Semut",
-      text: "ui",
-    },
-    timestamp: "10:40 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 3,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 4,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 5,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 6,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 7,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 8,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 9,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-  {
-    id: 10,
-    room: {
-      room_name: "Boi",
-      room_type: "person",
-      room_image: null,
-      pinned: false,
-    },
-    last_text: {
-      message_sender: "Boi",
-      text: "hello",
-    },
-    timestamp: "10:50 AM",
-    unread_messages: 1,
-  },
-];
+import SearchIcon from "@mui/icons-material/Search";
 
+const drawerWidth = 400;
+const drawerWidthOuter = 240;
 function Chat(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -185,26 +39,78 @@ function Chat(props) {
 
   const drawer = (
     <div>
-      <Toolbar />
-      <Toolbar />
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={1}
+        sx={{
+          p: "10px",
+        }}
+      >
+        <Typography variant="h5">Chat</Typography>
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="flex-start"
+          spacing={1}
+        >
+          <Button
+            sx={{ borderRadius: "20px" }}
+            variant="contained"
+            size="small"
+            startIcon={<AddIcon />}
+          >
+            Chat
+          </Button>
+          <Button
+            sx={{ borderRadius: "20px" }}
+            variant="contained"
+            size="small"
+            startIcon={<AddIcon />}
+          >
+            Group Chat
+          </Button>
+        </Stack>
+      </Stack>
       <Divider />
+      <Paper
+        component="form"
+        sx={{ p: "2px 4px", display: "flex", alignItems: "center", m:'10px' }}
+      >
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search Chat"
+          inputProps={{ "aria-label": "search google maps" }}
+        />
+        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+      </Paper>
+  
       <List>
-        {data.map((item) => (
-          <>
-            <ListItem alignItems="flex-start" key={item.id}>
-              <ListItemButton>
-              <ListItemAvatar>
-                <Avatar alt={item.room.room_image} />
-              </ListItemAvatar>
+        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+              </ListItemIcon>
               <ListItemText
-                primary={item.room.room_name}
-                secondary={item.last_text.text}
+                primary={<Typography>Tyler</Typography>}
+                secondary={text}
               />
-              </ListItemButton>
-              
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </>
+              <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                spacing={0}
+              >
+                <Chip label={122} color="success" size="small" />
+                <Typography variant="caption">3h</Typography>
+              </Stack>
+            </ListItemButton>
+          </ListItem>
         ))}
       </List>
     </div>
@@ -214,15 +120,20 @@ function Chat(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", flexGrow: 1,  }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          // width sudah benar
-          width: { sm: `calc(100% - ${drawerWidth + drawerWidthChat}px)` },
-          // marginLeft sudah benar
-          ml: { sm: `${drawerWidth}px` },
+          width: {
+            lg: `calc(100% - ${drawerWidth + drawerWidthOuter}px)`,
+            md: `calc(100% - ${drawerWidth}px)`,
+          },
+          ml: {
+            lg: `${drawerWidth + drawerWidthOuter}px`,
+            md: `${drawerWidth}px`,
+          },
+          zIndex: "1060",
         }}
       >
         <Toolbar />
@@ -232,7 +143,7 @@ function Chat(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { md: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -243,7 +154,11 @@ function Chat(props) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidthChat }, flexShrink: { sm: 0 } }}
+        sx={{
+          width: { md: drawerWidth },
+          flexShrink: { lg: 0 },
+        }}
+        aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
@@ -255,44 +170,41 @@ function Chat(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            zIndex: "1070",
+            display: { xs: "block", lg: "none" },
             "& .MuiDrawer-paper": {
+              zIndex: "1070",
               boxSizing: "border-box",
-              width: drawerWidthChat,
-              left: { sm: drawerWidth },
+              width: drawerWidth,
             },
           }}
         >
+          <Toolbar />
           {drawer}
         </Drawer>
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            zIndex: "1070",
+            display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
+              zIndex: "1070",
               boxSizing: "border-box",
-              width: drawerWidthChat,
-              left: { sm: drawerWidth },
+              width: drawerWidth,
+              ml: { lg: `${drawerWidthOuter}px` },
             },
           }}
           open
         >
+          <Toolbar />
           {drawer}
         </Drawer>
       </Box>
       <Box
         component="main"
-        sx={{
-          flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidthChat}px)` },
-        }}
+        sx={{ flexGrow: 1, width: { md: `calc(100% - ${drawerWidth}px)` } }}
       >
-
         <Toolbar />
-        <AppBar position="sticky">
-          <Toolbar/>
-        </AppBar>
-
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
@@ -336,186 +248,3 @@ Chat.propTypes = {
 };
 
 export default Chat;
-
-// import * as React from "react";
-// import List from "@mui/material/List";
-// import ListItem from "@mui/material/ListItem";
-// import Divider from "@mui/material/Divider";
-// import ListItemText from "@mui/material/ListItemText";
-// import ListItemAvatar from "@mui/material/ListItemAvatar";
-// import Avatar from "@mui/material/Avatar";
-// import Typography from "@mui/material/Typography";
-
-// const data = [
-//   {
-//     id: 1,
-//     room: {
-//       room_name: "Kucing",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: true,
-//     },
-//     last_text: {
-//       message_sender: "kucing",
-//       text: "halo..",
-//     },
-//     timestamp: "10:30 AM",
-//     unread_messages: 3,
-//   },
-//   {
-//     id: 2,
-//     room: {
-//       room_name: "Semut",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Semut",
-//       text: "ui",
-//     },
-//     timestamp: "10:40 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 3,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 4,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 5,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 6,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 7,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 8,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 9,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-//   {
-//     id: 10,
-//     room: {
-//       room_name: "Boi",
-//       room_type: "person",
-//       room_image: null,
-//       pinned: false,
-//     },
-//     last_text: {
-//       message_sender: "Boi",
-//       text: "hello",
-//     },
-//     timestamp: "10:50 AM",
-//     unread_messages: 1,
-//   },
-// ];
-
-// export default function Chat(props) {
-//   return (
-//     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-//       {data.map((item) => (
-//         <>
-//           <ListItem alignItems="flex-start" key={item.id}>
-//             <ListItemAvatar>
-//               <Avatar alt={item.room.room_image} />
-//             </ListItemAvatar>
-//             <ListItemText
-//               primary={item.room.room_name}
-//               secondary={item.last_text.text}
-//             />
-//           </ListItem>
-//           <Divider variant="inset" component="li" />
-//         </>
-//       ))}
-//     </List>
-//   );
-// }

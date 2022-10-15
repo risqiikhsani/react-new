@@ -200,6 +200,7 @@ function AppContainer(props) {
         sx={{
           flexGrow: 1,
           p: 3,
+          // ml: { lg: `${drawerWidth}px` },
           // width: { md: `calc(100% - ${drawerWidth}px` },
         }}
       >
