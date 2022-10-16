@@ -26,6 +26,8 @@ import MySettings from "../pages/MySettings";
 
 import RootApp from "../pages/RootApp";
 import RootAuth from "../pages/RootAuth";
+import RootSetting from "../pages/RootSetting";
+
 
 import Group from "../pages/Group/Group";
 import GroupDetail from "../pages/Group/GroupDetail";
@@ -76,10 +78,7 @@ const router = createBrowserRouter([
             path: "myprofile",
             element: <MyUserProfile />,
           },
-          {
-            path: "setting",
-            element: <MySettings />,
-          },
+
           {
             path: "groups",
             element: <Group/>,
@@ -116,6 +115,17 @@ const router = createBrowserRouter([
             element: <SignupProgress/>,
           },
 
+        ],
+      },
+      {
+        element:<RootSetting/>,
+        path:"setting",
+        loader:null,
+        children:[
+          {
+            path: "",
+            element: <MySettings />,
+          },
         ],
       },
     ],
