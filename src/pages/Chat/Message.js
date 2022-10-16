@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
@@ -10,11 +11,17 @@ import { IconButton, Box, Stack } from "@mui/material";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import ReplyIcon from "@mui/icons-material/Reply";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 export default function Message() {
+  const [hover, setHover] = useState(false);
+
   return (
     <React.Fragment>
       <ListItem
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         alignItems="flex-start"
         sx={{ width: "100%", bgcolor: "background.paper" }}
       >
@@ -22,35 +29,36 @@ export default function Message() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Alex"
-          secondary="I'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands this…"
-        />
-        <Box>
-          <Stack
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="center"
-            spacing={1}
-          >
-            <IconButton edge="end" aria-label="comments">
-              <MoreVertIcon />
-            </IconButton>
-
+          primary={
             <Stack
               direction="row"
-              justifyContent="center"
-              alignItems="flex-end"
+              justifyContent="space-between"
+              alignItems="flex-start"
               spacing={1}
             >
-              <IconButton edge="end" aria-label="comments" >
-                <AddReactionIcon />
-              </IconButton>
-              <IconButton edge="end" aria-label="comments" sx={{ ml: "20px" }}>
-                <ReplyIcon />
-              </IconButton>
+              <Typography>Alex</Typography>
+              {hover && (
+                <ButtonGroup
+                  size="small"
+                  variant="contained"
+                  aria-label="outlined primary button group"
+                  
+                >
+                  <IconButton size="small">
+                    <AddReactionIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton size="small">
+                    <ReplyIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton size="small">
+                    <MoreVertIcon fontSize="small" />
+                  </IconButton>
+                </ButtonGroup>
+              )}
             </Stack>
-          </Stack>
-        </Box>
+          }
+          secondary="I'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands this…"
+        />
       </ListItem>
     </React.Fragment>
   );
