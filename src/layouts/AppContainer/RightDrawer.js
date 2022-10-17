@@ -35,8 +35,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Home from "../pages/Home";
-import Chat from "../pages/Chat/Chat";
+
+
 
 const fontDrawerColor = "#9A9FA7";
 const iconDrawerColor = "#F9FAFC";

@@ -10,30 +10,28 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import Error from "../pages/Error";
+import Error from "../pages/Others/Error";
 import Root from "../pages/Root";
-import Home from "../pages/Home";
+import Home from "../pages/App/Home/Home";
 
-import Chat from "../pages/Chat/Chat";
-import ChatRoom from "../pages/Chat/ChatRoom";
+import Chat from "../pages/App/Chat/Chat";
+import ChatRoom from "../pages/App/Chat/ChatRoom";
 
-import PostDetail from "../pages/Post/PostDetail";
 
-import UserDetail from "../pages/UserDetail";
-import MyUserProfile from "../pages/MyUserProfile";
-import MySettings from "../pages/MySettings";
+import PostDetail from "../pages/App/Post/PostDetail";
+
+
+import Profile from "../pages/App/Profile/Profile";
 
 
 import RootApp from "../pages/RootApp";
 import RootAuth from "../pages/RootAuth";
 import RootSetting from "../pages/RootSetting";
 
+import Group from "../pages/App/Group/Group";
+import GroupDetail from "../pages/App/Group/GroupDetail";
 
-import Group from "../pages/Group/Group";
-import GroupDetail from "../pages/Group/GroupDetail";
-
-import Contact from "../pages/Contact";
-
+import Contact from "../pages/App/Contact/Contact";
 
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
@@ -64,7 +62,7 @@ const router = createBrowserRouter([
           },
           {
             path: "user/:userId",
-            element: <UserDetail />,
+            element: null,
           },
           {
             path: "chats",
@@ -75,8 +73,8 @@ const router = createBrowserRouter([
             element: <ChatRoom />,
           },
           {
-            path: "myprofile",
-            element: <MyUserProfile />,
+            path: "profile",
+            element: <Profile />,
           },
 
           {
@@ -124,7 +122,7 @@ const router = createBrowserRouter([
         children:[
           {
             path: "",
-            element: <MySettings />,
+            element: null,
           },
         ],
       },

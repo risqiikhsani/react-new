@@ -28,8 +28,8 @@ import PeopleIcon from '@mui/icons-material/People';
 
 
 
-import Home from "../pages/Home";
-import Chat from "../pages/Chat/Chat";
+import Home from "../../pages/App/Home/Home";
+import Chat from "../../pages/App/Chat/Chat";
 
 const fontDrawerColor = '#9A9FA7';
 const iconDrawerColor = '#F9FAFC';

@@ -44,12 +44,12 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 import PeopleIcon from "@mui/icons-material/People";
 
-import RightDrawer from "../RightDrawer";
+import RightDrawer from "../AppContainer/RightDrawer";
 
 import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 const drawerWidth = 240;
 const drawerColor = "#111827";
 

@@ -8,16 +8,16 @@ import {
   decrementByAmount,
   increment,
   incrementByAmount,
-} from "../redux/slices/counterSlice";
-import { setUser, clearUser } from "../redux/slices/userSlice";
+} from "../../../redux/slices/counterSlice";
+import { setUser, clearUser } from "../../../redux/slices/userSlice";
 import { Box, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import PostCard from "../components/PostCard";
+import PostCard from "../../../components/PostCard";
 import { Container } from "@mui/system";
-import BannerCard from "../components/BannerCard";
+import BannerCard from "../../../components/BannerCard";
 
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)

@@ -56,13 +56,13 @@ const routeMenu = [
     icon: <PersonIcon fontSize="small" />,
   },
   {
-    name: "Account",
+    name: "Settings",
     route: "/setting",
     icon: <ManageAccountsIcon fontSize="small" />,
   },
   {
     name: "Logout",
-    route: "/auth/logout",
+    route: null,
     icon: <LogoutIcon fontSize="small" />,
   },
 ];
@@ -90,9 +90,7 @@ export default function ProfileMenuIcon(props) {
           color="inherit"
           onClick={handleClick}
         >
-          <Badge badgeContent={0} color="error">
-            <AccountCircleIcon />
-          </Badge>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </IconButton>
       </Tooltip>
 
@@ -138,9 +136,7 @@ export default function ProfileMenuIcon(props) {
       >
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </ListItemAvatar>
           <ListItemText primary="Ricks" secondary="Ricks@gmail.com" />
         </ListItem>
@@ -149,9 +145,7 @@ export default function ProfileMenuIcon(props) {
         {routeMenu.map((data) => (
           <React.Fragment>
             <MenuItem component={Link} to={data.route} onClick={handleClose}>
-              <ListItemIcon >
-                {data.icon}
-              </ListItemIcon>
+              <ListItemIcon>{data.icon}</ListItemIcon>
               <ListItemText>{data.name}</ListItemText>
             </MenuItem>
           </React.Fragment>

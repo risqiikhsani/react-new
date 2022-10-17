@@ -24,31 +24,10 @@ import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-import Home from "../pages/Home";
-import Chat from "../pages/Chat/Chat";
-
-
-
 export default function RightSidePage(props) {
     return (
-    <div>
-    <Toolbar />
-    <Divider />
-    <ListItem disablePadding>
-        <ListItemButton>
-        <ListItemText primary="Coming soon...." />
-        </ListItemButton>
-    </ListItem>
-    <ListItem disablePadding>
-        <ListItemButton>
-        <ListItemText primary="Coming soon...." />
-        </ListItemButton>
-    </ListItem>
-    <ListItem disablePadding>
-        <ListItemButton>
-        <ListItemText primary="Coming soon...." />
-        </ListItemButton>
-    </ListItem>
-    </div>
+        <React.Fragment>
+            test
+        </React.Fragment>
     );
 }

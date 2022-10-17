@@ -7,7 +7,7 @@ import { Stack } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import {List} from "@mui/material";
-import ChatInput from "../../components/Input/ChatInput";
+import ChatInput from "../../../components/Input/ChatInput";
 
 import Message from "./Message";
 

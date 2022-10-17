@@ -24,8 +24,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-import LeftDrawer from "./LeftDrawer";
-import RightSidePage from "./RightSidePage";
+import LeftDrawer from "./AppContainer/LeftDrawer";
+import RightDrawer from "./AppContainer/RightDrawer";
+import RightSidePage from "./AppContainer/RightSidePage";
 
 //
 
@@ -44,7 +45,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import PeopleIcon from "@mui/icons-material/People";
-import RightDrawer from "./RightDrawer";
+
 
 import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
