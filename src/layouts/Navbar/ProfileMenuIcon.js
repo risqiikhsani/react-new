@@ -34,8 +34,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import { ListItemAvatar } from "@mui/material";
-import {Avatar} from "@mui/material";
-import {Tooltip} from "@mui/material";
+import { Avatar } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import GrassIcon from "@mui/icons-material/Grass";
@@ -48,6 +48,24 @@ import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Stack } from "@mui/system";
+
+const routeMenu = [
+  {
+    name: "Profile",
+    route: "/profile",
+    icon: <PersonIcon fontSize="small" />,
+  },
+  {
+    name: "Account",
+    route: "/setting",
+    icon: <ManageAccountsIcon fontSize="small" />,
+  },
+  {
+    name: "Logout",
+    route: "/auth/logout",
+    icon: <LogoutIcon fontSize="small" />,
+  },
+];
 
 export default function ProfileMenuIcon(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -63,21 +81,20 @@ export default function ProfileMenuIcon(props) {
   return (
     <React.Fragment>
       <Tooltip title="Profile">
-      <IconButton
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        size="large"
-        aria-label="show profile"
-        color="inherit"
-        onClick={handleClick}
-      >
-        <Badge badgeContent={0} color="error">
-          <AccountCircleIcon />
-        </Badge>
-      </IconButton>
+        <IconButton
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          size="large"
+          aria-label="show profile"
+          color="inherit"
+          onClick={handleClick}
+        >
+          <Badge badgeContent={0} color="error">
+            <AccountCircleIcon />
+          </Badge>
+        </IconButton>
       </Tooltip>
-
 
       <Menu
         id="basic-menu"
@@ -89,10 +106,10 @@ export default function ProfileMenuIcon(props) {
         }}
         PaperProps={{
           elevation: 0,
-          
+
           sx: {
-            borderRadius:'10px 5px 10px 10px',
-            width:'300px',
+            borderRadius: "10px 5px 10px 10px",
+            width: "300px",
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
@@ -119,35 +136,26 @@ export default function ProfileMenuIcon(props) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <PersonIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Ricks" secondary="Ricks@gmail.com" />
-      </ListItem>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Ricks" secondary="Ricks@gmail.com" />
+        </ListItem>
 
         <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>My Profile</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <ManageAccountsIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>My Account</ListItemText>
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <LogoutIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Log out</ListItemText>
-        </MenuItem>
+        {routeMenu.map((data) => (
+          <React.Fragment>
+            <MenuItem component={Link} to={data.route} onClick={handleClose}>
+              <ListItemIcon >
+                {data.icon}
+              </ListItemIcon>
+              <ListItemText>{data.name}</ListItemText>
+            </MenuItem>
+          </React.Fragment>
+        ))}
       </Menu>
     </React.Fragment>
   );
