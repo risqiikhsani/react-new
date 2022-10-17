@@ -35,6 +35,22 @@ export default function Timeline(props) {
               </Paper>
               <Paper sx={{width:'100%',p:'10px'}}>
                 <Typography variant="h6">
+                    Contact me by
+                </Typography>
+                <List>
+                    <ListItem>
+                        <ListItemAvatar>
+                            <Avatar alt="email" src="/platforms/gmail.png"/>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary="Email"
+                            secondary="zwewewew@gmail.com"
+                        />
+                    </ListItem>
+                </List>
+              </Paper>
+              <Paper sx={{width:'100%',p:'10px'}}>
+                <Typography variant="h6">
                     Connected Platforms
                 </Typography>
                 <List>
