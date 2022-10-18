@@ -31,7 +31,7 @@ export default function CreatePost() {
 
   return (
     <React.Fragment>
-      <Paper sx={{ p: "30px",width:'100%',borderRadius:'10px' }}>
+      <Paper sx={{ p:'20px 30px 30px 15px',width:'100%',borderRadius:'10px' }}>
         <Stack
           direction="column"
           justifyContent="center"
