@@ -29,6 +29,7 @@ export default function Home() {
   return (
     <React.Fragment>
     
+    <Container maxWidth="sm">
     <Stack
   direction="column"
   justifyContent="flex-start"
@@ -40,6 +41,8 @@ export default function Home() {
     <PostCard/>
     <PostCard/>
 </Stack>
+    </Container>
+
 
 
 

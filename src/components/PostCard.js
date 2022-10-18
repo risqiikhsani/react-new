@@ -39,7 +39,7 @@ export default function PostCard(props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 600, my: "20px" }}>
+    <Card sx={{borderRadius:'10px'}}>
       <CardActionArea>
         <CardHeader
           avatar={
