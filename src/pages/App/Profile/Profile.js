@@ -1,17 +1,16 @@
-import { Avatar, Button, Typography } from "@mui/material";
+import { Avatar, Button, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import {Box} from "@mui/material";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { Box } from "@mui/material";
 import Timeline from "./Timeline";
 
-
-
-
-
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ChatIcon from "@mui/icons-material/Chat";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,7 +41,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -67,7 +66,7 @@ export default function Profile() {
           alignItems="center"
           spacing={2}
         >
-          <Avatar sx={{width:70,height:70}}/>
+          <Avatar sx={{ width: 70, height: 70 }} />
           <Stack
             direction="column"
             justifyContent="center"
@@ -84,31 +83,44 @@ export default function Profile() {
           alignItems="center"
           spacing={2}
         >
-          <Button>Connect</Button>
-          <Button>Message</Button>
-          <Button>test</Button>
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<PersonAddIcon />}
+          >
+            Connect
+          </Button>
+          <Button variant="contained" size="small" startIcon={<ChatIcon />}>
+            Message
+          </Button>
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
         </Stack>
       </Stack>
 
-      <Box sx={{ width: '100%' ,mt:'20px'}}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Timeline" {...a11yProps(0)} />
-          <Tab label="Mutual Connections" {...a11yProps(1)} />
-          <Tab label="Mutual Groups" {...a11yProps(2)} />
-        </Tabs>
+      <Box sx={{ width: "100%", mt: "20px" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Timeline" {...a11yProps(0)} />
+            <Tab label="Mutual Connections" {...a11yProps(1)} />
+            <Tab label="Mutual Groups" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <Timeline />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Item Three
+        </TabPanel>
       </Box>
-      <TabPanel value={value} index={0}>
-        <Timeline/> 
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-    </Box>
-
     </React.Fragment>
   );
 }

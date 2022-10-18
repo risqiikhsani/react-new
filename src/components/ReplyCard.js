@@ -18,10 +18,10 @@ export default function ReplyCard(props) {
       justifyContent="flex-start"
       alignItems="flex-start"
       spacing={2}
-      sx={{m:'10px'}}
+      sx={{mx:'10px',my:'20px'}}
     >
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-      <Paper sx={{p:'5px'}}>
+      <Paper sx={{p:'5px',borderRadius:'5px 20px 20px 20px'}}>
         <Stack
           direction="row"
           justifyContent="space-between"

@@ -40,7 +40,7 @@ function About() {
       <Paper sx={{ width: "100%", p: "10px",borderRadius:'10px' }}>
         <Typography variant="h6">About</Typography>
         <Divider />
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{p:'20px'}}>
           akwokwaoakwowkaokwaoawkwaokwaokwaoawkoawkowo akwoawkoawka wokaw
           akwokwaoakwowkaokwa oawkwaokwaokwaoawkoawkowoakwoawkoawkawokaw
           akwokwaoakwowkaokwaoawkwaokwaokwaoawkoa wkowoakwoawkoawkawokaw

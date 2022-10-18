@@ -20,32 +20,68 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Link } from "react-router-dom";
 
-const drawerWidth = "30%";
+const drawerWidth = 240;
 
-// const routeDrawer = [
-//     {
-//       name: "Back",
-//       route: "/",
-//       icon: ,
-
-//     },
-//     {
-//       name: "Chats",
-//       route: "/chats",
-//       icon:,
-//     },
-//     {
-//       name: "Groups",
-//       route: "/groups",
-//       icon: ,
-//     },
-//     {
-//       name: "Friends",
-//       route: "/contact",
-//       icon: ,
-//     },
-
-//   ];
+const routeDrawer = [
+  {
+    category: "User Settings",
+    route: "/user",
+    children: [
+      {
+        name: "Profile",
+        route: "/profile",
+        icon: null,
+      },
+      {
+        name: "Account",
+        route: "/account",
+        icon: null,
+      },
+      {
+        name: "Privacy & Safety",
+        route: "/privacy",
+        icon: null,
+      },
+      {
+        name: "Devices",
+        route: "/devices",
+        icon: null,
+      },
+      {
+        name: "Connections",
+        route: "/connections",
+        icon: null,
+      },
+    ],
+  },
+  {
+    category: "App Settings",
+    route: "/app",
+    children: [
+      {
+        name: "Notifications",
+        route: "/notifications",
+        icon: null,
+      },
+      {
+        name: "Media",
+        route: "/media",
+        icon: null,
+      },
+    ],
+  },
+  {
+    category: "Activity Settings",
+    route: "/activity",
+    children: [
+      {
+        name: "History",
+        route: "/history",
+        icon: null,
+      },
+    ],
+  },
+];
 
 export default function PermanentDrawerLeft() {
   return (
@@ -54,8 +90,8 @@ export default function PermanentDrawerLeft() {
       <AppBar
         position="fixed"
         sx={{
-          width: `calc(100% - ${drawerWidth})`,
-          ml: `${drawerWidth}`,
+          width: `calc(100% - ${drawerWidth}px)`,
+          ml: `${drawerWidth}px`,
           background: "transparent",
           boxShadow: "none",
         }}
@@ -68,7 +104,7 @@ export default function PermanentDrawerLeft() {
       <Drawer
         sx={{
           width: drawerWidth,
-          flexShrink: 0,
+          flexShrink: 1,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
@@ -90,23 +126,29 @@ export default function PermanentDrawerLeft() {
         <Toolbar />
 
         <List>
-          <Stack
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="flex-end"
-            spacing={2}
-          >
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ maxWidth: "240px" }}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </Stack>
+          {routeDrawer.map((i) => (
+            <React.Fragment>
+              <Typography sx={{pl:'20px',py:'20px'}}>{i.category}</Typography>
+              <Divider/>
+              {i.children.map((a) => (
+                <React.Fragment>
+                  <ListItem
+                    key={a.name}
+                    disablePadding
+                    component={Link}
+                    to={`/setting` + i.route + a.route}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>{a.icon}</ListItemIcon>
+                      <ListItemText primary={a.name} />
+                    </ListItemButton>
+                  </ListItem>
+                  
+                </React.Fragment>
+              ))}
+              
+            </React.Fragment>
+          ))}
         </List>
       </Drawer>
       <Box

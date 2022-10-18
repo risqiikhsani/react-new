@@ -28,25 +28,19 @@ export default function Home() {
 
   return (
     <React.Fragment>
-    
-    <Container maxWidth="sm">
-    <Stack
-  direction="column"
-  justifyContent="flex-start"
-  alignItems="center"
-  spacing={2}
->
-<PostCard/>
-    <PostCard/>
-    <PostCard/>
-    <PostCard/>
-</Stack>
-    </Container>
-
-
-
-
-
+      <Container maxWidth="sm">
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+        >
+          <PostCard />
+          <PostCard />
+          <PostCard />
+          <PostCard />
+        </Stack>
+      </Container>
     </React.Fragment>
   );
 }

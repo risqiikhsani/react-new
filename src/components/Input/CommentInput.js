@@ -24,19 +24,16 @@ export default function CommentInput(props) {
     <React.Fragment>
       <Stack
         component="form"
-        sx={{
-            m:'10px',
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
         noValidate
         autoComplete="off"
         direction="row"
-        justifyContent="flex-start"
+        justifyContent="space-between"
         alignItems="flex-end"
-        spacing={1}
+        spacing={2}
+        sx={{p:"10px"}}
       >
         <Avatar
-          sx={{ mb: "10px" }}
+          
           alt="Remy Sharp"
           src="/static/images/avatar/1.jpg"
         />
@@ -49,7 +46,7 @@ export default function CommentInput(props) {
           onChange={handleChange}
           size="small"
         />
-        <Box sx={{pb:'10px'}}>
+        <Box>
           <IconButton color="primary">
             <EmojiEmotionsIcon />
           </IconButton>

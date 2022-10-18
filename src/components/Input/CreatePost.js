@@ -9,18 +9,21 @@ import {
   ListItemText,
   Avatar,
   TextField,
-} from "@mui/material";
-import { Stack } from "@mui/system";
-import * as React from "react";
-import { useState } from "react";
-import EmailIcon from "@mui/icons-material/Email";
-import {
+  IconButton,
   Card,
   CardHeader,
   CardContent,
   Button,
   CardActions,
 } from "@mui/material";
+import { Stack } from "@mui/system";
+import * as React from "react";
+import { useState } from "react";
+import EmailIcon from "@mui/icons-material/Email";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import SendIcon from "@mui/icons-material/Send";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import ImageIcon from "@mui/icons-material/Image";
 
 export default function CreatePost() {
   const [value, setValue] = useState("");
@@ -31,22 +34,25 @@ export default function CreatePost() {
 
   return (
     <React.Fragment>
-      <Paper sx={{ p:'20px 30px 30px 15px',width:'100%',borderRadius:'10px' }}>
+      <Paper
+        sx={{ p: "20px 30px 30px 15px", width: "100%", borderRadius: "10px" }}
+      >
         <Stack
-          direction="column"
-          justifyContent="center"
+          direction="row"
+          justifyContent="flex-start"
           alignItems="flex-start"
           spacing={2}
+          sx={{ width: "100%" }}
         >
+          <Avatar />
+
           <Stack
-            direction="row"
-            justifyContent="flex-start"
+            direction="column"
+            justifyContent="center"
             alignItems="flex-start"
             spacing={2}
             sx={{ width: "100%" }}
           >
-            <Avatar />
-
             <TextField
               id="outlined-multiline-static"
               placeholder="What's on your mind?"
@@ -54,18 +60,35 @@ export default function CreatePost() {
               rows={4}
               value={value}
               onChange={handleChange}
-              sx={{ flexGrow: 1, mx: "10px" }}
+              sx={{ mx: "10px", width: "100%" }}
             />
-          </Stack>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-end"
-            spacing={2}
-            sx={{ width: "100%" }}
-          >
-            <Button>Post</Button>
-            <Button>Post</Button>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-end"
+              spacing={2}
+              sx={{ width: "100%" }}
+            >
+              <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={2}
+              >
+                <IconButton>
+                  <ImageIcon />
+                </IconButton>
+                <IconButton>
+                  <AttachFileIcon />
+                </IconButton>
+                <IconButton>
+                  <EmojiEmotionsIcon />
+                </IconButton>
+              </Stack>
+              <Button variant="contained" size="small">
+                Post
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </Paper>
