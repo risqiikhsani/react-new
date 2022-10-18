@@ -1,4 +1,4 @@
-import { Avatar, Button, IconButton, Typography } from "@mui/material";
+import { Avatar, Button, Container, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
@@ -54,6 +54,7 @@ export default function Profile() {
 
   return (
     <React.Fragment>
+      <Container maxWidth="lg">
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -121,6 +122,8 @@ export default function Profile() {
           Item Three
         </TabPanel>
       </Box>
+      </Container>
+      
     </React.Fragment>
   );
 }

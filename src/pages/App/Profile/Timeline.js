@@ -106,7 +106,7 @@ export default function Timeline(props) {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={5}>
-            <Container maxWidth="md">
+            
               <Stack
                 direction="column"
                 justifyContent="center"
@@ -117,10 +117,10 @@ export default function Timeline(props) {
                 <ContactMeBy />
                 <ConnectedPlatform />
               </Stack>
-            </Container>
+           
           </Grid>
           <Grid item xs={12} md={7}>
-            <Container maxWidth="md">
+            
               <Stack
                 direction="column"
                 justifyContent="center"
@@ -130,7 +130,7 @@ export default function Timeline(props) {
                 <CreatePost />
                 <PostCard />
               </Stack>
-            </Container>
+            
           </Grid>
         </Grid>
       </Box>

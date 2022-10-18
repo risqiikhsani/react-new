@@ -33,10 +33,27 @@ import GroupDetail from "../pages/App/Group/GroupDetail";
 
 import Contact from "../pages/App/Contact/Contact";
 
+
+import AccountSettings from "../pages/Settings/user/AccountSettings";
+import ProfileSettings from "../pages/Settings/user/ProfileSettings";
+import PrivacySettings from "../pages/Settings/user/PrivacySettings";
+import DevicesSettings from "../pages/Settings/user/DevicesSettings";
+import ConnectionsSettings from "../pages/Settings/user/ConnectionsSettings";
+
+
+import MediaSettings from "../pages/Settings/app/MediaSettings";
+import NotificationSettings from "../pages/Settings/app/NotificationSettings";
+
+
+import HistorySettings from "../pages/Settings/Activity/HistorySettings";
+
+
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import SignupProgress from "../pages/Auth/SignupProgress";
+
+
 
 
 let user = false;
@@ -121,8 +138,36 @@ const router = createBrowserRouter([
         loader:null,
         children:[
           {
-            path: "",
-            element: null,
+            path: "user/profile",
+            element: <ProfileSettings/>,
+          },
+          {
+            path: "user/account",
+            element: <AccountSettings/>,
+          },
+          {
+            path: "user/devices",
+            element: <DevicesSettings/>,
+          },
+          {
+            path: "user/privacy",
+            element: <PrivacySettings/>,
+          },
+          {
+            path: "user/connections",
+            element: <ConnectionsSettings/>,
+          },
+          {
+            path: "app/media",
+            element: <MediaSettings/>,
+          },
+          {
+            path: "app/notification",
+            element: <NotificationSettings/>,
+          },
+          {
+            path: "activity/history",
+            element: <HistorySettings/>,
           },
         ],
       },

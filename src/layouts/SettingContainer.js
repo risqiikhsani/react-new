@@ -59,8 +59,8 @@ const routeDrawer = [
     route: "/app",
     children: [
       {
-        name: "Notifications",
-        route: "/notifications",
+        name: "Notification",
+        route: "/notification",
         icon: null,
       },
       {

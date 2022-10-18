@@ -48,30 +48,28 @@ import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Stack } from "@mui/system";
+import RightDrawerContact from "../AppContainer/RightDrawerContact";
+
+
+const drawerWidth = 400;
+const drawerColor = "#FFFFFF";
 
 
 export default function OnlineContactIcon(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    console.log(anchorEl);
+  const [settingOpen, setSettingOpen] = React.useState(false);
+  const handleSettingDrawerToggle = () => {
+    setSettingOpen(!settingOpen);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+
 
   return (
     <React.Fragment>
       <Tooltip title="Contact">
       <IconButton
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
         size="large"
-        aria-label="show profile"
+        aria-label="show setting"
         color="inherit"
-        onClick={handleClick}
+        onClick={handleSettingDrawerToggle}
       >
         <Badge badgeContent={0} color="error">
           <PeopleIcon />
@@ -80,84 +78,29 @@ export default function OnlineContactIcon(props) {
       </Tooltip>
 
 
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
+      <Drawer
+        anchor="right"
+        open={settingOpen}
+        onClose={handleSettingDrawerToggle}
         PaperProps={{
-          elevation: 0,
-          
           sx: {
-            borderRadius:'10px 5px 10px 10px',
-            width:'300px',
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
+            backgroundColor: drawerColor,
+            borderRadius: "20px 0 0 20px",
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: drawerWidth,
+          },
+          zIndex: "modal",
+        }}
       >
-      
-      <Typography variant="h6" sx={{px:'10px'}}>
-        Contact
-      </Typography>
-
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>John</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Jey</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Stev</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Kenny</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Bris</ListItemText>
-        </MenuItem>
-
-      </Menu>
+        <RightDrawerContact/>
+      </Drawer>
     </React.Fragment>
   );
 }
