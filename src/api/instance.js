@@ -1,5 +1,9 @@
 import axios from "axios";
-import TokenService from "./token.service";
+
+
+import localStorageAPI from "./localStorage";
+
+
 
 const BASE_URL = "http://127.0.0.1:8000/api/";
 
@@ -11,10 +15,10 @@ const instance = axios.create({
   },
 });
 
-
+// request interceptors
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent
-  const token = getToken();
+  const token = localStorageAPI.getAccessToken();
   if(token){
     config.headers["Authorization"] = 'Bearer ' + token;
     // config.headers["x-access-token"] = token; // for Node.js Express back-end
@@ -25,6 +29,8 @@ instance.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 
+
+// response interceptors
 instance.interceptors.response.use(function (response) {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
@@ -36,12 +42,12 @@ async (err) => {
 
   // Access token was expired
   const originalConfig = err.config;
-  if(originalConfig.url !== "/auth/login" && err.response){
+  if(originalConfig.url !== "/login" && err.response){
     if(err.response.status === 401 && !originalConfig._retry){
       originalConfig._retry = true;
       try{
-        const rs = await instance.post("/auth/refreshtoken",{
-          refreshToken: getLocalRefreshToken();
+        const rs = await instance.post("/token-refresh",{
+          refreshToken: localStorageAPI.getRefreshToken();
         })
         const {accessToken} = rs.data;
         updateLocalAccessToken(accessToken);
@@ -53,8 +59,6 @@ async (err) => {
   }
   return Promise.reject(error);
 });
-
-
 
 
 
