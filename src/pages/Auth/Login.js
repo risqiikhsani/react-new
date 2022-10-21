@@ -16,10 +16,14 @@ import {
   IconButton,
 } from "@mui/material";
 
+import { Mutation, useQuery } from "@tanstack/react-query";
+
 import { Link as LinkRouter } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+import { useMutation } from "@tanstack/react-query";
 
 export default function Login() {
   const [username, setUsername] = React.useState("");
@@ -47,8 +51,10 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const login = () => {
-    
+  const mutation = useMutation(data => createPost(data))
+
+  const login = (data) => {
+    mutation.mutate(data)
   }
 
   return (
