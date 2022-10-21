@@ -30,17 +30,14 @@ import ForgotPasswordSelectMethod from "./ForgotPasswordSelectMethod";
 import ForgotPasswordResetPassword from "./ForgotPasswordResetPassword";
 import ForgotPasswordDone from "./ForgotPasswordDone";
 
-
-
-
 import SignupProgressVerifyEmail from "./SignupProgressVerifyEmail";
 import SignupProgressConfirmCode from "./SignupProgressConfirmCode";
 import SignupProgressProfileSetup1 from "./SignupProgressProfileSetup1";
 import SignupProgressDone from "./SignupProgressDone";
 
 const steps = [
-  "Verify your email", 
-  "Confirm the code sent", 
+  "Verify your email",
+  "Confirm the code sent",
   "Set up your profile",
   "Welcome !",
 ];
@@ -60,61 +57,52 @@ export default function SignupProgress() {
       }
       setProgress(progress - 1);
     }
-  }
-
-
+  };
 
   return (
     <React.Fragment>
       <Box>
-      <Stack
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={10}
-        textAlign="center"
-      >
-        <Box sx={{ width: "100%" }}>
-
-
-
-
-          <Stepper activeStep={progress} alternativeLabel>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Box>
-
-        {progress == 0 ? (
-          <SignupProgressVerifyEmail/>
-        ) : progress == 1 ? (
-          <SignupProgressConfirmCode/>
-        ) : progress == 2 ? (
-          <SignupProgressProfileSetup1/>
-        ) : (
-          <SignupProgressDone/>
-        )}
-
-      
-      <Box>
-        <Typography>just trial for dev</Typography>
         <Stack
-  direction="row"
-  justifyContent="space-around"
-  alignItems="center"
-  spacing={2}
->
-  <Button onClick={prevStep}>back</Button>
-  <Button onClick={nextStep}>next</Button>
-</Stack>
-      </Box>
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={10}
+          textAlign="center"
+        >
+          <Box sx={{ width: "100%" }}>
+            <Stepper activeStep={progress} alternativeLabel>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
 
-      </Stack>
+          {progress == 0 ? (
+            <SignupProgressVerifyEmail />
+          ) : progress == 1 ? (
+            <SignupProgressConfirmCode />
+          ) : progress == 2 ? (
+            <SignupProgressProfileSetup1 />
+          ) : (
+            <SignupProgressDone />
+          )}
+
+          <Box>
+            <Typography>just trial for dev</Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center"
+              spacing={2}
+            >
+              <Button onClick={prevStep}>back</Button>
+              <Button onClick={nextStep}>next</Button>
+            </Stack>
+          </Box>
+        </Stack>
       </Box>
-      
     </React.Fragment>
   );
 }

@@ -23,39 +23,51 @@ import { Link as LinkRouter } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { useMutation } from "@tanstack/react-query";
+import { useQuery,useMutation } from "@tanstack/react-query";
+
+import AuthApi from "../../api/auth_api";
+
+import ProgressTopBar from "../../components/SuspenseFallback/ProgressTopBar";
+import ErrorAlert from "../../components/ErrorBoundarier/ErrorAlert";
 
 export default function Login() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [checked, setChecked] = React.useState(true);
+  const [showPassword, setShowPassword] = React.useState(false);
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
   };
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
   };
-
-  const [checked, setChecked] = React.useState(true);
-
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
-
-  const [showPassword, setShowPassword] = React.useState(false);
-
   const ChangeShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const mutation = useMutation(data => createPost(data))
+  const mutation = useMutation(data => AuthApi.login(data) , {
+    onSuccess: (data, variables, context) => {
+      // set user with token to localstorage
+      // set user state so it goes to main page app
+    },
+  })
 
-  const login = (data) => {
-    mutation.mutate(data)
+  const onSubmit = event => {
+    event.preventDefault()
+    mutation.mutate({
+      username:username,
+      password:password,
+    })
   }
+
+  if(mutation.isLoading) return <ProgressTopBar/>
+
 
   return (
     <React.Fragment>
@@ -120,8 +132,10 @@ export default function Login() {
             label="Remember me"
           />
         </FormGroup>
-
-        <Button variant="contained" onClick={login}>SIGN IN</Button>
+        {
+          mutation.isError && <ErrorAlert/>
+        }
+        <Button variant="contained" onClick={onSubmit}>SIGN IN</Button>
         <Stack
           direction="row"
           justifyContent="space-between"

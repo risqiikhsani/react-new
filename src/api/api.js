@@ -1,13 +1,11 @@
-
 import instance from "./instance";
 
-
-export default class api{
-  fetchPosts(){
-    return instance.get('post-list/')
+export default class api {
+  fetchPostList() {
+    return instance.get("post-list/");
   }
 
-  addPost(data){
-    return instance.post('post-list/',JSON.stringify(data))
+  createPost(data) {
+    return instance.post("post-list/", JSON.stringify(data));
   }
 }
