@@ -1,13 +1,13 @@
-import axios from "axios";
+
 import instance from "./instance";
 
 
-export function fetchPosts() {
-  return instance.get(`/post-list`);
+export default class api{
+  fetchPosts(){
+    return instance.get('post-list/')
+  }
+
+  addPost(data){
+    return instance.post('post-list/',JSON.stringify(data))
+  }
 }
-
-export function addProduct(data) {
-  return instance.post("/product", JSON.stringify(data));
-}
-
-

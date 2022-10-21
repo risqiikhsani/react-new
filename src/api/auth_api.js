@@ -1,19 +1,21 @@
-import axios from "axios";
+
+import localStorageAPI from "./localStorage";
 import instance from "./instance";
 
 
-export function login(data) {
-  return instance.post(`/login`, JSON.stringify(data));
-}
+export default class AuthApi{
+  login(data){
+    return instance.post('login/', JSON.stringify(data))
+  }
 
-export function logout() {
-  return instance.post("/product");
-}
+  logout(){
+    localStorageAPI.removeUser()
+  }
 
-export function signup(data){
-    return instance.post("/signup", JSON.stringify(data))
+  signup(data){
+    return instance.post('signup/',JSON.stringify(data))
+  }
 }
-
 
 
 

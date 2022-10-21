@@ -46,6 +46,6 @@ export default function Root() {
 
 
   return (
-<Outlet/>             
+  <Outlet/>             
   );
 }

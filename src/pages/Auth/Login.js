@@ -47,6 +47,10 @@ export default function Login() {
     event.preventDefault();
   };
 
+  const login = () => {
+    
+  }
+
   return (
     <React.Fragment>
       <Box>
@@ -111,7 +115,7 @@ export default function Login() {
           />
         </FormGroup>
 
-        <Button variant="contained">SIGN IN</Button>
+        <Button variant="contained" onClick={login}>SIGN IN</Button>
         <Stack
           direction="row"
           justifyContent="space-between"
