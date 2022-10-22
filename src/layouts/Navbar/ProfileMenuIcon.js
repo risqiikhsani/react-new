@@ -49,7 +49,13 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Stack } from "@mui/system";
 
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  useQuery,
+  useMutation,
+} from "@tanstack/react-query";
+import { clearUser, setUser } from "../../redux/slices/userSlice";
+import localStorageAPI from "../../api/localStorage";
 
 const routeMenu = [
   {
@@ -70,6 +76,8 @@ const routeMenu = [
 ];
 
 export default function ProfileMenuIcon(props) {
+  const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -78,6 +86,13 @@ export default function ProfileMenuIcon(props) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const Logout = () => {
+    //remove user localstorage
+    localStorageAPI.removeUser();
+    //remove user state
+    dispatch(clearUser());
   };
 
   return (

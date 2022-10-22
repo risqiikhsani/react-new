@@ -16,7 +16,7 @@ import {
   TextField 
 } from "@mui/material";
 
-import { Mutation, useQuery, useQuery,useMutation } from "@tanstack/react-query";
+import { Mutation,  useQuery,useMutation } from "@tanstack/react-query";
 
 import { Link as LinkRouter } from "react-router-dom";
 
@@ -70,7 +70,7 @@ export default function Login() {
     },
   })
 
-  const onSubmit = event => {
+  const Login = event => {
     event.preventDefault()
     mutation.mutate({
       username:username,
@@ -147,7 +147,7 @@ export default function Login() {
         {
           mutation.isError && <ErrorAlert/>
         }
-        <Button variant="contained" onClick={onSubmit}>SIGN IN</Button>
+        <Button variant="contained" onClick={Login}>SIGN IN</Button>
         <Stack
           direction="row"
           justifyContent="space-between"
