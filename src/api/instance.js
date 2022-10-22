@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-import localStorageAPI from "./localStorage";
+import localStorageAPI from "./localStorageApi";
 
 
 

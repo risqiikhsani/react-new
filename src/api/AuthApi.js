@@ -1,8 +1,9 @@
-import localStorageAPI from "./localStorage";
+import localStorageAPI from "./localStorageApi";
 import instance from "./instance";
 
-export default class AuthApi {
+class AuthApi {
   login(data) {
+    console.log("login api is running ... ")
     return instance.post("login/", JSON.stringify(data));
   }
 
@@ -11,6 +12,9 @@ export default class AuthApi {
   // }
 
   signup(data) {
+    console.log("signup api is running ... ")
     return instance.post("signup/", JSON.stringify(data));
   }
 }
+
+export default new AuthApi();

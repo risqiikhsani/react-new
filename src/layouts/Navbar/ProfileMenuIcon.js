@@ -55,7 +55,7 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 import { clearUser, setUser } from "../../redux/slices/userSlice";
-import localStorageAPI from "../../api/localStorage";
+import localStorageAPI from "../../api/localStorageApi";
 
 const routeMenu = [
   {

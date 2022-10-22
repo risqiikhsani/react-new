@@ -18,12 +18,12 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <Provider store={store}>
+      {/* <Provider store={store}>
         <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
           <RouterProvider router={router} />
         </QueryClientProvider>
-      </Provider>
+      </Provider> */}
     </>
   );
 }

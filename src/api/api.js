@@ -1,6 +1,6 @@
 import instance from "./instance";
 
-export default class api {
+class Api {
   fetchPostList() {
     return instance.get("post-list/");
   }
@@ -9,3 +9,5 @@ export default class api {
     return instance.post("post-list/", JSON.stringify(data));
   }
 }
+
+export default new Api();

@@ -4,7 +4,7 @@
 // or this https://www.npmjs.com/package/use-local-storage
 // or this https://www.npmjs.com/package/reactjs-localstorage
 
-export default new (class localStorageAPI {
+class localStorageApi {
   getUser() {
     console.log("get user is running");
     return JSON.parse(localStorage.getItem("user"));
@@ -39,4 +39,6 @@ export default new (class localStorageAPI {
     user.access_token = token;
     localStorage.setItem("user", JSON.stringify(user));
   }
-})();
+};
+
+export default new localStorageApi();
