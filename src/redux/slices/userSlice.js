@@ -3,15 +3,15 @@ import { createSlice } from '@reduxjs/toolkit'
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    // id: null,
-    // name: null,
-    // email_confirmed:false,
-    // role:null,
+    id: null,
+    name: null,
+    email_confirmed:false,
+    role:null,
 
-    id: 1,
-    name: "test",
-    email_confirmed:true,
-    role:"basic",
+    // id: 1,
+    // name: "test",
+    // email_confirmed:true,
+    // role:"basic",
 
     // id: 1,
     // name: "test",
@@ -23,8 +23,8 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.id = action.payload.id
       state.name = action.payload.name
-      state.email_confirmed = action.payload.email
-      state.role = action.payload.role
+      state.email_confirmed = true
+      state.role = null
     },
     clearUser: (state) => {
       state.id = null

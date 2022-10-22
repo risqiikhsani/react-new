@@ -47,10 +47,10 @@ async (err) => {
       originalConfig._retry = true;
       try{
         const rs = await instance.post("/token-refresh",{
-          refreshToken: localStorageAPI.getRefreshToken();
+          refresh_token: localStorageAPI.getRefreshToken();
         })
-        const {accessToken} = rs.data;
-        updateLocalAccessToken(accessToken);
+        const {access_token} = rs.data;
+        localStorageAPI.updateAccessToken(accessToken);
         return instance(originalConfig);
       }catch(_error){
         return Promise.reject(_error);

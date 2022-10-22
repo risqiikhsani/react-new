@@ -1,7 +1,6 @@
 import { Box, Stack } from "@mui/system";
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { TextField } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import {
   Button,
@@ -14,23 +13,31 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  TextField 
 } from "@mui/material";
 
-import { Mutation, useQuery } from "@tanstack/react-query";
+import { Mutation, useQuery, useQuery,useMutation } from "@tanstack/react-query";
 
 import { Link as LinkRouter } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { useQuery,useMutation } from "@tanstack/react-query";
 
 import AuthApi from "../../api/auth_api";
+import localStorageAPI from "../../api/localStorage";
 
 import ProgressTopBar from "../../components/SuspenseFallback/ProgressTopBar";
 import ErrorAlert from "../../components/ErrorBoundarier/ErrorAlert";
 
+import { useDispatch } from "react-redux";
+import { setUser,clearUser } from "../../redux/slices/userSlice";
+
+
+
 export default function Login() {
+  const dispatch = useDispatch()
+
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [checked, setChecked] = React.useState(true);
@@ -54,7 +61,12 @@ export default function Login() {
   const mutation = useMutation(data => AuthApi.login(data) , {
     onSuccess: (data, variables, context) => {
       // set user with token to localstorage
+      localStorageAPI.setUser(data)
       // set user state so it goes to main page app
+      dispatch(setUser({
+        id:data.id,
+        name:data.name,
+      }))
     },
   })
 
