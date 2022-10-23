@@ -25,13 +25,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import AuthApi from "../../api/AuthApi";
-import localStorageAPI from "../../api/localStorageApi";
+
 
 import ProgressTopBar from "../../components/SuspenseFallback/ProgressTopBar";
 import ErrorAlert from "../../components/ErrorBoundarier/ErrorAlert";
 
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "../../redux/slices/userSlice";
+import localStorageApi from "../../api/localStorageApi";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -56,38 +57,54 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const { isLoading, isSuccess, isError, data, error, mutate } = useMutation(
-    AuthApi.login({
-      username: username,
-      password: password,
-    }),
-    {
-      onSuccess: (data, variables, context) => {
-        // set user with token to localstorage
-        localStorageAPI.setUser(data);
-        // set user state so it goes to main page app
-        dispatch(
-          setUser({
-            id: data.id,
-            name: data.name,
-          })
-        );
-      },
-    }
-  );
+  const mutation = useMutation((data) => {
+    return AuthApi.login(data);
+  },
+  {
+    onError: (error, variables, context) => {
+      // An error happened!
+      console.log("onError runninng")
+      console.log(error.message)
+
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("onSuccess running")
+      console.log(data)
+      console.log(variables)
+      console.log(context)
+      // // put tokens in localstorage
+      // localStorageApi.setUser(data.data)
+
+      // //test get user from localstorage
+      // console.log(localStorageApi.getUser())
+
+      // set user state
+      // dispatch(setUser(data))
+
+    },
+  });
 
   const onSubmit = (event) => {
-    console.log("on submit clicked");
-    event.preventDefault();
-    mutate();
+    event.preventDefault()
+    try {
+      mutation.mutate({
+        username: username,
+        password: password,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  useEffect(() => {
-    isLoading && <ProgressTopBar />;
-  }, [isLoading]);
+
+
+
 
   return (
     <React.Fragment>
+      {
+        mutation.isLoading && <ProgressTopBar />
+      }
       <Box>
         <Stack
           component="form"
@@ -149,9 +166,9 @@ export default function Login() {
               label="Remember me"
             />
           </FormGroup>
-          {isError && <ErrorAlert error={error.message} />}
+          {mutation.isError && <ErrorAlert error={mutation.error} />}
           <Button variant="contained" onClick={onSubmit}>
-            SIGN IN
+            LOG IN
           </Button>
           <Stack
             direction="row"

@@ -2,11 +2,11 @@ import instance from "./instance";
 
 class Api {
   fetchPostList() {
-    return instance.get("post-list/");
+    return instance.get("/post-list/");
   }
 
   createPost(data) {
-    return instance.post("post-list/", JSON.stringify(data));
+    return instance.post("/post-list/", JSON.stringify(data));
   }
 }
 

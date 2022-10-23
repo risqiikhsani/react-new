@@ -12,4 +12,7 @@ export default configureStore({
     user:userReducer,
     theme:themeReducer,
   },
+
 })
+
+

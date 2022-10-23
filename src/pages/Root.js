@@ -24,17 +24,17 @@ export default function Root() {
 
 
   //get user from localStorage
-  useEffect(() => {
-    const user = localStorageAPI.getUser();
-    if(user){
-      //set state user
-      console.log("dispatch setUser")
-      dispatch(setUser(user))
-    }
-    //set state user to null
-    console.log("dispatch clearUser")
-    dispatch(clearUser())
-  },[])
+  // useEffect(() => {
+  //   const user = localStorageAPI.getUser();
+  //   if(user){
+  //     //set state user
+  //     console.log("dispatch setUser")
+  //     dispatch(setUser(user))
+  //   }
+  //   //set state user to null
+  //   console.log("dispatch clearUser")
+  //   dispatch(clearUser())
+  // },[])
 
 
   useEffect(() => {

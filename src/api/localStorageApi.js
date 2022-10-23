@@ -7,12 +7,12 @@
 class localStorageApi {
   getUser() {
     console.log("get user is running");
-    return JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user;
   }
 
   setUser(user) {
     console.log("set user is running");
-    console.log(JSON.stringify(user));
     localStorage.setItem("user", JSON.stringify(user));
   }
 
@@ -21,11 +21,11 @@ class localStorageApi {
     localStorage.removeItem("user");
   }
 
-  getRefreshToken() {
-    console.log("get refresh_token is running");
-    const user = JSON.parse(localStorage.getItem("user"));
-    return user?.refresh_token;
-  }
+  // getRefreshToken() {
+  //   console.log("get refresh_token is running");
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   return user?.refresh_token;
+  // }
 
   getAccessToken() {
     console.log("get access_token is running");
@@ -33,12 +33,22 @@ class localStorageApi {
     return user?.access_token;
   }
 
-  updateAccessToken(token) {
-    console.log("update access_token is running");
-    let user = JSON.parse(localStorage.getItem("user"));
-    user.access_token = token;
-    localStorage.setItem("user", JSON.stringify(user));
-  }
+  // getAccessToken() {
+  //   console.log("get access_token is running");
+  //   const user = localStorage.getItem("user");
+  //   if(user){
+  //     let data = JSON.parse(localStorage.getItem("user"))
+  //     return data.access_token
+  //   }
+  //   return null
+  // }
+
+  // updateAccessToken(token) {
+  //   console.log("update access_token is running");
+  //   let user = JSON.parse(localStorage.getItem("user"));
+  //   user.access_token = token;
+  //   localStorage.setItem("user", JSON.stringify(user));
+  // }
 };
 
 export default new localStorageApi();

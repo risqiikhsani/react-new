@@ -16,7 +16,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { router } from "./routes/routes";
 
-
+const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
       refetchOnmount: false,
       refetchOnReconnect: false,
       retry: false,
-      staleTime: 5*60*1000,
+      staleTime: twentyFourHoursInMs,
     },
   },
 });
