@@ -29,7 +29,7 @@ export const userSlice = createSlice({
     clearUser: (state) => {
       state.id = null
       state.name = null
-      state.email=null
+      state.email_confirmed= false
       state.role=null
     },
   },

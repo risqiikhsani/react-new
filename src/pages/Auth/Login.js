@@ -62,24 +62,20 @@ export default function Login() {
   },
   {
     onError: (error, variables, context) => {
-      // An error happened!
+
       console.log("onError runninng")
       console.log(error.message)
 
     },
     onSuccess: (data, variables, context) => {
       console.log("onSuccess running")
-      console.log(data)
-      console.log(variables)
-      console.log(context)
-      // // put tokens in localstorage
-      // localStorageApi.setUser(data.data)
 
-      // //test get user from localstorage
-      // console.log(localStorageApi.getUser())
+
+      // put tokens in localstorage
+      localStorageApi.setUser(data.data)
 
       // set user state
-      // dispatch(setUser(data))
+      dispatch(setUser(data.data))
 
     },
   });

@@ -55,7 +55,7 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 import { clearUser, setUser } from "../../redux/slices/userSlice";
-import localStorageAPI from "../../api/localStorageApi";
+import localStorageApi from "../../api/localStorageApi";
 
 const routeMenu = [
   {
@@ -90,9 +90,12 @@ export default function ProfileMenuIcon(props) {
 
   const Logout = () => {
     //remove user localstorage
-    localStorageAPI.removeUser();
+    localStorageApi.removeUser()
+
+
     //remove user state
-    dispatch(clearUser());
+    dispatch(clearUser())
+
   };
 
   return (
@@ -161,7 +164,7 @@ export default function ProfileMenuIcon(props) {
         <Divider />
         {routeMenu.map((data) => (
           <React.Fragment>
-            <MenuItem component={Link} to={data.route} onClick={handleClose}>
+            <MenuItem component={Link} to={data.route} onClick={data.name=="Logout"? (handleClose,Logout) : handleClose}>
               <ListItemIcon>{data.icon}</ListItemIcon>
               <ListItemText>{data.name}</ListItemText>
             </MenuItem>

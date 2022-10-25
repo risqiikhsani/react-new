@@ -4,7 +4,7 @@ import * as React from "react";
 import { useEffect } from "react";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import localStorageAPI from "../api/localStorageApi";
+import localStorageApi from "../api/localStorageApi";
 
 import { useNavigate,Navigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
@@ -23,25 +23,27 @@ export default function Root() {
   const dispatch = useDispatch()
 
 
-  //get user from localStorage
-  // useEffect(() => {
-  //   const user = localStorageAPI.getUser();
-  //   if(user){
-  //     //set state user
-  //     console.log("dispatch setUser")
-  //     dispatch(setUser(user))
-  //   }
-  //   //set state user to null
-  //   console.log("dispatch clearUser")
-  //   dispatch(clearUser())
-  // },[])
+  useEffect(() => {
+    const user = localStorageApi.getUser()
+    console.log(user)
+    if(user != null){
+      console.log("user information is detected in Local Storage , will redirect you to app!")
+      // set user state 
+      dispatch(setUser(user))
+    }
+    else{
+      console.log("user information isn't detected in local storage, redirect to login page!")
+    }
+  },[])
 
 
   useEffect(() => {
     if (!user_id){
+      // if there's no user in state , redirect to login page
        return navigate("/auth/login");
     }
     else if(user_id && !user_email_confirmed){
+      // if email isn't comfirmed , user should confirm first
       return navigate("/auth/signup-completion")
     }
  },[user_id,user_email_confirmed]);
