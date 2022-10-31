@@ -26,6 +26,8 @@ export default function Root() {
   useEffect(() => {
     const user = localStorageApi.getUser()
     console.log(user)
+
+    // if there's user in localStorage , change user state , otherwise user state is remain null
     if(user != null){
       console.log("user information is detected in Local Storage , will redirect you to app!")
       // set user state 
