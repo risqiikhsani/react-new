@@ -29,20 +29,12 @@ export default function Home() {
 
   // const dispatch = useDispatch()
 
-  const { isLoading, error, data } = useQuery(['post-list'], () => {
-    return AppApi.fetchPostList(),
-    {
-      onError:() => {
-        console.log("error")
-      },
-      onSuccess: (data, variables, context) => {
-        console.log("onSuccess running")
-      },
-    }
-
+  const postList = useQuery({
+    queryKey:['post-list'],
+    queryFn: () => {return AppApi.fetchPostList()},
   })
 
-  if(isLoading) return (
+  if(postList.isLoading) return (
     <React.Fragment>
       <Container maxWidth="sm">
           <p>Loading....</p>
@@ -50,7 +42,7 @@ export default function Home() {
     </React.Fragment>
   )
 
-  if(error) return (
+  if(postList.error) return (
     <React.Fragment>
       <Container maxWidth="sm">
           <p>Something went wrong!</p>
@@ -68,9 +60,17 @@ export default function Home() {
           spacing={2}
         >
           {
-            data.data.results.map((post) => (
+            postList.data.data.results.map((post) => (
               <React.Fragment>
-                <PostCard/>
+                <PostCard
+                  key={post.id}
+                  user_name={post.user.profile.name}
+                  user_id={post.user.id}
+                  user_public_username={post.user.profile.public_username}
+                  user_profile_picture={post.user.profile.profile_picture}
+                  text={post.text}
+                  time_creation={post.time_creation}
+                />
               </React.Fragment>
             ))
           }

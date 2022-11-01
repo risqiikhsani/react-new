@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { CardActionArea,Box, Divider } from "@mui/material";
+import { CardActionArea, Box, Divider } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -20,7 +20,6 @@ import CommentIcon from "@mui/icons-material/Comment";
 import CommentCard from "./CommentCard";
 import CommentInput from "./Input/CommentInput";
 
-
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -39,7 +38,7 @@ export default function PostCard(props) {
   };
 
   return (
-    <Card sx={{borderRadius:'10px'}}>
+    <Card sx={{ borderRadius: "10px" }}>
       <CardActionArea>
         <CardHeader
           avatar={
@@ -52,19 +51,20 @@ export default function PostCard(props) {
               <MoreVertIcon />
             </IconButton>
           }
-          title="Alexander Pavi"
-          subheader="2 hours ago"
+          title={props.user_name}
+          subheader={props.time_creation}
         />
-        <CardMedia
-          component="img"
-          image="https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2018/06/cat-217679.jpg?h=c4ed616d&itok=3qHaqQ56"
-          alt="Paella dish"
-        />
+        {props.images && (
+          <CardMedia
+            component="img"
+            image="https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2018/06/cat-217679.jpg?h=c4ed616d&itok=3qHaqQ56"
+            alt="Paella dish"
+          />
+        )}
+
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
+            {props.text}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
@@ -86,14 +86,12 @@ export default function PostCard(props) {
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Divider/>
+          <Divider />
           <CommentCard />
           <CommentCard />
         </Collapse>
 
         <CommentInput />
-
-        
       </CardActionArea>
     </Card>
   );
