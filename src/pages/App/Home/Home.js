@@ -21,6 +21,7 @@ import BannerCard from "../../../components/BannerCard";
 
 
 import AppApi from "../../../api/AppApi";
+import CreatePost from "../../../components/Input/CreatePost";
 
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)
@@ -59,6 +60,7 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
+          <CreatePost/>
           {
             postList.data.data.results.map((post) => (
               <React.Fragment>

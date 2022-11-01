@@ -72,24 +72,21 @@ export default function PostCard(props) {
             <FavoriteIcon />
           </IconButton>
 
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
+          <IconButton>
             <CommentIcon />
-          </ExpandMore>
+          </IconButton>
+            
+
 
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        
           <Divider />
           <CommentCard />
           <CommentCard />
-        </Collapse>
+        
 
         <CommentInput />
       </CardActionArea>

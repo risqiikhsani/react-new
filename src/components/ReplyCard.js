@@ -20,8 +20,8 @@ export default function ReplyCard(props) {
       spacing={2}
       sx={{mx:'10px',my:'20px'}}
     >
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-      <Paper sx={{p:'5px',borderRadius:'5px 20px 20px 20px'}}>
+      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"  sx={{ width: 24, height: 24 }}/>
+      <Paper sx={{pt:'5px',py:'5px',borderRadius:'5px 20px 20px 20px'}}>
         <Stack
           direction="row"
           justifyContent="space-between"
