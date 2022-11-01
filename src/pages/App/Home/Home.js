@@ -19,12 +19,44 @@ import PostCard from "../../../components/PostCard";
 import { Container } from "@mui/system";
 import BannerCard from "../../../components/BannerCard";
 
+
+import AppApi from "../../../api/AppApi";
+
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)
   // const user_id = useSelector((state) => state.user.id)
   // const user_name = useSelector((state) => state.user.name)
 
   // const dispatch = useDispatch()
+
+  const { isLoading, error, data } = useQuery(['post-list'], () => {
+    return AppApi.fetchPostList(),
+    {
+      onError:() => {
+        console.log("error")
+      },
+      onSuccess: (data, variables, context) => {
+        console.log("onSuccess running")
+      },
+    }
+
+  })
+
+  if(isLoading) return (
+    <React.Fragment>
+      <Container maxWidth="sm">
+          <p>Loading....</p>
+      </Container>
+    </React.Fragment>
+  )
+
+  if(error) return (
+    <React.Fragment>
+      <Container maxWidth="sm">
+          <p>Something went wrong!</p>
+      </Container>
+    </React.Fragment>
+  )
 
   return (
     <React.Fragment>
@@ -35,10 +67,14 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
+          {
+            data.data.results.map((post) => (
+              <React.Fragment>
+                <PostCard/>
+              </React.Fragment>
+            ))
+          }
+
         </Stack>
       </Container>
     </React.Fragment>
