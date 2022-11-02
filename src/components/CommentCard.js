@@ -42,11 +42,11 @@ export default function CommentCard(props) {
       justifyContent="flex-start"
       alignItems="flex-start"
       spacing={2}
-      sx={{ mx: '10px', my: '20px' }}
+      sx={{ mx: '10px', my: '10px' }}
     >
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 24, height: 24 }} />
       <Box>
-        <Paper elevation={0} sx={{ pt: '5px', px: '5px', borderRadius: '5px 20px 20px 20px' }}>
+        <Box sx={{ px: '5px', borderRadius: '5px 20px 20px 20px' }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -87,7 +87,7 @@ export default function CommentCard(props) {
 
           </Stack>
 
-        </Paper>
+        </Box>
         {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
             <ReplyCard/>
             <ReplyCard/>

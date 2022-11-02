@@ -16,7 +16,8 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CommentIcon from "@mui/icons-material/Comment";
-
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import CommentCard from "./CommentCard";
 import CommentInput from "./Input/CommentInput";
 
@@ -38,7 +39,7 @@ export default function PostCard(props) {
   };
 
   return (
-    <Card sx={{ borderRadius: "10px" }}>
+    <Card sx={{ borderRadius: "10px" ,width:'100%'}}>
       <CardActionArea>
         <CardHeader
           avatar={
@@ -80,6 +81,11 @@ export default function PostCard(props) {
 
           <IconButton aria-label="share">
             <ShareIcon />
+          </IconButton>
+
+          <Box sx={{flexGrow:1}}/>
+          <IconButton>
+            <BookmarkAddIcon/>
           </IconButton>
         </CardActions>
         

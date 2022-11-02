@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -23,7 +23,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PostCard from "../../../components/PostCard";
 import { Container } from "@mui/system";
+import Alert from '@mui/material/Alert';
+import {Snackbar} from "@mui/material";
+
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import BannerCard from "../../../components/BannerCard";
+import AddIcon from '@mui/icons-material/Add';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -47,11 +53,58 @@ export default function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [value, setValue] = React.useState("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+
+  const [openSnackbar,setOpenSnackbar] = React.useState(false)
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+
 
   const postList = useQuery({
     queryKey: ['post-list'],
     queryFn: () => { return AppApi.fetchPostList() },
   })
+
+  const createPost = useMutation({
+    mutationFn: (data) => {
+      return AppApi.createPost(data)
+    },
+    onError: (error, variables, context) => {
+      console.log("something went wrong")
+      console.log(error.message)
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("success create post")
+      // open snackbar success
+      setOpenSnackbar(true)
+      // close dialog
+      handleClose()
+      // refetch post list
+      postList.refetch()  
+    },
+  })
+
+  const onSubmitCreatePost = (event) => {
+    event.preventDefault()
+    try {
+      createPost.mutate({
+        text: value,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   if (postList.isLoading) return (
     <React.Fragment>
@@ -69,24 +122,48 @@ export default function Home() {
     </React.Fragment>
   )
 
+  // React.useEffect(() => {
+
+  // },[])
+
   return (
     <React.Fragment>
       <Container maxWidth="sm">
 
+        
+      <Snackbar
+      anchorOrigin={{vertical:'bottom',horizontal:'center'}} 
+      onClose={handleCloseSnackbar}
+      open={openSnackbar} 
+      autoHideDuration={5000}
+      >
+        <Alert variant="filled" severity="success" sx={{ width: '100%' }}>
+          This is a success message!
+        </Alert>
+      </Snackbar>
+
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Create Post</DialogTitle>
           <DialogContent sx={{ minWidth: '500px' }}>
+            {
+              createPost.isError && (
+                <Alert variant="filled" severity="error">
+                  Something went wrong !
+                </Alert>
+              )
+            }
             <DialogContentText>
               Create post about your feelings ....
             </DialogContentText>
             <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
+              id="outlined-multiline-static"
+              placeholder="What's on your mind?"
+              multiline
               fullWidth
-              variant="standard"
+              rows={4}
+              value={value}
+              onChange={handleChange}
+              sx={{ my: '10px' }}
             />
           </DialogContent>
           <DialogActions>
@@ -101,13 +178,20 @@ export default function Home() {
             </IconButton>
             <Box sx={{ flexGrow: 1 }} />
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Post</Button>
+            <LoadingButton
+              loading={createPost.isLoading}
+              loadingPosition="end"
+              onClick={onSubmitCreatePost}
+            >
+              Post
+            </LoadingButton>
+            {/* <Button onClick={onSubmitCreatePost, handleClose}>Post</Button> */}
           </DialogActions>
         </Dialog>
         <SpeedDial
           ariaLabel="Create Post"
           sx={{ position: 'fixed', bottom: 16, right: 16 }}
-          icon={<SpeedDialIcon />}
+          icon={<AddIcon />}
           onClick={handleOpen}
         />
         <Stack
@@ -116,8 +200,8 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-
           {
+
             postList.data.data.results.map((post) => (
               <React.Fragment>
                 <PostCard

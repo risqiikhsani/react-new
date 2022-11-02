@@ -1,4 +1,5 @@
 import axios from "axios";
+import localStorageApi from "./localStorageApi";
 
 import localStorageAPI from "./localStorageApi";
 
@@ -17,6 +18,11 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     console.log("before request sent")
+    const token = localStorageApi.getAccessToken();
+    console.log(token)
+    if(token){
+      config.headers["Authorization"] = `Bearer ${token}`
+    }
     // const token = localStorageAPI.getAccessToken();
     // if (token) {
     //   config.headers["Authorization"] = "Bearer " + token;
