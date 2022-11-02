@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { CardActionArea, Box, Divider } from "@mui/material";
+import { CardActionArea, Box, Divider, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -11,15 +11,19 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CommentIcon from "@mui/icons-material/Comment";
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import CommentCard from "./CommentCard";
 import CommentInput from "./Input/CommentInput";
+
+import PostMoreMenuButton from "../pages/App/Post/Buttons/PostMoreMenuButton";
+import PostShareMenuButton from "../pages/App/Post/Buttons/PostShareMenuButton";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,7 +43,7 @@ export default function PostCard(props) {
   };
 
   return (
-    <Card sx={{ borderRadius: "10px" ,width:'100%'}}>
+    <Card sx={{ borderRadius: "10px", width: "100%" }}>
       <CardActionArea>
         <CardHeader
           avatar={
@@ -48,9 +52,10 @@ export default function PostCard(props) {
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
+            // <IconButton aria-label="settings">
+            //   <MoreVertIcon />
+            // </IconButton>
+            <PostMoreMenuButton />
           }
           title={props.user_name}
           subheader={props.time_creation}
@@ -69,30 +74,50 @@ export default function PostCard(props) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="like">
-            <FavoriteIcon />
-          </IconButton>
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={0}
+          >
+            <IconButton aria-label="like">
+              <FavoriteIcon />
+            </IconButton>
+            <Typography>100</Typography>
+          </Stack>
 
-          <IconButton>
-            <CommentIcon />
-          </IconButton>
-            
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={0}
+          >
+            <IconButton>
+              <CommentIcon />
+            </IconButton>
+            <Typography>23</Typography>
+          </Stack>
 
-
-          <IconButton aria-label="share">
+          {/* <IconButton aria-label="share">
             <ShareIcon />
-          </IconButton>
+          </IconButton> */}
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={0}
+          >
+            <PostShareMenuButton />
+            <Typography>10</Typography>
+          </Stack>
 
-          <Box sx={{flexGrow:1}}/>
+          <Box sx={{ flexGrow: 1 }} />
           <IconButton>
-            <BookmarkAddIcon/>
+            <BookmarkAddIcon />
           </IconButton>
         </CardActions>
-        
-          <Divider />
-          <CommentCard />
-          <CommentCard />
-        
+
+        <Divider />
 
         <CommentInput />
       </CardActionArea>
