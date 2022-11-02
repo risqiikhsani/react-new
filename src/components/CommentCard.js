@@ -46,7 +46,7 @@ export default function CommentCard(props) {
     >
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 24, height: 24 }} />
       <Box>
-        <Paper sx={{ pt: '5px', px: '5px', borderRadius: '5px 20px 20px 20px' }}>
+        <Paper elevation={0} sx={{ pt: '5px', px: '5px', borderRadius: '5px 20px 20px 20px' }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -81,8 +81,8 @@ export default function CommentCard(props) {
             <ReplyIcon />
           </ExpandMore> */}
 
-            <IconButton>
-              <ReplyIcon />
+            <IconButton aria-label="like" size="small">
+              <ReplyIcon fontSize="small"/>
             </IconButton>
 
           </Stack>
