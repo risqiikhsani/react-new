@@ -11,6 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
+import Link from '@mui/material/Link';
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -67,13 +68,13 @@ export default function PostCard(props) {
             alt="Paella dish"
           />
         )}
-
+        <Divider/>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {props.text}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions disableSpacing sx={{ alignItems: "flex-start" }}>
           <Stack
             direction="column"
             justifyContent="center"
@@ -83,20 +84,12 @@ export default function PostCard(props) {
             <IconButton aria-label="like">
               <FavoriteIcon />
             </IconButton>
-            <Typography>100</Typography>
+            <Typography fontSize={10}>100</Typography>
           </Stack>
 
-          <Stack
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            spacing={0}
-          >
-            <IconButton>
-              <CommentIcon />
-            </IconButton>
-            <Typography>23</Typography>
-          </Stack>
+          <IconButton>
+            <CommentIcon />
+          </IconButton>
 
           {/* <IconButton aria-label="share">
             <ShareIcon />
@@ -107,16 +100,26 @@ export default function PostCard(props) {
             alignItems="center"
             spacing={0}
           >
-            <PostShareMenuButton />
-            <Typography>10</Typography>
+          <PostShareMenuButton />
+          <Typography fontSize={10}>23</Typography>
           </Stack>
+
 
           <Box sx={{ flexGrow: 1 }} />
           <IconButton>
             <BookmarkAddIcon />
           </IconButton>
         </CardActions>
-
+        <Stack
+          direction="row"
+          justifyContent="space-around"
+          alignItems="center"
+          spacing={2}
+        >
+                <Link variant="body2" underline="hover">
+        {"view 100 comments"}
+      </Link>
+        </Stack>
         <Divider />
 
         <CommentInput />
