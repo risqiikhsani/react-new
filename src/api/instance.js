@@ -16,18 +16,18 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    console.log("before request sent")
+    console.log("before request sent");
     const token = localStorageApi.getAccessToken();
-    console.log(token)
+    console.log(token);
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     // config.headers["x-access-token"] = token; // for Node.js Express back-end
     return config;
   },
   function (error) {
     // Do something with request error
-    console.log("request error")
+    console.log("request error");
     return Promise.reject(error);
   }
 );
@@ -40,7 +40,7 @@ instance.interceptors.response.use(
     return response;
   },
   async (err) => {
-    console.log("interceptor response error is running")
+    console.log("interceptor response error is running");
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 
@@ -48,24 +48,28 @@ instance.interceptors.response.use(
     const originalConfig = err.config;
     if (originalConfig.url !== "/login/" && err.response) {
       if (err.response.status === 401 && !originalConfig._retry) {
-        console.log("interceptor update access_token by refresh_token is running")
+        console.log(
+          "interceptor update access_token by refresh_token is running"
+        );
         originalConfig._retry = true;
-        const refresh = localStorageApi.getRefreshToken()
-        const result = await AuthApi.refreshAccessToken(refresh)
-        if(result?.data.access){
-          //update access token in localstorage
-          localStorageApi.updateAccessToken(result?.access)
-          //update config headers
-          config.headers["Authorization"] = `Bearer ${result?.access}`
-          
-        }
-        else{
+        const refresh = localStorageApi.getRefreshToken();
+        try {
+          const result = await AuthApi.refreshAccessToken(refresh);
+          if (result?.data.access) {
+            //update access token in localstorage
+            localStorageApi.updateAccessToken(result?.data.access);
+            //update config headers
+            config.headers["Authorization"] = `Bearer ${result?.data.access}`;
+            return instance(originalConfig);
+          }
+          console.log("something went wrong")
+        } catch (_error) {
           //remove user in localstorage
-          localStorageApi.removeUser()
+          localStorageApi.removeUser();
           //remove redux state user to re login
+          
+          return Promise.reject(_error);
         }
-        
-        return instance(originalConfig)
       }
     }
     return Promise.reject(err);
