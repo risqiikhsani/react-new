@@ -1,7 +1,6 @@
 import axios from "axios";
 import localStorageApi from "./localStorageApi";
-
-import localStorageAPI from "./localStorageApi";
+import AuthApi from "./AuthApi";
 
 const BASE_URL = "http://127.0.0.1:8000/api/";
 
@@ -20,14 +19,10 @@ instance.interceptors.request.use(
     console.log("before request sent")
     const token = localStorageApi.getAccessToken();
     console.log(token)
-    if(token){
+    if (token) {
       config.headers["Authorization"] = `Bearer ${token}`
     }
-    // const token = localStorageAPI.getAccessToken();
-    // if (token) {
-    //   config.headers["Authorization"] = "Bearer " + token;
-    //   // config.headers["x-access-token"] = token; // for Node.js Express back-end
-    // }
+    // config.headers["x-access-token"] = token; // for Node.js Express back-end
     return config;
   },
   function (error) {
@@ -45,26 +40,34 @@ instance.interceptors.response.use(
     return response;
   },
   async (err) => {
+    console.log("interceptor response error is running")
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 
     // Access token was expired
-    // const originalConfig = err.config;
-    // if (originalConfig.url !== "/login/" && err.response) {
-    //   if (err.response.status === 401 && !originalConfig._retry) {
-    //     originalConfig._retry = true;
-    //     try {
-    //       const rs = await instance.post("/token-refresh/", {
-    //         refresh_token: localStorageAPI.getRefreshToken(),
-    //       });
-    //       const { access_token } = rs.data;
-    //       localStorageAPI.updateAccessToken(access_token);
-    //       return instance(originalConfig);
-    //     } catch (_error) {
-    //       return Promise.reject(_error);
-    //     }
-    //   }
-    // }
+    const originalConfig = err.config;
+    if (originalConfig.url !== "/login/" && err.response) {
+      if (err.response.status === 401 && !originalConfig._retry) {
+        console.log("interceptor update access_token by refresh_token is running")
+        originalConfig._retry = true;
+        const refresh = localStorageApi.getRefreshToken()
+        const result = await AuthApi.refreshAccessToken(refresh)
+        if(result?.data.access){
+          //update access token in localstorage
+          localStorageApi.updateAccessToken(result?.access)
+          //update config headers
+          config.headers["Authorization"] = `Bearer ${result?.access}`
+          
+        }
+        else{
+          //remove user in localstorage
+          localStorageApi.removeUser()
+          //remove redux state user to re login
+        }
+        
+        return instance(originalConfig)
+      }
+    }
     return Promise.reject(err);
   }
 );

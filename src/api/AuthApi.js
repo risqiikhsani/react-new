@@ -1,5 +1,6 @@
 
 import instance from "./instance";
+import localStorageApi from "./localStorageApi";
 
 class AuthApi {
   login(data) {
@@ -15,6 +16,14 @@ class AuthApi {
     console.log("signup api is running ... ")
     return instance.post("/signup/", JSON.stringify(data));
   }
+
+  refreshAccessToken(data){
+    caches.log("refresh acess token api is running")
+    
+    return instance.post("/token-refresh/",JSON.stringify(data))
+
+  }
+
 }
 
 export default new AuthApi();
