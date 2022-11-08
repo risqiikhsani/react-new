@@ -17,10 +17,10 @@ class AuthApi {
     return instance.post("/signup/", JSON.stringify(data));
   }
 
-  refreshAccessToken(data){
+  refreshAccessToken(){
     caches.log("refresh acess token api is running")
-    
-    return instance.post("/token-refresh/",JSON.stringify(data))
+    const refresh = localStorageApi.getRefreshToken();
+    return instance.post("/token-refresh/",JSON.stringify(refresh))
 
   }
 

@@ -1,6 +1,8 @@
 import axios from "axios";
 import localStorageApi from "./localStorageApi";
 import AuthApi from "./AuthApi";
+import { clearUser } from "../redux/slices/userSlice";
+
 
 const BASE_URL = "http://127.0.0.1:8000/api/";
 
@@ -11,6 +13,12 @@ const instance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+let store
+
+export const injectStore = _store => {
+  store = _store
+}
 
 // request interceptors
 instance.interceptors.request.use(
@@ -52,22 +60,27 @@ instance.interceptors.response.use(
           "interceptor update access_token by refresh_token is running"
         );
         originalConfig._retry = true;
-        const refresh = localStorageApi.getRefreshToken();
+
         try {
-          const result = await AuthApi.refreshAccessToken(refresh);
+          const result = await AuthApi.refreshAccessToken();
+          // const result = await 
           if (result?.data.access) {
             //update access token in localstorage
             localStorageApi.updateAccessToken(result?.data.access);
             //update config headers
-            config.headers["Authorization"] = `Bearer ${result?.data.access}`;
+            instance.defaults.headers["Authorization"] = `Bearer ${result?.data.access}`;
             return instance(originalConfig);
           }
           console.log("something went wrong")
         } catch (_error) {
-          //remove user in localstorage
-          localStorageApi.removeUser();
-          //remove redux state user to re login
-          
+          if (_error.response && _error.response.data) {
+            //remove user in localstorage
+            localStorageApi.removeUser();
+            //remove redux state user to re login
+            store.dispatch(clearUser())
+            return Promise.reject(_error.response.data);
+          }
+
           return Promise.reject(_error);
         }
       }

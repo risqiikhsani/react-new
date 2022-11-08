@@ -15,7 +15,10 @@ import {
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { router } from "./routes/routes";
+import { injectStore } from "./api/instance";
 
+//https://redux.js.org/faq/code-structure#how-can-i-use-the-redux-store-in-non-component-files
+injectStore(store)
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 const queryClient = new QueryClient({
   defaultOptions: {
