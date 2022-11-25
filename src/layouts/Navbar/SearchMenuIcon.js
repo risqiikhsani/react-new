@@ -35,7 +35,9 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
-
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import Paper from '@mui/material/Paper';
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import GrassIcon from "@mui/icons-material/Grass";
@@ -49,26 +51,80 @@ import PersonIcon from "@mui/icons-material/Person";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 
+
+
+import DirectionsIcon from '@mui/icons-material/Directions';
+
+
+
+function SimpleDialog(props) {
+  const { handleClose, open } = props;
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Search</DialogTitle>
+      <Paper
+        component="form"
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+      >
+        <IconButton sx={{ p: '10px' }} aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search Anything you need"
+          inputProps={{ 'aria-label': 'search google maps' }}
+        />
+        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
+      </Paper>
+    </Dialog>
+  );
+}
+
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};
+
+
+
+
 export default function SearchMenuIcon(props) {
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
       <Tooltip title="Search">
-      <IconButton
-        size="large"
-        aria-label="search"
-        color="inherit"
-        onClick={null}
-      >
-        <Badge badgeContent={0} color="error">
+        <IconButton
+          size="large"
+          aria-label="search"
+          color="inherit"
+          onClick={handleClickOpen}
+        >
+          <Badge badgeContent={0} color="error">
             <SearchIcon />
-        </Badge>
-      </IconButton>
+          </Badge>
+        </IconButton>
       </Tooltip>
 
+      <SimpleDialog
+        handleClose={handleClose}
+        open={open}
+      />
 
-      
     </React.Fragment>
   );
 }
