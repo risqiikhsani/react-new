@@ -11,6 +11,8 @@ import Timeline from "./Timeline";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MutualConnections from "./MutualConnections";
+import MutualGroups from "./MutualGroups";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -116,10 +118,10 @@ export default function Profile() {
           <Timeline />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <MutualConnections/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          <MutualGroups/>
         </TabPanel>
       </Box>
       </Container>

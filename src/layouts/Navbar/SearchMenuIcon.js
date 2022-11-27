@@ -16,7 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Tooltip } from "@mui/material";
+import { Avatar, Tooltip } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -81,6 +81,24 @@ function SimpleDialog(props) {
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
       </Paper>
+      <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <Avatar/>
+              </ListItemIcon>
+              <ListItemText primary="Inbox" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+              <Avatar/>
+              </ListItemIcon>
+              <ListItemText primary="Drafts" />
+            </ListItemButton>
+          </ListItem>
+        </List>
     </Dialog>
   );
 }
