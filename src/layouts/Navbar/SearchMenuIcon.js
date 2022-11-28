@@ -71,7 +71,7 @@ function SimpleDialog(props) {
           <MenuIcon />
         </IconButton>
         <InputBase
-          sx={{ ml: 1, flex: 1 }}
+          sx={{ ml: 2, flex: 1 }}
           placeholder="Search Anything you need"
           inputProps={{ 'aria-label': 'search google maps' }}
         />
