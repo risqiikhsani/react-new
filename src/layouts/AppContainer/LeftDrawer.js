@@ -35,58 +35,58 @@ const fontDrawerColor = '#9A9FA7';
 const iconDrawerColor = '#F9FAFC';
 
 const routeDrawer = [
-    {
-      name: "Home",
-      route: "/",
-      icon: <HomeIcon sx={{color:iconDrawerColor}}/>,
-  
-    },
-    {
-      name: "Chats",
-      route: "/chats",
-      icon: <ChatIcon sx={{color:iconDrawerColor}}/>,
-    },
-    {
-      name: "Groups",
-      route: "/groups",
-      icon: <WorkspacesIcon sx={{color:iconDrawerColor}}/>,
-    },
-    {
-      name: "Friends",
-      route: "/contact",
-      icon: <PeopleIcon sx={{color:iconDrawerColor}}/>,
-    },
+  {
+    name: "Home",
+    route: "/",
+    icon: <HomeIcon sx={{ color: iconDrawerColor }} />,
 
-  ];
+  },
+  {
+    name: "Chats",
+    route: "/chats",
+    icon: <ChatIcon sx={{ color: iconDrawerColor }} />,
+  },
+  {
+    name: "Groups",
+    route: "/groups",
+    icon: <WorkspacesIcon sx={{ color: iconDrawerColor }} />,
+  },
+  {
+    name: "Friends",
+    route: "/contact",
+    icon: <PeopleIcon sx={{ color: iconDrawerColor }} />,
+  },
+
+];
 
 
 export default function LeftDrawer(props) {
-    return (
-        <React.Fragment>
-        <Toolbar />
-        <Divider />
-        <List sx={{color:fontDrawerColor}}>
-            {routeDrawer.map((item) => (
-            <ListItem key={item} disablePadding>
-                <ListItemButton component={Link} to={item.route} >
-                <ListItemIcon >{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
-                </ListItemButton>
-            </ListItem>
-            ))}
-        </List>
-        <Divider sx={{bgcolor:'#ECECEC'}} variant="middle"/>
-        <Box sx={{p:2, }}>
-        <Typography variant="body1" gutterBottom align="center" sx={{color:fontDrawerColor}}>
-        Need help ? 
-      </Typography>
-      <Typography variant="body2" gutterBottom align="center" sx={{color:fontDrawerColor}}>
-        Visit our CS
-      </Typography>
-      <Button variant="outlined" sx={{width:'100%'}}>CS VISIT</Button>
-        </Box>
+  return (
+    <React.Fragment>
+      <Toolbar />
+      <Divider />
+      <List sx={{ color: fontDrawerColor }}>
+        {routeDrawer.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton component={Link} to={item.route} >
+              <ListItemIcon >{item.icon}</ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider sx={{ bgcolor: '#ECECEC' }} variant="middle" />
+      <Box sx={{ p: 2, }}>
+        <Typography variant="body1" gutterBottom align="center" sx={{ color: fontDrawerColor }}>
+          Need help ?
+        </Typography>
+        <Typography variant="body2" gutterBottom align="center" sx={{ color: fontDrawerColor }}>
+          Visit our CS
+        </Typography>
+        <Button variant="outlined" sx={{ width: '100%' }}>CS VISIT</Button>
+      </Box>
 
-        </React.Fragment>
+    </React.Fragment>
 
-    );
+  );
 }
