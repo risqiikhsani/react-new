@@ -114,6 +114,7 @@ export default function Home() {
     return (
       <React.Fragment>
         <Container maxWidth="sm">
+          {console.log(postList.error)}
           <p>Something went wrong!</p>
         </Container>
       </React.Fragment>
@@ -194,6 +195,11 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
+          {
+            postList.data.data.results.length==0&&(
+              <Typography>no posts found .</Typography>
+            )
+          }
           {postList.data.data.results.map((post) => (
             <React.Fragment>
               <PostCard

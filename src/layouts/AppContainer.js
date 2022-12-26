@@ -60,7 +60,7 @@ import OnlineContactIcon from "./Navbar/OnlineContactIcon";
 const drawerWidth = 240;
 const drawerColor = "#111827";
 const BarColor = "#eaf4f4";
-const backgroundColorTheme = 'linear-gradient(to right, #fc5c7d, #6a82fb)';
+const backgroundColorTheme = 'linear-gradient(to right, #fc5c7d, #6a82fb)'; //https://uigradients.com/
 
 function AppContainer(props) {
   const { window } = props;
