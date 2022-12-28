@@ -127,6 +127,7 @@ export default function Home() {
   return (
     <React.Fragment>
       <Container maxWidth="sm">
+
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           onClose={handleCloseSnackbar}
@@ -195,11 +196,7 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-          {
-            postList.data.data.results.length==0&&(
-              <Typography>no posts found .</Typography>
-            )
-          }
+          {postList.data.data.results.length==0&&(<Typography>no posts found .</Typography>)}
           {postList.data.data.results.map((post) => (
             <React.Fragment>
               <PostCard
