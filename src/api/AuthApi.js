@@ -19,8 +19,7 @@ class AuthApi {
 
   refreshAccessToken(){
     caches.log("refresh acess token api is running")
-    const refresh = localStorageApi.getRefreshToken();
-    return instance.post("/token-refresh/",JSON.stringify(refresh))
+    return instance.post("/token-refresh/",JSON.stringify(localStorageApi.getRefreshToken()))
 
   }
 

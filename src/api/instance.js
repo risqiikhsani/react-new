@@ -40,53 +40,112 @@ instance.interceptors.request.use(
   }
 );
 
-// response interceptors
 instance.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response;
+  (res) => {
+    return res;
   },
   async (err) => {
-    console.log("interceptor response error is running");
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-
-    // Access token was expired
     const originalConfig = err.config;
-    if (originalConfig.url !== "/login/" && err.response) {
+
+    if (err.response) {
+      // Access Token was expired
       if (err.response.status === 401 && !originalConfig._retry) {
-        console.log(
-          "interceptor update access_token by refresh_token is running"
-        );
         originalConfig._retry = true;
 
         try {
-          const result = await AuthApi.refreshAccessToken();
-          // const result = await 
-          if (result?.data.access) {
-            //update access token in localstorage
-            localStorageApi.updateAccessToken(result?.data.access);
-            //update config headers
-            instance.defaults.headers["Authorization"] = `Bearer ${result?.data.access}`;
-            return instance(originalConfig);
-          }
-          console.log("something went wrong")
+          const rs = await AuthApi.refreshAccessToken();
+          console.log("stage 1 running")
+          const { access } = rs.data;
+          localStorageApi.updateAccessToken(access);
+          instance.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+          return instance(originalConfig);
         } catch (_error) {
+          console.log("stage 2 running")
+          localStorageApi.removeUser();
+          store.dispatch(clearUser())
           if (_error.response && _error.response.data) {
-            //remove user in localstorage
-            localStorageApi.removeUser();
-            //remove redux state user to re login
-            store.dispatch(clearUser())
             return Promise.reject(_error.response.data);
           }
 
           return Promise.reject(_error);
         }
       }
+
+      if (err.response.status === 403 && err.response.data) {
+        return Promise.reject(err.response.data);
+      }
     }
+
     return Promise.reject(err);
   }
 );
+
+// // response interceptors
+// instance.interceptors.response.use(
+//   function (response) {
+//     // Any status code that lie within the range of 2xx cause this function to trigger
+//     // Do something with response data
+//     return response;
+//   },
+//   async (err) => {
+//     console.log("interceptor response error is running");
+//     // Any status codes that falls outside the range of 2xx cause this function to trigger
+//     // Do something with response error
+
+//     // Access token was expired
+//     const originalConfig = err.config;
+//     if (err.response) {
+
+
+//       if (err.response.status === 401 && !originalConfig._retry) {
+//         console.log("interceptor update access_token by refresh_token is running");
+//         originalConfig._retry = true;
+//         const result = await AuthApi.refreshAccessToken();
+//         console.log("stage 1 running")
+//         if(result.data.access==null){
+//           console.log("stage 2 running")
+//           localStorageApi.removeUser();
+//           store.dispatch(clearUser())
+//         }
+//         console.log("stage 3 running")
+//         localStorageApi.updateAccessToken(result?.data.access);
+//         instance.defaults.headers["Authorization"] = `Bearer ${result?.data.access}`;
+//         return instance(originalConfig);
+//         // try {
+//         //   const result = await AuthApi.refreshAccessToken(refresh);
+//         //   console.log("stage 1 running")
+//         //   // const result = await 
+//         //   if (result?.data.access) {
+//         //     console.log("stage 2 runniing")
+//         //     //update access token in localstorage
+//         //     localStorageApi.updateAccessToken(result?.data.access);
+//         //     //update config headers
+//         //     instance.defaults.headers["Authorization"] = `Bearer ${result?.data.access}`;
+//         //     return instance(originalConfig);
+//         //   }
+//         //   console.log("something went wrong")
+//         // } catch (_error) {
+//         //   console.log("stage 3 running")
+//         //   console.log(_error)
+//         //   if (_error.response && _error.response.data) {
+//         //     console.log("stage 4 running")
+//         //     //remove user in localstorage
+//         //     localStorageApi.removeUser();
+//         //     //remove redux state user to re login
+//         //     store.dispatch(clearUser())
+//         //     return Promise.reject(_error.response.data);
+//         //   }
+
+//           // return Promise.reject(_error);
+      
+//       }
+
+        
+//     }
+    
+//     return Promise.reject(err);
+//   }
+// );
 
 export default instance;
