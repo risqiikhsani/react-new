@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { useInfiniteQuery,useQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery, useMutation } from "@tanstack/react-query";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -36,7 +36,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
-
+import CircularProgress from '@mui/material/CircularProgress';
 import AppApi from "../../../api/AppApi";
 import CreatePost from "../../../components/Input/CreatePost";
 
@@ -49,7 +49,7 @@ export default function Home() {
 
   // const dispatch = useDispatch()
 
-  const {ref,inView} = useInView()
+  const { ref, inView } = useInView()
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -81,10 +81,10 @@ export default function Home() {
   )
 
   React.useEffect(() => {
-    if(inView){
+    if (inView) {
       postInfiniteList.fetchNextPage()
     }
-  },[inView])
+  }, [inView])
 
   // const postList = useQuery({
   //   queryKey: ["post-list"],
@@ -218,20 +218,36 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-          {postList.data.data.results.length==0&&(<Typography>no posts found .</Typography>)}
-          {postList.data.data.results.map((post) => (
-            <React.Fragment>
-              <PostCard
-                key={post.id}
-                user_name={post.user.profile.name}
-                user_id={post.user.id}
-                user_public_username={post.user.profile.public_username}
-                user_profile_picture={post.user.profile.profile_picture}
-                text={post.text}
-                time_creation={post.time_creation}
-              />
-            </React.Fragment>
-          ))}
+          {
+            postInfiniteList.data.pages.map((a) => (
+              <>
+                {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)}
+                {a.data.data.results.map((post) => (
+                  <>
+                    <React.Fragment>
+                      <PostCard
+                        key={post.id}
+                        user_name={post.user.profile.name}
+                        user_id={post.user.id}
+                        user_public_username={post.user.profile.public_username}
+                        user_profile_picture={post.user.profile.profile_picture}
+                        text={post.text}
+                        time_creation={post.time_creation}
+                      />
+                    </React.Fragment>
+                  </>
+                ))}
+              </>
+            ))
+          }
+          <Box ref={ref}>
+            {postInfiniteList.isFetchingNextPage&&(<CircularProgress/>)}
+            {postInfiniteList.isFetchingNextPage
+              ? 'Loading more...'
+              : postInfiniteList.hasNextPage
+                ? 'Load Newer'
+                : 'Nothing more to load'}
+          </Box>
         </Stack>
       </Container>
     </React.Fragment>
