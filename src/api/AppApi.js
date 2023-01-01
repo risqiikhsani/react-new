@@ -1,12 +1,12 @@
 import instance from "./instance";
 
 class AppApi {
-  fetchPostList() {
-    return instance.get("/app/posts/");
+  fetchPostList(last_string) {
+    return instance.get(`/app/posts${last_string}`);
   }
 
   createPost(data) {
-    return instance.post("/app/posts/", JSON.stringify(data));
+    return instance.post("/app/posts", JSON.stringify(data));
   }
 }
 

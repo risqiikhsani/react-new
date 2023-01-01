@@ -5,7 +5,7 @@ import localStorageApi from "./localStorageApi";
 class AuthApi {
   login(data) {
     console.log("login api is running ... ")
-    return instance.post("/login/", JSON.stringify(data));
+    return instance.post("/login", JSON.stringify(data));
   }
 
   // logout() {
@@ -14,12 +14,12 @@ class AuthApi {
 
   signup(data) {
     console.log("signup api is running ... ")
-    return instance.post("/signup/", JSON.stringify(data));
+    return instance.post("/signup", JSON.stringify(data));
   }
 
   refreshAccessToken(){
     caches.log("refresh acess token api is running")
-    return instance.post("/token-refresh/",JSON.stringify(localStorageApi.getRefreshToken()))
+    return instance.post("/token-refresh",JSON.stringify(localStorageApi.getRefreshToken()))
 
   }
 
