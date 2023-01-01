@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery,useQuery, useMutation } from "@tanstack/react-query";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -40,12 +40,16 @@ import ImageIcon from "@mui/icons-material/Image";
 import AppApi from "../../../api/AppApi";
 import CreatePost from "../../../components/Input/CreatePost";
 
+import { useInView } from 'react-intersection-observer'
+
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)
   // const user_id = useSelector((state) => state.user.id)
   // const user_name = useSelector((state) => state.user.name)
 
   // const dispatch = useDispatch()
+
+  const {ref,inView} = useInView()
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -64,12 +68,30 @@ export default function Home() {
     setOpenSnackbar(false);
   };
 
-  const postList = useQuery({
-    queryKey: ["post-list"],
-    queryFn: () => {
-      return AppApi.fetchPostList();
+  const postInfiniteList = useInfiniteQuery(
+    ['posts'],
+    async ({ pageParam = 0 }) => {
+      const res = await AppApi.fetchPostList(`?page=${pageParam}`)
+      return res.data
     },
-  });
+    {
+      getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
+      getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
+    },
+  )
+
+  React.useEffect(() => {
+    if(inView){
+      postInfiniteList.fetchNextPage()
+    }
+  },[inView])
+
+  // const postList = useQuery({
+  //   queryKey: ["post-list"],
+  //   queryFn: () => {
+  //     return AppApi.fetchPostList();
+  //   },
+  // });
 
   const createPost = useMutation({
     mutationFn: (data) => {
@@ -86,7 +108,7 @@ export default function Home() {
       // close dialog
       handleClose();
       // refetch post list
-      postList.refetch();
+      postInfiniteList.refetch();
     },
   });
 
@@ -101,7 +123,7 @@ export default function Home() {
     }
   };
 
-  if (postList.isLoading)
+  if (postInfiniteList.isLoading)
     return (
       <React.Fragment>
         <Container maxWidth="sm">
@@ -110,7 +132,7 @@ export default function Home() {
       </React.Fragment>
     );
 
-  if (postList.error)
+  if (postInfiniteList.error)
     return (
       <React.Fragment>
         <Container maxWidth="sm">
