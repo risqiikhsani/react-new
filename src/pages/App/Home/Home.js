@@ -70,13 +70,13 @@ export default function Home() {
 
   const postInfiniteList = useInfiniteQuery(
     ['posts'],
-    async ({ pageParam = 0 }) => {
+    async ({ pageParam = 1 }) => {
       const res = await AppApi.fetchPostList(`?page=${pageParam}`)
       return res.data
     },
     {
-      getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
-      getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
+      getPreviousPageParam: (firstPage) => firstPage.previous ?? undefined,
+      getNextPageParam: (lastPage) => lastPage.next ?? undefined,
     },
   )
 
@@ -136,7 +136,7 @@ export default function Home() {
     return (
       <React.Fragment>
         <Container maxWidth="sm">
-          {console.log(postList.error)}
+          {console.log(postInfiniteList.error)}
           <p>Something went wrong!</p>
         </Container>
       </React.Fragment>
@@ -218,11 +218,12 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
+          {console.log(postInfiniteList)}
           {
             postInfiniteList.data.pages.map((a) => (
               <>
-                {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)}
-                {a.data.data.results.map((post) => (
+                {/* {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)} */}
+                {a.results.map((post) => (
                   <>
                     <React.Fragment>
                       <PostCard
