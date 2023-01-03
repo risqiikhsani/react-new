@@ -42,8 +42,11 @@ import HideSourceIcon from "@mui/icons-material/HideSource";
 import ReportIcon from "@mui/icons-material/Report";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function PostMoreMenuButton(props) {
+  const authenticated_user_id = useSelector((state) => state.user.id)
+  const { post_id, post_user_id } = props
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -80,36 +83,47 @@ export default function PostMoreMenuButton(props) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <NotificationsIcon />
-          </ListItemIcon>
-          <ListItemText>Turn on notification for this post</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <HideSourceIcon />
-          </ListItemIcon>
-          <ListItemText>Hide all post from this user</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <ReportIcon />
-          </ListItemIcon>
-          <ListItemText>Report this post</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <EditIcon />
-          </ListItemIcon>
-          <ListItemText>Edit</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <DeleteIcon />
-          </ListItemIcon>
-          <ListItemText>Delete</ListItemText>
-        </MenuItem>
+        {
+          post_user_id == authenticated_user_id ? (
+            <>
+
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <EditIcon />
+                </ListItemIcon>
+                <ListItemText>Edit</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <DeleteIcon />
+                </ListItemIcon>
+                <ListItemText>Delete</ListItemText>
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <NotificationsIcon />
+                </ListItemIcon>
+                <ListItemText>Turn on notification for this post</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <HideSourceIcon />
+                </ListItemIcon>
+                <ListItemText>Hide all post from this user</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <ReportIcon />
+                </ListItemIcon>
+                <ListItemText>Report this post</ListItemText>
+              </MenuItem>
+            </>
+          )
+        }
+
       </Menu>
     </React.Fragment>
   );

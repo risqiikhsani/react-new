@@ -8,8 +8,9 @@ import {
   decrementByAmount,
   increment,
   incrementByAmount,
-} from "../../../redux/slices/counterSlice";
-import { setUser, clearUser } from "../../../redux/slices/userSlice";
+} from "../../../hooks/slices/counterSlice";
+import { setUser, clearUser } from "../../../hooks/slices/userSlice";
+import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import { Box, IconButton, Modal, SpeedDial, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 
@@ -39,15 +40,15 @@ import ImageIcon from "@mui/icons-material/Image";
 import CircularProgress from '@mui/material/CircularProgress';
 import AppApi from "../../../api/AppApi";
 import CreatePost from "../../../components/Input/CreatePost";
-
 import { useInView } from 'react-intersection-observer'
+
 
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)
-  // const user_id = useSelector((state) => state.user.id)
-  // const user_name = useSelector((state) => state.user.name)
+  const authenticated_user_id = useSelector((state) => state.user.id)
+  const authenticated_user_name = useSelector((state) => state.user.name)
 
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const { ref, inView } = useInView()
 
@@ -60,13 +61,13 @@ export default function Home() {
     setValue(event.target.value);
   };
 
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
+  // const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  // const handleCloseSnackbar = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setOpenSnackbar(false);
+  // };
 
   const postInfiniteList = useInfiniteQuery(
     ['posts'],
@@ -100,15 +101,18 @@ export default function Home() {
     onError: (error, variables, context) => {
       console.log("something went wrong");
       console.log(error.message);
+      setValue("")
     },
     onSuccess: (data, variables, context) => {
       console.log("success create post");
       // open snackbar success
-      setOpenSnackbar(true);
+      // setOpenSnackbar(true);
+      dispatch(setSnackbar({type:"success",string:"Post created!"}))
       // close dialog
       handleClose();
       // refetch post list
       postInfiniteList.refetch();
+      setValue("")
     },
   });
 
@@ -148,9 +152,10 @@ export default function Home() {
 
   return (
     <React.Fragment>
+      {console.log("I'm running")}
       <Container maxWidth="sm">
 
-        <Snackbar
+        {/* <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           onClose={handleCloseSnackbar}
           open={openSnackbar}
@@ -159,7 +164,9 @@ export default function Home() {
           <Alert variant="filled" severity="success" sx={{ width: "100%" }}>
             This is a success message!
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
+
+
 
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Create Post</DialogTitle>
@@ -226,14 +233,10 @@ export default function Home() {
                 {a.results.map((post) => (
                   <>
                     <React.Fragment>
+                      {console.log(post)}
                       <PostCard
                         key={post.id}
-                        user_name={post.user.profile.name}
-                        user_id={post.user.id}
-                        user_public_username={post.user.profile.public_username}
-                        user_profile_picture={post.user.profile.profile_picture}
-                        text={post.text}
-                        time_creation={post.time_creation}
+                        data={post}
                       />
                     </React.Fragment>
                   </>
@@ -254,3 +257,5 @@ export default function Home() {
     </React.Fragment>
   );
 }
+
+

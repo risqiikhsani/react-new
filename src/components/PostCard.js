@@ -26,6 +26,10 @@ import CommentInput from "./Input/CommentInput";
 import PostMoreMenuButton from "../pages/App/Post/Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "../pages/App/Post/Buttons/PostShareMenuButton";
 
+import { useDispatch,useSelector } from "react-redux";
+
+
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -37,6 +41,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function PostCard(props) {
+  const authenticated_user_id = useSelector((state) => state.user.id)
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -48,20 +53,18 @@ export default function PostCard(props) {
       <CardActionArea>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
-            </Avatar>
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={props.data.user.profile.profile_picture}/>
           }
           action={
             // <IconButton aria-label="settings">
             //   <MoreVertIcon />
             // </IconButton>
-            <PostMoreMenuButton />
+            <PostMoreMenuButton post_id={props.data.id} post_user_id={props.data.user.id}/>
           }
-          title={props.user_name}
-          subheader={props.time_creation}
+          title={props.data.user.profile.name}
+          subheader={props.data.time_creation}
         />
-        {props.images && (
+        {props.data.images && (
           <CardMedia
             component="img"
             image="https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2018/06/cat-217679.jpg?h=c4ed616d&itok=3qHaqQ56"
@@ -71,7 +74,7 @@ export default function PostCard(props) {
         <Divider />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {props.text}
+            {props.data.text}
           </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{ alignItems: "flex-end" }}>
@@ -81,10 +84,10 @@ export default function PostCard(props) {
             alignItems="center"
             spacing={0}
           >
-            <IconButton aria-label="like">
+            <IconButton aria-label="like" color="success">
               <FavoriteIcon />
             </IconButton>
-            <Typography fontSize={10}>100</Typography>
+            <Typography fontSize={10}>{props.data.likes_amount}</Typography>
           </Stack>
 
           <Stack
@@ -96,7 +99,7 @@ export default function PostCard(props) {
           <IconButton>
             <CommentIcon />
           </IconButton>
-            <Typography fontSize={10}>2k</Typography>
+            <Typography fontSize={10}>{props.data.comments_amount}</Typography>
           </Stack>
 
 
@@ -110,8 +113,8 @@ export default function PostCard(props) {
             alignItems="center"
             spacing={0}
           >
-            <PostShareMenuButton />
-            <Typography fontSize={10}>23</Typography>
+            <PostShareMenuButton post_id={props.data.id} post_user_id={props.data.user.id}/>
+            <Typography fontSize={10}>{props.data.shares_amount}</Typography>
           </Stack>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -119,13 +122,15 @@ export default function PostCard(props) {
             {"view comments"}
           </Link>
           <Box sx={{ flexGrow: 1 }} />
-          <IconButton>
-            <BookmarkAddIcon />
+          <IconButton color="primary">
+            {
+              props.data.saved?<BookmarkAddedIcon/>:<BookmarkAddIcon/>
+            }
           </IconButton>
         </CardActions>
         <Divider />
 
-        <CommentInput />
+        <CommentInput post_id={props.data.id}/>
       </CardActionArea>
     </Card>
   );

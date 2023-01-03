@@ -13,7 +13,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import store from "./hooks/store";
 import { router } from "./routes/routes";
 import { injectStore } from "./api/instance";
 

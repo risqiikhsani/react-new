@@ -1,7 +1,7 @@
 import axios from "axios";
 import localStorageApi from "./localStorageApi";
 import AuthApi from "./AuthApi";
-import { clearUser } from "../redux/slices/userSlice";
+import { clearUser } from "../hooks/slices/userSlice";
 
 
 const BASE_URL = "http://127.0.0.1:8000/api/";

@@ -31,7 +31,7 @@ import ProgressTopBar from "../../components/SuspenseFallback/ProgressTopBar";
 import ErrorAlert from "../../components/ErrorBoundarier/ErrorAlert";
 
 import { useDispatch } from "react-redux";
-import { setUser, clearUser } from "../../redux/slices/userSlice";
+import { setUser, clearUser } from "../../hooks/slices/userSlice";
 import localStorageApi from "../../api/localStorageApi";
 
 export default function Login() {

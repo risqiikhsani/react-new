@@ -41,9 +41,11 @@ import Tooltip from '@mui/material/Tooltip';
 
 import ShareIcon from '@mui/icons-material/Share';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
+import { useSelector, useDispatch } from "react-redux";
 
 export default function PostShareMenuButton(props) {
+  const authenticated_user_id = useSelector((state) => state.user.id)
+  const { post_id, post_user_id } = props
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -57,18 +59,18 @@ export default function PostShareMenuButton(props) {
   return (
     <React.Fragment>
       <Tooltip title="Notification">
-      <IconButton
-        aria-controls={open ? "notification-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        aria-label="show notification"
+        <IconButton
+          aria-controls={open ? "notification-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          aria-label="show notification"
 
-        onClick={handleClick}
-      >
-        
-            <ShareIcon />
-        
-      </IconButton>
+          onClick={handleClick}
+        >
+
+          <ShareIcon />
+
+        </IconButton>
       </Tooltip>
 
 
@@ -84,14 +86,20 @@ export default function PostShareMenuButton(props) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-      
 
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <ShareIcon />
-          </ListItemIcon>
-          <ListItemText>Share by posting</ListItemText>
-        </MenuItem>
+        {/* {
+          post_user_id != authenticated_user_id && (
+            <>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <ShareIcon />
+                </ListItemIcon>
+                <ListItemText>Share by posting</ListItemText>
+              </MenuItem>
+            </>
+          )
+        } */}
+
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <ShareIcon />
@@ -105,8 +113,8 @@ export default function PostShareMenuButton(props) {
           <ListItemText>Copy share link</ListItemText>
         </MenuItem>
 
-       
-        
+
+
 
       </Menu>
     </React.Fragment>
