@@ -1,4 +1,5 @@
 import * as React from "react";
+import { memo } from "react";
 import { styled } from "@mui/material/styles";
 import { CardActionArea, Box, Divider, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -40,7 +41,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PostCard(props) {
+function PostCard(props) {
   const authenticated_user_id = useSelector((state) => state.user.id)
   const [expanded, setExpanded] = React.useState(false);
 
@@ -49,7 +50,9 @@ export default function PostCard(props) {
   };
 
   return (
+
     <Card sx={{ borderRadius: "10px", width: "100%" }}>
+    {console.log("PostCard is rendering")}
       <CardActionArea>
         <CardHeader
           avatar={
@@ -135,3 +138,5 @@ export default function PostCard(props) {
     </Card>
   );
 }
+
+export default memo(PostCard);
