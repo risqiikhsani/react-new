@@ -2,8 +2,7 @@ import { Avatar, List, ListItem, ListItemButton, ListItemIcon, ListItemText } fr
 import { Container } from "@mui/system";
 import * as React from "react";
 import { useState } from "react";
-import PaperLayout from "../../../components/PaperLayout";
-
+import PaperLayout from "./PaperLayout";
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';

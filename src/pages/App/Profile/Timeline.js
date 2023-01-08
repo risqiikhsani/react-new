@@ -23,9 +23,7 @@ import {
   Button,
   CardActions,
 } from "@mui/material";
-
-import CreatePost from "../../../components/Input/CreatePost";
-import PostCard from "../../../components/PostCard";
+import PostCard from "../Post/PostCard";
 
 const dataConnectedPlatform = [
   {
@@ -127,8 +125,7 @@ export default function Timeline(props) {
                 alignItems="center"
                 spacing={2}
               >
-                <CreatePost />
-                <PostCard />
+                {/* <PostCard /> */}
               </Stack>
             
           </Grid>

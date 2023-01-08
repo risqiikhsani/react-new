@@ -3,14 +3,6 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 import { useInfiniteQuery, useQuery, useMutation } from "@tanstack/react-query";
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  decrement,
-  decrementByAmount,
-  increment,
-  incrementByAmount,
-} from "../../../hooks/slices/counterSlice";
-import { setUser, clearUser } from "../../../hooks/slices/userSlice";
-import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import { Box, IconButton, Modal, SpeedDial, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 
@@ -22,14 +14,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import PostCard from "../../../components/PostCard";
 import { Container } from "@mui/system";
 import Alert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
-
 import LoadingButton from "@mui/lab/LoadingButton";
+import CircularProgress from '@mui/material/CircularProgress';
+import { useInView } from 'react-intersection-observer'
 
-import BannerCard from "../../../components/BannerCard";
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
@@ -37,16 +28,27 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
-import CircularProgress from '@mui/material/CircularProgress';
-import AppApi from "../../../api/AppApi";
-import CreatePost from "../../../components/Input/CreatePost";
-import { useInView } from 'react-intersection-observer'
 
+
+import {
+  decrement,
+  decrementByAmount,
+  increment,
+  incrementByAmount,
+} from "../../../hooks/slices/counterSlice";
+import { setUser, clearUser } from "../../../hooks/slices/userSlice";
+import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
+import AppApi from "../../../api/AppApi";
+import PostCard from "../Post/PostCard";
+import BannerCard from "../../../components/BannerCard";
+import { refetch_post_list_toggle } from "../../../hooks/slices/refetchSlice";
 
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)
   const authenticated_user_id = useSelector((state) => state.user.id)
   const authenticated_user_name = useSelector((state) => state.user.name)
+  const is_post_List_refetch = useSelector((state) => state.refetch.post_list_refetch)
+
 
   const dispatch = useDispatch()
 
@@ -61,13 +63,6 @@ export default function Home() {
     setValue(event.target.value);
   };
 
-  // const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  // const handleCloseSnackbar = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpenSnackbar(false);
-  // };
 
   const postInfiniteList = useInfiniteQuery(
     ['posts'],
@@ -111,10 +106,15 @@ export default function Home() {
       // close dialog
       handleClose();
       // refetch post list
-      postInfiniteList.refetch();
+      // postInfiniteList.refetch();
+      dispatch(refetch_post_list_toggle())
       setValue("")
     },
   });
+
+  React.useEffect(() => {
+    postInfiniteList.refetch()
+  },[is_post_List_refetch])
 
   const onSubmitCreatePost = (event) => {
     event.preventDefault();
@@ -146,25 +146,13 @@ export default function Home() {
       </React.Fragment>
     );
 
-  // React.useEffect(() => {
 
-  // },[])
 
   return (
     <React.Fragment>
       {console.log("I'm running")}
       <Container maxWidth="sm">
 
-        {/* <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          onClose={handleCloseSnackbar}
-          open={openSnackbar}
-          autoHideDuration={5000}
-        >
-          <Alert variant="filled" severity="success" sx={{ width: "100%" }}>
-            This is a success message!
-          </Alert>
-        </Snackbar> */}
 
 
 
@@ -219,13 +207,15 @@ export default function Home() {
           icon={<AddIcon />}
           onClick={handleOpen}
         />
+
+
         <Stack
           direction="column"
           justifyContent="flex-start"
           alignItems="center"
           spacing={2}
         >
-          {console.log(postInfiniteList)}
+
           {
             postInfiniteList.data.pages.map((a) => (
               <>
@@ -233,7 +223,6 @@ export default function Home() {
                 {a.results.map((post) => (
                   <>
                     <React.Fragment>
-                      {console.log(post)}
                       <PostCard
                         key={post.id}
                         data={post}

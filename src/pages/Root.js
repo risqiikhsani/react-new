@@ -53,6 +53,9 @@ export default function Root() {
       // if email isn't comfirmed , user should confirm first
       return navigate("/auth/signup-completion")
     }
+    // else{
+    //   return navigate(0);
+    // }
   }, [user_id, user_email_confirmed]);
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);

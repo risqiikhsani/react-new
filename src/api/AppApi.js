@@ -5,6 +5,14 @@ class AppApi {
     return instance.get(`/app/posts${last_string}`);
   }
 
+  fetchPostDetail(id){
+    return instance.get(`/app/post/${id}`);
+  }
+
+  deletePost(id){
+    return instance.delete(`/app/post/${id}`);
+  }
+
   createPost(data) {
     return instance.post("/app/posts", JSON.stringify(data));
   }
