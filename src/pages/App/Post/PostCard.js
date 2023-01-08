@@ -61,7 +61,7 @@ function PostCard(props) {
           // <IconButton aria-label="settings">
           //   <MoreVertIcon />
           // </IconButton>
-          <PostMoreMenuButton post_id={props.data.id} post_user_id={props.data.user.id} />
+          <PostMoreMenuButton data={props.data} />
         }
         title={<Link underline="hover" component={LinkRouter} to={`user/${props.data.user.id}`}>{props.data.user.profile.name}</Link>}
         subheader={props.data.time_creation}

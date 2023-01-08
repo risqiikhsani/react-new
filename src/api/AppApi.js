@@ -13,6 +13,10 @@ class AppApi {
     return instance.delete(`/app/post/${id}`);
   }
 
+  editPost(id,data){
+    return instance.put(`/app/post/${id}`, JSON.stringify(data));
+  }
+
   createPost(data) {
     return instance.post("/app/posts", JSON.stringify(data));
   }

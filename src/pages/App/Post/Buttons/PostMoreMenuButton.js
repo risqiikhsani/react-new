@@ -71,12 +71,13 @@ import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
 import AppApi from "../../../../api/AppApi";
 import { refetch_post_list_toggle } from "../../../../hooks/slices/refetchSlice";
 import { refetch_post_detail_toggle } from "../../../../hooks/slices/refetchSlice";
+import { memo } from "react";
 
-export default function PostMoreMenuButton(props) {
+
+function PostMoreMenuButton(props) {
   const dispatch = useDispatch()
 
   const authenticated_user_id = useSelector((state) => state.user.id)
-  const { post_id, post_user_id } = props
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -91,14 +92,34 @@ export default function PostMoreMenuButton(props) {
   const handleOpenEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => setOpenEdit(false);
 
-  const [openDelete,setOpenDelete] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(props.data.text);
   const handleChangeEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
+
+  const editPost = useMutation({
+    mutationFn: (data) => {
+
+      return AppApi.editPost(data.post_id, data.new_data);
+    },
+    onError: (error, variables, context) => {
+      console.log("something went wrong");
+      console.log(error.message);
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("success edit post");
+      // open snackbar success
+      dispatch(setSnackbar({ type: "success", string: "Post edited!" }))
+      // refetch post list
+      dispatch(refetch_post_list_toggle())
+      // refetch post detail too 
+      dispatch(refetch_post_detail_toggle())
+    },
+  })
 
   const deletePost = useMutation({
     mutationFn: (id) => {
@@ -111,7 +132,7 @@ export default function PostMoreMenuButton(props) {
     onSuccess: (data, variables, context) => {
       console.log("success delete post");
       // open snackbar success
-      dispatch(setSnackbar({type:"success",string:"Post deleted!"}))
+      dispatch(setSnackbar({ type: "success", string: "Post deleted!" }))
       // refetch post list
       dispatch(refetch_post_list_toggle())
       // refetch post detail too 
@@ -123,7 +144,25 @@ export default function PostMoreMenuButton(props) {
     console.log("delete post")
     event.preventDefault();
     try {
-      deletePost.mutate(post_id);
+      deletePost.mutate(props.data.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+
+  const onSubmitEditPost = (event) => {
+    event.preventDefault();
+    let data = {
+      post_id : props.data.id,
+      new_data : {
+        text:value,
+      }
+    }
+
+    try {
+      editPost.mutate(data);
     } catch (err) {
       console.log(err);
     }
@@ -134,11 +173,11 @@ export default function PostMoreMenuButton(props) {
       <Dialog open={openEdit} onClose={handleCloseEdit}>
         <DialogTitle>Edit Post</DialogTitle>
         <DialogContent sx={{ minWidth: "500px" }}>
-          {/* {createPost.isError && (
+          {editPost.isError && (
             <Alert variant="filled" severity="error">
               Something went wrong !
             </Alert>
-          )} */}
+          )}
           <TextField
             autoFocus
             margin="dense"
@@ -165,9 +204,9 @@ export default function PostMoreMenuButton(props) {
           <Box sx={{ flexGrow: 1 }} />
           <Button onClick={handleCloseEdit}>Cancel</Button>
           <LoadingButton
-            loading={null}
+            loading={editPost.isLoading}
             loadingPosition="end"
-            onClick={handleCloseEdit}
+            onClick={(event) => { onSubmitEditPost(event); handleCloseEdit() }}
           >
             Post
           </LoadingButton>
@@ -177,6 +216,11 @@ export default function PostMoreMenuButton(props) {
       <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>Delete Post</DialogTitle>
         <DialogContent sx={{ minWidth: "500px" }}>
+          {deletePost.isError && (
+            <Alert variant="filled" severity="error">
+              Something went wrong !
+            </Alert>
+          )}
           <DialogContentText>
             are you sure want to delete this post ?
           </DialogContentText>
@@ -187,7 +231,7 @@ export default function PostMoreMenuButton(props) {
           <LoadingButton
             loading={deletePost.isLoading}
             loadingPosition="end"
-            onClick={(event)=>{onSubmitDeletePost(event);handleCloseDelete()}}
+            onClick={(event) => { onSubmitDeletePost(event); handleCloseDelete() }}
           >
             Delete
           </LoadingButton>
@@ -219,7 +263,7 @@ export default function PostMoreMenuButton(props) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {
-          post_user_id == authenticated_user_id ? (
+          props.data.user.id == authenticated_user_id ? (
             <>
 
               <MenuItem onClick={() => { handleOpenEdit(); handleClose() }}>
@@ -263,3 +307,5 @@ export default function PostMoreMenuButton(props) {
     </React.Fragment>
   );
 }
+
+export default memo(PostMoreMenuButton);
