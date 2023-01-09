@@ -4,11 +4,13 @@ import PostCard from "./PostCard";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import AppApi from "../../../api/AppApi";
+import { useSelector } from "react-redux";
 
 
 export default function PostDetail(props){
   let {postId} = useParams();
   
+  const is_post_detail_refetch = useSelector((state) => state.refetch.post_detail_refetch)
   // const postList = useQuery({
   //   queryKey: ["post-list"],
   //   queryFn: () => {
@@ -22,6 +24,10 @@ export default function PostDetail(props){
       return AppApi.fetchPostDetail(postId);
     },
   })
+
+  React.useEffect(() => {
+    postDetail.refetch()
+  },[is_post_detail_refetch])
 
   if (postDetail.isLoading)
     return (

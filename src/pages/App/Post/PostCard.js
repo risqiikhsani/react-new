@@ -28,6 +28,9 @@ import CommentInput from "../../../components/Input/CommentInput";
 import PostMoreMenuButton from "./Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "./Buttons/PostShareMenuButton";
 import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import AppApi from "../../../api/AppApi";
+import { refetch_post_detail_toggle, refetch_post_list_toggle } from "../../../hooks/slices/refetchSlice";
 
 
 
@@ -42,12 +45,63 @@ const ExpandMore = styled((props) => {
 }));
 
 function PostCard(props) {
+  const dispatch = useDispatch()
   const authenticated_user_id = useSelector((state) => state.user.id)
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const likePost = useQuery({
+    queryKey: ["like-post"],
+    queryFn: () => {
+      return AppApi.likePost(props.data.id);
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    onError: (error, variables, context) => {
+      console.log("something went wrong");
+      console.log(error.message);
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("like post success")
+      console.log(data)
+      // refetch post list
+      dispatch(refetch_post_list_toggle())
+      // refetch post detail too 
+      dispatch(refetch_post_detail_toggle())
+    }
+  })
+
+  const onSubmitLikePost = () => {
+    likePost.refetch()
+  }
+
+  const savePost = useQuery({
+    queryKey: ["save-post"],
+    queryFn: () => {
+      return AppApi.savePost(props.data.id);
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    onError: (error, variables, context) => {
+      console.log("something went wrong");
+      console.log(error.message);
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("save post success")
+      console.log(data)
+      // refetch post list
+      dispatch(refetch_post_list_toggle())
+      // refetch post detail too 
+      dispatch(refetch_post_detail_toggle())
+    }
+  })
+
+  const onSubmitSavePost = () => {
+    savePost.refetch()
+  }
 
   return (
 
@@ -86,9 +140,16 @@ function PostCard(props) {
           alignItems="center"
           spacing={0}
         >
-          <IconButton aria-label="like" color="success">
-            <FavoriteIcon />
-          </IconButton>
+          {props.data.liked == true ? (
+            <IconButton aria-label="like" color="error" onClick={onSubmitLikePost}>
+              <FavoriteIcon />
+            </IconButton>
+          ) : (
+            <IconButton aria-label="like" color="default" onClick={onSubmitLikePost}>
+              <FavoriteIcon />
+            </IconButton>
+          )}
+
           <Typography fontSize={10}>{props.data.likes_amount}</Typography>
         </Stack>
 
@@ -131,13 +192,20 @@ function PostCard(props) {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {props.detail != true && (<Button sx={{textTransform:'none'}} component={LinkRouter} to={`post/${props.data.id}`} variant="text" size="small">View Comments</Button>)}
+        {props.detail != true && (<Button sx={{ textTransform: 'none' }} component={LinkRouter} to={`post/${props.data.id}`} variant="text" size="small">View Comments</Button>)}
         <Box sx={{ flexGrow: 1 }} />
-        <IconButton color="primary">
-          {
-            props.data.saved ? <BookmarkAddedIcon /> : <BookmarkAddIcon />
-          }
-        </IconButton>
+        {props.data.saved ? (
+          <IconButton color="primary" onClick={onSubmitSavePost}>
+
+            <BookmarkAddedIcon />
+          </IconButton>
+        ) : (
+          <IconButton color="default" onClick={onSubmitSavePost}>
+            <BookmarkAddIcon />
+
+          </IconButton>
+        )}
+
       </CardActions>
       <Divider />
       {props.detail == true && (

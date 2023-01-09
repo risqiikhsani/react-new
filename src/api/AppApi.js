@@ -20,6 +20,15 @@ class AppApi {
   createPost(data) {
     return instance.post("/app/posts", JSON.stringify(data));
   }
+
+  likePost(id){
+    return instance.get(`/app/post/${id}/likehandler`);
+  }
+
+  savePost(id){
+    return instance.get(`/app/post/${id}/savehandler`);
+  }
+
 }
 
 export default new AppApi();
