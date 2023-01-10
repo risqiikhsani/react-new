@@ -1,13 +1,14 @@
 import { Container } from "@mui/system";
 import React from "react";
 import PostCard from "./PostCard";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import AppApi from "../../../api/AppApi";
 import { useSelector } from "react-redux";
 
 
 export default function PostDetail(props){
+  const navigate = useNavigate();
   let {postId} = useParams();
   
   const is_post_detail_refetch = useSelector((state) => state.refetch.post_detail_refetch)
@@ -26,7 +27,12 @@ export default function PostDetail(props){
   })
 
   React.useEffect(() => {
+    console.log("POST DETAIL IS RUNNING~~~~~~~~~~~~~~~~~~~~~~")
+  },[])
+
+  React.useEffect(() => {
     postDetail.refetch()
+
   },[is_post_detail_refetch])
 
   if (postDetail.isLoading)
@@ -50,8 +56,8 @@ export default function PostDetail(props){
 
   return(
     <React.Fragment>
+      {console.log("postDetail's JSX is running ~~~~~~~~~~~")}
       <Container maxWidth="sm">
-        {console.log(postDetail)}
         <PostCard data={postDetail.data.data} detail={true}/>
       </Container>
     </React.Fragment>

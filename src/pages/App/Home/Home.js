@@ -47,7 +47,7 @@ export default function Home() {
   // const count = useSelector((state) => state.counter.value)
   const authenticated_user_id = useSelector((state) => state.user.id)
   const authenticated_user_name = useSelector((state) => state.user.name)
-  const is_post_List_refetch = useSelector((state) => state.refetch.post_list_refetch)
+  const is_post_list_refetch = useSelector((state) => state.refetch.post_list_refetch)
 
 
   const dispatch = useDispatch()
@@ -114,7 +114,11 @@ export default function Home() {
 
   React.useEffect(() => {
     postInfiniteList.refetch()
-  },[is_post_List_refetch])
+  },[is_post_list_refetch])
+
+  React.useEffect(() => {
+    console.log("HOME IS RUNNING !!!!!!!!!!!!!!!!!!!~~~~~~~~~")
+  },[])
 
   const onSubmitCreatePost = (event) => {
     event.preventDefault();
@@ -145,6 +149,7 @@ export default function Home() {
         </Container>
       </React.Fragment>
     );
+
 
 
 
@@ -221,14 +226,14 @@ export default function Home() {
               <>
                 {/* {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)} */}
                 {a.results.map((post) => (
-                  <>
+                  
                     <React.Fragment>
                       <PostCard
                         key={post.id}
                         data={post}
                       />
                     </React.Fragment>
-                  </>
+                  
                 ))}
               </>
             ))

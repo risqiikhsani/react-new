@@ -24,7 +24,8 @@ export const injectStore = _store => {
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    console.log("before request sent");
+    
+    console.log("AXIOS INTERCEPTORS IS RUNNING ~~~~~~ before request sent, url = "+config.url);
     const token = localStorageApi.getAccessToken();
     console.log(token);
     if (token) {
@@ -35,7 +36,7 @@ instance.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
-    console.log("request error");
+    console.log("AXIOS INTERCEPTORS IS RUNNING ~~~~~~~~ request error");
     return Promise.reject(error);
   }
 );

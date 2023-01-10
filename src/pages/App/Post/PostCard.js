@@ -23,14 +23,14 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 
 
-import CommentCard from "../../../components/CommentCard";
-import CommentInput from "../../../components/Input/CommentInput";
+import CommentInput from "./CommentInput";
 import PostMoreMenuButton from "./Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "./Buttons/PostShareMenuButton";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import AppApi from "../../../api/AppApi";
 import { refetch_post_detail_toggle, refetch_post_list_toggle } from "../../../hooks/slices/refetchSlice";
+import CommentList from "./CommentList";
 
 
 
@@ -208,11 +208,9 @@ function PostCard(props) {
 
       </CardActions>
       <Divider />
-      {props.detail == true && (
-        <React.Fragment>
-          <Typography>some comments</Typography>
-        </React.Fragment>
-      )}
+      {/* {props.detail == true && (
+        <CommentList post_id={props.data.id}/>
+      )} */}
       <CommentInput post_id={props.data.id} />
     </Card>
   );

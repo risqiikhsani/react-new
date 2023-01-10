@@ -6,29 +6,29 @@
 
 class localStorageApi {
   getUser() {
-    console.log("get user is running");
+    console.log("LOCAL STORAGE ~~~~~~ get user is running");
     const user = JSON.parse(localStorage.getItem("user"));
     return user;
   }
 
   setUser(user) {
-    console.log("set user is running");
+    console.log("LOCAL STORAGE ~~~~~~ set user is running");
     localStorage.setItem("user", JSON.stringify(user));
   }
 
   removeUser() {
-    console.log("remove user is running");
+    console.log("LOCAL STORAGE ~~~~~~ remove user is running");
     localStorage.removeItem("user");
   }
 
   getRefreshToken() {
-    console.log("get refresh_token is running");
+    console.log("LOCAL STORAGE ~~~~~~ get refresh_token is running");
     const user = JSON.parse(localStorage.getItem("user"));
     return user?.refresh_token;
   }
 
   getAccessToken() {
-    console.log("get access_token is running");
+    console.log("LOCAL STORAGE ~~~~~~ get access_token is running");
     const user = JSON.parse(localStorage.getItem("user"));
     return user?.access_token;
   }
@@ -44,7 +44,7 @@ class localStorageApi {
   // }
 
   updateAccessToken(token) {
-    console.log("update access_token is running");
+    console.log("LOCAL STORAGE ~~~~~~ update access_token is running");
     let user = JSON.parse(localStorage.getItem("user"));
     user.access_token = token;
     localStorage.setItem("user", JSON.stringify(user));

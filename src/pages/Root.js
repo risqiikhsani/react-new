@@ -29,6 +29,7 @@ export default function Root() {
 
 
   useEffect(() => {
+    console.log("Root.js ~~~~~~~~~~~~~ useEffect is running,checking the user token validation")
     const user = localStorageApi.getUser()
     console.log(user)
 

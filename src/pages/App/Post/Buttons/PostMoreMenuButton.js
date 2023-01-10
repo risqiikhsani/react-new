@@ -22,7 +22,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
 
 //
 
@@ -75,6 +75,7 @@ import { memo } from "react";
 
 
 function PostMoreMenuButton(props) {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const authenticated_user_id = useSelector((state) => state.user.id)
@@ -135,8 +136,9 @@ function PostMoreMenuButton(props) {
       dispatch(setSnackbar({ type: "success", string: "Post deleted!" }))
       // refetch post list
       dispatch(refetch_post_list_toggle())
-      // refetch post detail too 
-      dispatch(refetch_post_detail_toggle())
+
+      //return to post list
+      navigate("/")
     },
   });
 
@@ -154,6 +156,7 @@ function PostMoreMenuButton(props) {
 
   const onSubmitEditPost = (event) => {
     event.preventDefault();
+    
     let data = {
       post_id : props.data.id,
       new_data : {

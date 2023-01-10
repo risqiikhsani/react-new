@@ -29,6 +29,14 @@ class AppApi {
     return instance.get(`/app/post/${id}/savehandler`);
   }
 
+  createComment(post_id,data){
+    return instance.post(`/app/post/${post_id}/comments`,JSON.stringify(data));
+  }
+
+  fetchCommentList(post_id,last_string){
+    return instance.get(`/app/post/${post_id}/comments${last_string}`);
+  }  
+
 }
 
 export default new AppApi();
