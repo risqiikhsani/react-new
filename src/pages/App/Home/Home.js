@@ -58,6 +58,7 @@ export default function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+
   const [value, setValue] = React.useState("");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -76,11 +77,11 @@ export default function Home() {
     },
   )
 
-  React.useEffect(() => {
-    if (inView) {
-      postInfiniteList.fetchNextPage()
-    }
-  }, [inView])
+  // React.useEffect(() => {
+  //   if (inView) {
+  //     postInfiniteList.fetchNextPage()
+  //   }
+  // }, [inView])
 
   // const postList = useQuery({
   //   queryKey: ["post-list"],
@@ -110,11 +111,12 @@ export default function Home() {
       dispatch(refetch_post_list_toggle())
       setValue("")
     },
+
   });
 
-  React.useEffect(() => {
-    postInfiniteList.refetch()
-  },[is_post_list_refetch])
+  // React.useEffect(() => {
+  //   postInfiniteList.refetch()
+  // },[is_post_list_refetch])
 
   React.useEffect(() => {
     console.log("HOME IS RUNNING !!!!!!!!!!!!!!!!!!!~~~~~~~~~")
@@ -157,9 +159,6 @@ export default function Home() {
     <React.Fragment>
       {console.log("I'm running")}
       <Container maxWidth="sm">
-
-
-
 
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Create Post</DialogTitle>

@@ -20,20 +20,22 @@ export default function PostDetail(props){
   // });
 
   const postDetail = useQuery({
-    queryKey: ["post-detail"],
+    queryKey: ["post-detail",postId],
     queryFn: () => {
       return AppApi.fetchPostDetail(postId);
     },
+    // refetchOnWindowFocus: false,
+    // enabled: false,
   })
 
   React.useEffect(() => {
     console.log("POST DETAIL IS RUNNING~~~~~~~~~~~~~~~~~~~~~~")
   },[])
 
-  React.useEffect(() => {
-    postDetail.refetch()
+  // React.useEffect(() => {
+  //   postDetail.refetch()
 
-  },[is_post_detail_refetch])
+  // },[is_post_detail_refetch])
 
   if (postDetail.isLoading)
     return (
@@ -48,7 +50,7 @@ export default function PostDetail(props){
     return (
       <React.Fragment>
         <Container maxWidth="sm">
-          {console.log(postDetail.error)}
+          {/* {console.log(postDetail.error)} */}
           <p>Something went wrong!</p>
         </Container>
       </React.Fragment>

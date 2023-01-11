@@ -109,7 +109,9 @@ function PostCard(props) {
       {console.log("PostCard is rendering")}
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={props.data.user.profile.profile_picture} />
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" 
+          //src={props.data.user.profile.profile_picture} 
+          />
         }
         action={
           // <IconButton aria-label="settings">
