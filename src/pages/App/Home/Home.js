@@ -74,6 +74,7 @@ export default function Home() {
     {
       getPreviousPageParam: (firstPage) => firstPage.previous ?? undefined,
       getNextPageParam: (lastPage) => lastPage.next ?? undefined,
+      keepPreviousData:true,
     },
   )
 
