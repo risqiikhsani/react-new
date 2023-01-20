@@ -1,58 +1,61 @@
-
-
 import * as React from "react";
 import { useEffect } from "react";
 
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import localStorageApi from "../api/localStorageApi";
 
-import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, clearUser } from "../hooks/slices/userSlice";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../hooks/slices/userSlice";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useIsFetching } from "@tanstack/react-query";
 
+import { Alert, LinearProgress, Snackbar } from "@mui/material";
 import { Box } from "@mui/system";
-import { Alert, Snackbar } from "@mui/material";
 export default function Root() {
+  const isFetching = useIsFetching();
 
   // const user_name = useSelector((state) => state.user.name)
 
   let navigate = useNavigate();
-  const user_id = useSelector((state) => state.user.id)
-  const user_email_confirmed = useSelector((state) => state.user.email_confirmed)
-  const dispatch = useDispatch()
+  const user_id = useSelector((state) => state.user.id);
+  const user_email_confirmed = useSelector(
+    (state) => state.user.email_confirmed
+  );
+  const dispatch = useDispatch();
 
-  const snackbar_type = useSelector((state) => state.snackbar.type)
-  const snackbar_string = useSelector((state) => state.snackbar.string)
-  const snackbar_trigger = useSelector((state) => state.snackbar.count)
-
+  const snackbar_type = useSelector((state) => state.snackbar.type);
+  const snackbar_string = useSelector((state) => state.snackbar.string);
+  const snackbar_trigger = useSelector((state) => state.snackbar.count);
 
   useEffect(() => {
-    console.log("Root.js ~~~~~~~~~~~~~ useEffect is running,checking the user token validation")
-    const user = localStorageApi.getUser()
-    console.log(user)
+    console.log(
+      "Root.js ~~~~~~~~~~~~~ useEffect is running,checking the user token validation"
+    );
+    const user = localStorageApi.getUser();
+    console.log(user);
 
     // if there's user in localStorage , change user state , otherwise user state is remain null
     if (user != null) {
-      console.log("user information is detected in Local Storage , will redirect you to app!")
-      // set user state 
-      dispatch(setUser(user))
+      console.log(
+        "user information is detected in Local Storage , will redirect you to app!"
+      );
+      // set user state
+      dispatch(setUser(user));
+    } else {
+      console.log(
+        "user information isn't detected in local storage, redirect to login page!"
+      );
     }
-    else {
-      console.log("user information isn't detected in local storage, redirect to login page!")
-    }
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     if (!user_id) {
       // if there's no user in state , redirect to login page
       return navigate("/auth/login");
-    }
-    else if (user_id && !user_email_confirmed) {
+    } else if (user_id && !user_email_confirmed) {
       // if email isn't comfirmed , user should confirm first
-      return navigate("/auth/signup-completion")
+      return navigate("/auth/signup-completion");
     }
     // else{
     //   return navigate(0);
@@ -68,14 +71,19 @@ export default function Root() {
   };
 
   React.useEffect(() => {
-    if(snackbar_trigger>0){
-      setOpenSnackbar(true)
+    if (snackbar_trigger > 0) {
+      setOpenSnackbar(true);
     }
-  }, [snackbar_trigger])
+  }, [snackbar_trigger]);
 
   return (
-
     <React.Fragment>
+      {isFetching && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
+
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         onClose={handleCloseSnackbar}
@@ -87,8 +95,6 @@ export default function Root() {
         </Alert>
       </Snackbar>
       <Outlet />
-
-
     </React.Fragment>
   );
 }

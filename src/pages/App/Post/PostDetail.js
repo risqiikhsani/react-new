@@ -6,12 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import AppApi from "../../../api/AppApi";
 import { useSelector } from "react-redux";
 
-
-export default function PostDetail(props){
+export default function PostDetail(props) {
   const navigate = useNavigate();
-  let {postId} = useParams();
-  
-  const is_post_detail_refetch = useSelector((state) => state.refetch.post_detail_refetch)
+  let { postId } = useParams();
+
+  const is_post_detail_refetch = useSelector(
+    (state) => state.refetch.post_detail_refetch
+  );
   // const postList = useQuery({
   //   queryKey: ["post-list"],
   //   queryFn: () => {
@@ -19,18 +20,29 @@ export default function PostDetail(props){
   //   },
   // });
 
-  const postDetail = useQuery({
-    queryKey: ["post-detail",postId],
-    queryFn: () => {
+  // const postDetail = useQuery({
+  //   queryKey: ["postdetail",{id:postId}],
+  //   queryFn: () => {
+  //     return AppApi.fetchPostDetail(postId);
+  //   },
+  //   keepPreviousData:true,
+  //   // refetchOnWindowFocus: false,
+  //   // enabled: false,
+  // })
+
+  const postDetail = useQuery(
+    ["postdetail",{id:postId}],
+    () => {
       return AppApi.fetchPostDetail(postId);
     },
-    // refetchOnWindowFocus: false,
-    // enabled: false,
-  })
+    {
+      keepPreviousData: true,
+    }
+  );
 
   React.useEffect(() => {
-    console.log("POST DETAIL IS RUNNING~~~~~~~~~~~~~~~~~~~~~~")
-  },[])
+    console.log("POST DETAIL IS RUNNING~~~~~~~~~~~~~~~~~~~~~~");
+  }, []);
 
   // React.useEffect(() => {
   //   postDetail.refetch()
@@ -56,12 +68,12 @@ export default function PostDetail(props){
       </React.Fragment>
     );
 
-  return(
+  return (
     <React.Fragment>
       {console.log("postDetail's JSX is running ~~~~~~~~~~~")}
       <Container maxWidth="sm">
-        <PostCard data={postDetail.data.data} detail={true}/>
+        <PostCard data={postDetail.data.data} detail={true} />
       </Container>
     </React.Fragment>
-  )
+  );
 }

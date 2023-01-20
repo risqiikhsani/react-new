@@ -1,47 +1,32 @@
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useSelector, useDispatch } from "react-redux";
-import { Box, IconButton, Modal, SpeedDial, Typography } from "@mui/material";
-import { Grid } from "@mui/material";
+import { Box, IconButton, SpeedDial } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
-import Stack from "@mui/material/Stack";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
-import Alert from "@mui/material/Alert";
-import { Snackbar } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import CircularProgress from '@mui/material/CircularProgress';
-import { useInView } from 'react-intersection-observer'
+import { useInView } from 'react-intersection-observer';
 
 import AddIcon from "@mui/icons-material/Add";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
 
 
-import {
-  decrement,
-  decrementByAmount,
-  increment,
-  incrementByAmount,
-} from "../../../hooks/slices/counterSlice";
-import { setUser, clearUser } from "../../../hooks/slices/userSlice";
-import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import AppApi from "../../../api/AppApi";
+import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import PostCard from "../Post/PostCard";
-import BannerCard from "../../../components/BannerCard";
-import { refetch_post_list_toggle } from "../../../hooks/slices/refetchSlice";
 
 export default function Home() {
   // const count = useSelector((state) => state.counter.value)
@@ -109,6 +94,7 @@ export default function Home() {
       // close dialog
       handleClose();
       // refetch post list
+      queryClient.invalidateQueries('posts')
       // postInfiniteList.refetch();
       // dispatch(refetch_post_list_toggle())
       setValue("")
@@ -161,7 +147,7 @@ export default function Home() {
 
   return (
     <React.Fragment>
-      {console.log("I'm running")}
+      {console.log("Home JSX is running")}
       <Container maxWidth="sm">
 
         <Dialog open={open} onClose={handleClose}>

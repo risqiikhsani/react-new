@@ -1,36 +1,30 @@
-import * as React from "react";
-import { memo } from "react";
-import { styled } from "@mui/material/styles";
-import { CardActionArea, Box, Divider, Stack, Button } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import Link from "@mui/material/Link";
-import { Link as LinkRouter } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import CommentIcon from "@mui/icons-material/Comment";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import CommentIcon from "@mui/icons-material/Comment";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { Box, Button, Divider, Stack } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import { red } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Link from "@mui/material/Link";
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { memo } from "react";
+import { Link as LinkRouter } from "react-router-dom";
 
 
-import CommentInput from "./CommentInput";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import AppApi from "../../../api/AppApi";
 import PostMoreMenuButton from "./Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "./Buttons/PostShareMenuButton";
-import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
-import AppApi from "../../../api/AppApi";
-import { refetch_post_detail_toggle, refetch_post_list_toggle } from "../../../hooks/slices/refetchSlice";
-import CommentList from "./CommentList";
+import CommentInput from "./CommentInput";
 
 
 
@@ -45,6 +39,7 @@ const ExpandMore = styled((props) => {
 }));
 
 function PostCard(props) {
+  const queryClient = useQueryClient()
   const dispatch = useDispatch()
   const authenticated_user_id = useSelector((state) => state.user.id)
   const [expanded, setExpanded] = React.useState(false);
@@ -68,11 +63,54 @@ function PostCard(props) {
       console.log("like post success")
       console.log(data)
       // refetch post list
-      dispatch(refetch_post_list_toggle())
-      // refetch post detail too 
-      dispatch(refetch_post_detail_toggle())
+      // dispatch(refetch_post_list_toggle())
+
+
+
+      let oldData = queryClient.getQueryData(["posts"]);
+      console.log("old data in setQuery")
+      console.log(oldData)
+      console.log(data)
+      let newData = data.data
+      queryClient.setQueryData(["posts"], data => ({
+        ...data,
+        pages:data.pages.map((page) => ({
+          ...page,
+          results:page.results.map((a) => a.id === newData.id ? newData : a)
+        }))
+      }))
+
+
+
+
+      // let oldData2 = queryClient.getQueryData(["posts"]);
+      // console.log("new data in setQuery")
+      // console.log(oldData2)
+      // // refetch post detail too 
+      // // dispatch(refetch_post_detail_toggle())
+
+      let w = queryClient.getQueryData(['postdetail',{id:props.data.id}]);
+      console.log("cobacoba")
+      console.log(w)
+      let oldData1 = queryClient.getQueryData(["postdetail",{id:37}]);
+      console.log("old data in setQuery's detail")
+      console.log(oldData1)
+      let x= queryClient.getQueryCache();
+      console.log("cobacoba query cache")
+      console.log(x)
+      let g = queryClient.getMutationCache();
+      console.log("cobacoba mutation cache")
+      console.log(g)
+      // queryClient.setQueryData(['postdetail',{id:props.data.id}], data => newData)
+      // let newData1 = queryClient.getQueryData(["postdetail",{id:props.data.id}]);
+      // console.log("new data in setQuery's detail")
+      // console.log(newData1)
+
+      // queryClient.invalidateQueries("posts")
+      
     }
   })
+
 
   const onSubmitLikePost = () => {
     likePost.refetch()
@@ -93,9 +131,16 @@ function PostCard(props) {
       console.log("save post success")
       console.log(data)
       // refetch post list
-      dispatch(refetch_post_list_toggle())
+      // dispatch(refetch_post_list_toggle())
+      
+      let newData = data
+      queryClient.setQueryData('posts', data => ({
+        ...data,
+        pages:data.pages.map((page) => page.results.map((a) => a.id === newData.id ? newData : a))
+      }))
       // refetch post detail too 
-      dispatch(refetch_post_detail_toggle())
+      // dispatch(refetch_post_detail_toggle())
+      queryClient.setQueryData(['post-detail', newData.id], newData)
     }
   })
 

@@ -55,6 +55,7 @@ import NotificationMenuIcon from "./Navbar/NotificationMenuIcon";
 import ProfileMenuIcon from "./Navbar/ProfileMenuIcon";
 import SettingDrawerIcon from "./Navbar/SettingDrawerIcon";
 import OnlineContactIcon from "./Navbar/OnlineContactIcon";
+import { useQueryClient } from "@tanstack/react-query";
 
 // const drawerWidth = 240;
 const drawerWidth = 240;
@@ -63,12 +64,17 @@ const BarColor = "#eaf4f4";
 const backgroundColorTheme = 'linear-gradient(to right, #fc5c7d, #6a82fb)'; //https://uigradients.com/
 
 function AppContainer(props) {
+  const queryClient = useQueryClient()
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const appButton = () => {
+    queryClient.invalidateQueries()
+  }
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -112,6 +118,7 @@ function AppContainer(props) {
             to="/"
             sx={{ color: "white" }}
             startIcon={<GrassIcon />}
+            onClick={appButton}
           >
             <Typography
               variant="h6"
