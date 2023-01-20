@@ -66,7 +66,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
 import AppApi from "../../../../api/AppApi";
 import { refetch_post_list_toggle } from "../../../../hooks/slices/refetchSlice";
@@ -75,6 +75,7 @@ import { memo } from "react";
 
 
 function PostMoreMenuButton(props) {
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -116,9 +117,16 @@ function PostMoreMenuButton(props) {
       // open snackbar success
       dispatch(setSnackbar({ type: "success", string: "Post edited!" }))
       // refetch post list
-      dispatch(refetch_post_list_toggle())
+      // dispatch(refetch_post_list_toggle())
       // refetch post detail too 
-      dispatch(refetch_post_detail_toggle())
+      // dispatch(refetch_post_detail_toggle())
+      let newData = data
+      queryClient.setQueryData('posts', data => ({
+        ...data,
+        pages:data.pages.map((page) => page.results.map((a) => a.id === newData.id ? newData : a))
+      }))
+
+      queryClient.setQueryData(['post-detail', newData.id], newData)
     },
   })
 
@@ -135,8 +143,12 @@ function PostMoreMenuButton(props) {
       // open snackbar success
       dispatch(setSnackbar({ type: "success", string: "Post deleted!" }))
       // refetch post list
-      dispatch(refetch_post_list_toggle())
-
+      // dispatch(refetch_post_list_toggle())
+      let newData = data
+      queryClient.setQueryData('posts', data => ({
+        ...data,
+        pages:data.pages.map((page) => page.results.filter(a => a.id != newData.id))
+      }))
       //return to post list
       navigate("/")
     },

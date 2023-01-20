@@ -68,7 +68,7 @@ export default function LeftDrawer(props) {
       <List sx={{ color: fontDrawerColor }}>
         {routeDrawer.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton component={Link} to={item.route} >
+            <ListItemButton component={Link} preventScrollReset={true} to={item.route} >
               <ListItemIcon >{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItemButton>

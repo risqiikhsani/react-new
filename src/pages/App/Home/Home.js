@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { useInfiniteQuery, useQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Box, IconButton, Modal, SpeedDial, Typography } from "@mui/material";
@@ -49,6 +49,7 @@ export default function Home() {
   const authenticated_user_name = useSelector((state) => state.user.name)
   const is_post_list_refetch = useSelector((state) => state.refetch.post_list_refetch)
 
+  const queryClient = useQueryClient()
 
   const dispatch = useDispatch()
 
@@ -74,15 +75,15 @@ export default function Home() {
     {
       getPreviousPageParam: (firstPage) => firstPage.previous ?? undefined,
       getNextPageParam: (lastPage) => lastPage.next ?? undefined,
-      keepPreviousData:true,
+      keepPreviousData:true,    
     },
   )
 
-  // React.useEffect(() => {
-  //   if (inView) {
-  //     postInfiniteList.fetchNextPage()
-  //   }
-  // }, [inView])
+  React.useEffect(() => {
+    if (inView) {
+      postInfiniteList.fetchNextPage()
+    }
+  }, [inView])
 
   // const postList = useQuery({
   //   queryKey: ["post-list"],
@@ -109,8 +110,10 @@ export default function Home() {
       handleClose();
       // refetch post list
       // postInfiniteList.refetch();
-      dispatch(refetch_post_list_toggle())
+      // dispatch(refetch_post_list_toggle())
       setValue("")
+      console.log(data)
+
     },
 
   });
@@ -220,7 +223,7 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-
+          {console.log(postInfiniteList.data)}
           {
             postInfiniteList.data.pages.map((a) => (
               <>
