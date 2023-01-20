@@ -71,12 +71,12 @@ function PostCard(props) {
       console.log("old data in setQuery")
       console.log(oldData)
       console.log(data)
-      let newData = data.data
+      let newData = data
       queryClient.setQueryData(["posts"], data => ({
         ...data,
         pages:data.pages.map((page) => ({
           ...page,
-          results:page.results.map((a) => a.id === newData.id ? newData : a)
+          results:page.results.map((a) => a.id === newData.data.id ? newData.data : a)
         }))
       }))
 
@@ -89,22 +89,23 @@ function PostCard(props) {
       // // refetch post detail too 
       // // dispatch(refetch_post_detail_toggle())
 
-      let w = queryClient.getQueryData(['postdetail',{id:props.data.id}]);
-      console.log("cobacoba")
-      console.log(w)
-      let oldData1 = queryClient.getQueryData(["postdetail",{id:37}]);
+      // let oldData1 = queryClient.getQueryData(['post-detail',{id:JSON.stringify(props.data.id)}]);
+      // console.log("old data in setQuery's detail")
+      // console.log(oldData1)
+      // let x= queryClient.getQueryCache();
+      // console.log("cobacoba query cache")
+      // console.log(x)
+      // let g = queryClient.getMutationCache();
+      // console.log("cobacoba mutation cache")
+      // console.log(g)
+
+      let oldData1 = queryClient.getQueryData(['post-detail',{id:JSON.stringify(props.data.id)}]);
       console.log("old data in setQuery's detail")
       console.log(oldData1)
-      let x= queryClient.getQueryCache();
-      console.log("cobacoba query cache")
-      console.log(x)
-      let g = queryClient.getMutationCache();
-      console.log("cobacoba mutation cache")
-      console.log(g)
-      // queryClient.setQueryData(['postdetail',{id:props.data.id}], data => newData)
-      // let newData1 = queryClient.getQueryData(["postdetail",{id:props.data.id}]);
-      // console.log("new data in setQuery's detail")
-      // console.log(newData1)
+      queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
+      let newData1 = queryClient.getQueryData(['post-detail',{id:JSON.stringify(props.data.id)}]);
+      console.log("new data in setQuery's detail")
+      console.log(newData1)
 
       // queryClient.invalidateQueries("posts")
       

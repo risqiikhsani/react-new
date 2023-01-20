@@ -31,7 +31,7 @@ export default function PostDetail(props) {
   // })
 
   const postDetail = useQuery(
-    ["postdetail",{id:postId}],
+    ["post-detail",{id:postId}],
     () => {
       return AppApi.fetchPostDetail(postId);
     },
