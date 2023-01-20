@@ -66,11 +66,6 @@ function PostCard(props) {
       // dispatch(refetch_post_list_toggle())
 
 
-
-      let oldData = queryClient.getQueryData(["posts"]);
-      console.log("old data in setQuery")
-      console.log(oldData)
-      console.log(data)
       let newData = data
       queryClient.setQueryData(["posts"], data => ({
         ...data,
@@ -80,32 +75,9 @@ function PostCard(props) {
         }))
       }))
 
-
-
-
-      // let oldData2 = queryClient.getQueryData(["posts"]);
-      // console.log("new data in setQuery")
-      // console.log(oldData2)
-      // // refetch post detail too 
-      // // dispatch(refetch_post_detail_toggle())
-
-      // let oldData1 = queryClient.getQueryData(['post-detail',{id:JSON.stringify(props.data.id)}]);
-      // console.log("old data in setQuery's detail")
-      // console.log(oldData1)
-      // let x= queryClient.getQueryCache();
-      // console.log("cobacoba query cache")
-      // console.log(x)
-      // let g = queryClient.getMutationCache();
-      // console.log("cobacoba mutation cache")
-      // console.log(g)
-
-      let oldData1 = queryClient.getQueryData(['post-detail',{id:JSON.stringify(props.data.id)}]);
-      console.log("old data in setQuery's detail")
-      console.log(oldData1)
+      // refetch post detail
       queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
-      let newData1 = queryClient.getQueryData(['post-detail',{id:JSON.stringify(props.data.id)}]);
-      console.log("new data in setQuery's detail")
-      console.log(newData1)
+
 
       // queryClient.invalidateQueries("posts")
       
@@ -133,15 +105,20 @@ function PostCard(props) {
       console.log(data)
       // refetch post list
       // dispatch(refetch_post_list_toggle())
-      
+
+
       let newData = data
-      queryClient.setQueryData('posts', data => ({
+      queryClient.setQueryData(["posts"], data => ({
         ...data,
-        pages:data.pages.map((page) => page.results.map((a) => a.id === newData.id ? newData : a))
+        pages:data.pages.map((page) => ({
+          ...page,
+          results:page.results.map((a) => a.id === newData.data.id ? newData.data : a)
+        }))
       }))
-      // refetch post detail too 
-      // dispatch(refetch_post_detail_toggle())
-      queryClient.setQueryData(['post-detail', newData.id], newData)
+
+      // refetch post detail
+      queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
+
     }
   })
 

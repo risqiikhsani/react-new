@@ -88,15 +88,20 @@ function PostMoreMenuButton(props) {
       dispatch(setSnackbar({ type: "success", string: "Post edited!" }))
       // refetch post list
       // dispatch(refetch_post_list_toggle())
-      // refetch post detail too 
-      // dispatch(refetch_post_detail_toggle())
+
+
       let newData = data
-      queryClient.setQueryData('posts', data => ({
+      queryClient.setQueryData(["posts"], data => ({
         ...data,
-        pages:data.pages.map((page) => page.results.map((a) => a.id === newData.id ? newData : a))
+        pages:data.pages.map((page) => ({
+          ...page,
+          results:page.results.map((a) => a.id === newData.data.id ? newData.data : a)
+        }))
       }))
 
-      queryClient.setQueryData(['post-detail', newData.id], newData)
+      // refetch post detail
+      queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
+
     },
   })
 
@@ -115,9 +120,14 @@ function PostMoreMenuButton(props) {
       // refetch post list
       // dispatch(refetch_post_list_toggle())
       let newData = data
-      queryClient.setQueryData('posts', data => ({
+
+
+      queryClient.setQueryData(["posts"], data => ({
         ...data,
-        pages:data.pages.map((page) => page.results.filter(a => a.id != newData.id))
+        pages:data.pages.map((page) => ({
+          ...page,
+          results:page.results.filter(a => a.id != newData.data.id)
+        }))
       }))
       //return to post list
       navigate("/")
