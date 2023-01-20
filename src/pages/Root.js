@@ -10,7 +10,13 @@ import { setUser } from "../hooks/slices/userSlice";
 
 import { useIsFetching } from "@tanstack/react-query";
 
-import { Alert, LinearProgress, Snackbar } from "@mui/material";
+import {
+  Alert,
+  Backdrop,
+  CircularProgress,
+  LinearProgress,
+  Snackbar,
+} from "@mui/material";
 import { Box } from "@mui/system";
 export default function Root() {
   const isFetching = useIsFetching();
@@ -78,11 +84,11 @@ export default function Root() {
 
   return (
     <React.Fragment>
-      {isFetching && (
+      {/* {isFetching && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
-      )}
+      )} */}
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

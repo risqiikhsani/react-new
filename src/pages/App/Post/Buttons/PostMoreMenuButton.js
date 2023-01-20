@@ -119,18 +119,20 @@ function PostMoreMenuButton(props) {
       dispatch(setSnackbar({ type: "success", string: "Post deleted!" }))
       // refetch post list
       // dispatch(refetch_post_list_toggle())
-      let newData = data
+
 
 
       queryClient.setQueryData(["posts"], data => ({
         ...data,
         pages:data.pages.map((page) => ({
           ...page,
-          results:page.results.filter(a => a.id != newData.data.id)
+          results:page.results.filter(a => a.id != props.data.id)
         }))
       }))
+
+      queryClient.invalidateQueries(['post-detail',{id:JSON.stringify(props.data.id)}])
       //return to post list
-      navigate("/")
+      // navigate("/")
     },
   });
 
