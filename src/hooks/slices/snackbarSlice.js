@@ -5,12 +5,14 @@ export const snackbarSlice = createSlice({
   initialState: {
     type: null,
     string: null,
+    detail:null,
     count:0,
   },
   reducers: {
     setSnackbar: (state, action) => {
       state.type = action.payload.type
       state.string = action.payload.string
+      state.detail = action.payload.detail
       state.count = state.count + 1
     },
   },

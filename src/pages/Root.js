@@ -16,6 +16,7 @@ import {
   CircularProgress,
   LinearProgress,
   Snackbar,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 export default function Root() {
@@ -32,6 +33,7 @@ export default function Root() {
 
   const snackbar_type = useSelector((state) => state.snackbar.type);
   const snackbar_string = useSelector((state) => state.snackbar.string);
+  const snackbar_detail = useSelector((state) => state.snackbar.detail);
   const snackbar_trigger = useSelector((state) => state.snackbar.count);
 
   useEffect(() => {
@@ -96,8 +98,9 @@ export default function Root() {
         open={openSnackbar}
         autoHideDuration={5000}
       >
-        <Alert variant="filled" severity="success" sx={{ width: "100%" }}>
+        <Alert variant="filled" severity={snackbar_type=="error"? "error" : "success"}sx={{ width: "100%" }}>
           {snackbar_string}
+          <Typography>{snackbar_detail}</Typography>
         </Alert>
       </Snackbar>
       <Outlet />

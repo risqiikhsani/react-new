@@ -11,7 +11,8 @@ import {
 } from "react-router-dom";
 import loadable from "@loadable/component";
 import pMinDelay from "p-min-delay";
-
+import BeatLoaderSpinner from "../components/SuspenseFallback/BeatLoaderSpinner";
+import RingLoaderSpinner from "../components/SuspenseFallback/RingLoaderSpinner";
 // import Error from "../pages/Others/Error";
 // import Root from "../pages/Root";
 // import Home from "../pages/App/Home/Home";
@@ -56,11 +57,14 @@ import pMinDelay from "p-min-delay";
 // import ForgotPassword from "../pages/Auth/ForgotPassword";
 // import SignupProgress from "../pages/Auth/SignupProgress";
 const Error = loadable(() => import("../pages/Others/Error"));
-const Root = loadable(() => import("../pages/Root"));
-const Home = loadable(() => import("../pages/App/Home/Home"));
-// const Home = loadable(() =>
-//   pMinDelay(import("../pages/App/Home/Home"), 4000)
-// )
+// const Root = loadable(() => import("../pages/Root"));
+const Root = loadable(() =>
+  pMinDelay(import("../pages/Root"), 4000)
+)
+//const Home = loadable(() => import("../pages/App/Home/Home"));
+const Home = loadable(() =>
+  pMinDelay(import("../pages/App/Home/Home"), 3000)
+)
 
 const Chat = loadable(() => import("../pages/App/Chat/Chat"));
 const ChatRoom = loadable(() => import("../pages/App/Chat/ChatRoom"));
@@ -108,7 +112,7 @@ let user = false;
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <Root fallback={<RingLoaderSpinner/>}/>,
     errorElement: <Error />,
     children: [
       {
@@ -117,7 +121,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <Home/>,
+            element: <Home fallback={<RingLoaderSpinner/>}/>,
           },
 
           {

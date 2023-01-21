@@ -1,23 +1,23 @@
-import { Box, Stack } from "@mui/system";
-import * as React from "react";
-import { useEffect } from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import {
+  Alert,
   Button,
-  Typography,
   Checkbox,
-  FormGroup,
-  FormControlLabel,
   FormControl,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
-  IconButton,
   TextField,
+  Typography
 } from "@mui/material";
+import { Box, Stack } from "@mui/system";
+import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Mutation, useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { Link as LinkRouter } from "react-router-dom";
 
@@ -26,17 +26,15 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import AuthApi from "../../api/AuthApi";
 
-
-import ProgressTopBar from "../../components/SuspenseFallback/ProgressTopBar";
-import ErrorAlert from "../../components/ErrorBoundarier/ErrorAlert";
-
 import { useDispatch } from "react-redux";
-import { setUser, clearUser } from "../../hooks/slices/userSlice";
 import localStorageApi from "../../api/localStorageApi";
+import BeatLoaderSpinner from "../../components/SuspenseFallback/BeatLoaderSpinner";
+import { setSnackbar } from "../../hooks/slices/snackbarSlice";
+import { setUser } from "../../hooks/slices/userSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [checked, setChecked] = React.useState(true);
@@ -57,31 +55,40 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const mutation = useMutation((data) => {
-    return AuthApi.login(data);
-  },
-  {
-    onError: (error, variables, context) => {
-
-      console.log("onError runninng")
-      console.log(error.message)
-
+  const mutation = useMutation(
+    (data) => {
+      return AuthApi.login(data);
     },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess running")
+    {
+      onError: (error, variables, context) => {
+        console.log("onError runninng");
+        console.log(error);
+        console.log(error.message);
 
+        dispatch(
+          setSnackbar({
+            type: "error",
+            string: "something went wrong",
+            detail: error.message,
+          })
+        );
 
-      // put tokens in localstorage
-      localStorageApi.setUser(data.data)
+        // navigate("/auth/login")
+      },
+      onSuccess: (data, variables, context) => {
+        console.log("onSuccess running");
 
-      // set user state
-      dispatch(setUser(data.data))
+        // put tokens in localstorage
+        localStorageApi.setUser(data.data);
 
-    },
-  });
+        // set user state
+        dispatch(setUser(data.data));
+      },
+    }
+  );
 
   const onSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       mutation.mutate({
         username: username,
@@ -92,15 +99,20 @@ export default function Login() {
     }
   };
 
-
-
-
+  // if(mutation.error){
+  //   return(
+  //     <React.Fragment>
+  //       something went wrong
+  //     </React.Fragment>
+  //   )
+  // }
 
   return (
     <React.Fragment>
-      {
+      {/* {
         mutation.isLoading && <ProgressTopBar />
-      }
+      } */}
+      {mutation.isLoading && <BeatLoaderSpinner />}
       <Box>
         <Stack
           component="form"
@@ -150,6 +162,12 @@ export default function Login() {
             />
           </FormControl>
 
+          {mutation.isError && mutation.error.response !== undefined && (
+            <Alert variant="filled" severity="error">
+              wrong username or password !
+            </Alert>
+          )}
+
           <FormGroup>
             <FormControlLabel
               control={
@@ -162,7 +180,6 @@ export default function Login() {
               label="Remember me"
             />
           </FormGroup>
-          {mutation.isError && <ErrorAlert error={mutation.error} />}
           <Button variant="contained" onClick={onSubmit}>
             LOG IN
           </Button>
