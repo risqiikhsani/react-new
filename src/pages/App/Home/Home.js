@@ -138,14 +138,14 @@ export default function Home() {
     }
   };
 
-  // if (postInfiniteList.isLoading)
-  //   return (
-  //     <React.Fragment>
-  //       <Container maxWidth="sm">
-  //         <p>Loading....</p>
-  //       </Container>
-  //     </React.Fragment>
-  //   );
+  if (postInfiniteList.isLoading)
+    return (
+      <React.Fragment>
+        <Container maxWidth="sm">
+          <PostSkeleton/>
+        </Container>
+      </React.Fragment>
+    );
 
   return (
     <React.Fragment>
@@ -209,14 +209,12 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-          {postInfiniteList.isLoading && <PostSkeleton />}
+          
           {postInfiniteList.data.pages.map((a) => (
             <>
               {/* {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)} */}
               {a.results.map((post) => (
-                <React.Fragment>
                   <PostCard key={post.id} data={post} />
-                </React.Fragment>
               ))}
             </>
           ))}

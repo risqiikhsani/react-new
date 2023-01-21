@@ -15,9 +15,9 @@ import BeatLoaderSpinner from "../components/SuspenseFallback/BeatLoaderSpinner"
 import RingLoaderSpinner from "../components/SuspenseFallback/RingLoaderSpinner";
 // import Error from "../pages/Others/Error";
 // import Root from "../pages/Root";
-// import Home from "../pages/App/Home/Home";
+import Home from "../pages/App/Home/Home";
 
-// import Chat from "../pages/App/Chat/Chat";
+import Chat from "../pages/App/Chat/Chat";
 // import ChatRoom from "../pages/App/Chat/ChatRoom";
 
 
@@ -62,11 +62,11 @@ const Root = loadable(() =>
   pMinDelay(import("../pages/Root"), 4000)
 )
 //const Home = loadable(() => import("../pages/App/Home/Home"));
-const Home = loadable(() =>
-  pMinDelay(import("../pages/App/Home/Home"), 3000)
-)
+// const Home = loadable(() =>
+//   pMinDelay(import("../pages/App/Home/Home"), 1000)
+// )
 
-const Chat = loadable(() => import("../pages/App/Chat/Chat"));
+//const Chat = loadable(() => import("../pages/App/Chat/Chat"));
 const ChatRoom = loadable(() => import("../pages/App/Chat/ChatRoom"));
 
 
@@ -121,7 +121,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <Home fallback={<RingLoaderSpinner/>}/>,
+            element: <Home/>,
           },
 
           {

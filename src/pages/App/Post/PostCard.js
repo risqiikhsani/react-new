@@ -25,6 +25,7 @@ import AppApi from "../../../api/AppApi";
 import PostMoreMenuButton from "./Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "./Buttons/PostShareMenuButton";
 import CommentInput from "./CommentInput";
+import CommentList from "./CommentList";
 
 
 
@@ -233,9 +234,9 @@ function PostCard(props) {
 
       </CardActions>
       <Divider />
-      {/* {props.detail == true && (
+      {props.detail == true && (
         <CommentList post_id={props.data.id}/>
-      )} */}
+      )}
       <CommentInput post_id={props.data.id} />
     </Card>
   );

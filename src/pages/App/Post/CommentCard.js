@@ -14,10 +14,11 @@ import { styled } from "@mui/material/styles";
 import { Collapse } from "@mui/material";
 
 import ReplyIcon from '@mui/icons-material/Reply';
+import { memo } from "react";
 
 
 
-export default function CommentCard(props) {
+function CommentCard(props) {
 
 
 
@@ -61,3 +62,5 @@ export default function CommentCard(props) {
         </Stack>
     );
 }
+
+export default memo(CommentCard);
