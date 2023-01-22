@@ -115,7 +115,6 @@ export default function Home() {
       // postInfiniteList.refetch();
       // dispatch(refetch_post_list_toggle())
       setValue("");
-      console.log(data);
     },
   });
 

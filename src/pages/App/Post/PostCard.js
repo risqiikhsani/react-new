@@ -24,9 +24,9 @@ import { useDispatch, useSelector } from "react-redux";
 import AppApi from "../../../api/AppApi";
 import PostMoreMenuButton from "./Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "./Buttons/PostShareMenuButton";
-import CommentInput from "./CommentInput";
-import CommentList from "./CommentList";
 
+import CommentList from "./Comment/CommentList";
+import CommentInput from "./Comment/CommentInput";
 
 
 const ExpandMore = styled((props) => {
@@ -42,12 +42,7 @@ const ExpandMore = styled((props) => {
 function PostCard(props) {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
-  const authenticated_user_id = useSelector((state) => state.user.id)
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+ 
 
   const likePost = useQuery({
     queryKey: ["like-post"],
@@ -143,8 +138,8 @@ function PostCard(props) {
           // </IconButton>
           <PostMoreMenuButton data={props.data} />
         }
-        title={<Link underline="hover" component={LinkRouter} to={`user/${props.data.user.id}`}>{props.data.user.profile.name}</Link>}
-        subheader={props.data.time_creation}
+        title={<Link underline="hover" component={LinkRouter} to={`/user/${props.data.user.id}`}>{props.data.user.profile.name}</Link>}
+        subheader={props.data.natural_time}
       />
       {props.data.images && (
         <CardMedia

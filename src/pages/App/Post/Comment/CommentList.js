@@ -1,22 +1,23 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { memo } from "react";
 import { useInView } from "react-intersection-observer";
-import { useDispatch, useSelector } from "react-redux";
-import AppApi from "../../../api/AppApi";
-import CommentSkeleton from "../../../components/SuspenseFallback/CommentSkeleton";
+import { useDispatch } from "react-redux";
+
+import AppApi from "../../../../api/AppApi";
+import CommentSkeleton from "../../../../components/SuspenseFallback/CommentSkeleton";
 import CommentCard from "./CommentCard";
 
 export default function CommentList(props) {
+  
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   
   const { ref, inView } = useInView();
-
+  
   const commentInfiniteList = useInfiniteQuery(
-    ["post-detail",{id:props.post_id},"comments"],
+    ["commentlist",{id:props.post_id}],
     async ({ pageParam = 1 }) => {
       const res = await AppApi.fetchCommentList(
         props.post_id,
