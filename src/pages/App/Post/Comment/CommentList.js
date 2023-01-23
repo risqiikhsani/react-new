@@ -76,6 +76,7 @@ export default function CommentList(props) {
             loading={commentInfiniteList.isLoading}
             loadingPosition="end"
             onClick={fetchMoreComments}
+            variant="outlined" size="small" sx={{borderRadius:'20px', textTransform: "none" }}
           >
             load more comments ..
           </LoadingButton>

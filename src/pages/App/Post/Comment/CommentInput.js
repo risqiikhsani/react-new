@@ -11,8 +11,9 @@ import { useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import AppApi from "../../../../api/AppApi";
 import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
+import { memo } from "react";
 
-export default function CommentInput(props) {
+function CommentInput(props) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const createComment = useMutation({
@@ -104,3 +105,5 @@ export default function CommentInput(props) {
     </React.Fragment>
   );
 }
+
+export default memo(CommentInput);

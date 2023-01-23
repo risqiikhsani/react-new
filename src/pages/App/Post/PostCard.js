@@ -150,7 +150,7 @@ function PostCard(props) {
       )}
       <Divider />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" >
           {props.data.text}
         </Typography>
       </CardContent>
