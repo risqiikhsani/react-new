@@ -16,9 +16,9 @@ import { setSnackbar } from "../../../../../hooks/slices/snackbarSlice";
 function ReplyInput(props) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const createComment = useMutation({
+  const createReply = useMutation({
     mutationFn: (data) => {
-      return AppApi.createComment(props.post_id, data);
+      return AppApi.createReply(props.comment_id, data);
     },
     onError: (error, variables, context) => {
       dispatch(
@@ -31,18 +31,18 @@ function ReplyInput(props) {
       setInput("");
     },
     onSuccess: (data, variables, context) => {
-      dispatch(setSnackbar({ type: "success", string: "Comment created" }));
-      queryClient.invalidateQueries("commentlist", {
-        id: JSON.stringify(props.post_id),
+      dispatch(setSnackbar({ type: "success", string: "Reply created" }));
+      queryClient.invalidateQueries("replylist", {
+        id: JSON.stringify(props.comment_id),
       });
       setInput("");
     },
   });
 
-  const onSubmitCreateComment = (event) => {
+  const onSubmitCreateReply = (event) => {
     event.preventDefault();
     try {
-      createComment.mutate({
+      createReply.mutate({
         text: input,
       });
     } catch (err) {
@@ -93,9 +93,9 @@ function ReplyInput(props) {
           <LoadingButton
             color="primary"
             onClick={(event) => {
-              onSubmitCreateComment(event);
+              onSubmitCreateReply(event);
             }}
-            loading={createComment.isLoading}
+            loading={createReply.isLoading}
             loadingPosition="end"
           >
             <SendIcon />

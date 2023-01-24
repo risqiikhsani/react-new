@@ -69,9 +69,9 @@ function ReplyMoreMenuButton(props) {
 
 
 
-  const deleteComment = useMutation({
+  const deleteReply = useMutation({
     mutationFn: (id) => {
-      return AppApi.deleteComment(id);
+      return AppApi.deleteReply(id);
     },
     onError: (error, variables, context) => {
       console.log("something went wrong");
@@ -82,7 +82,7 @@ function ReplyMoreMenuButton(props) {
 
       dispatch(setSnackbar({ type: "success", string: "Comment deleted!" }))
 
-      queryClient.setQueryData(["commentlist",{id:props.data.post}], data => ({
+      queryClient.setQueryData(["replylist",{id:props.data.comment}], data => ({
         ...data,
         pages:data.pages.map((page) => ({
           ...page,
@@ -94,11 +94,11 @@ function ReplyMoreMenuButton(props) {
     },
   });
 
-  const onSubmitDeleteComment = (event) => {
-    console.log("delete comment")
+  const onSubmitDeleteReply = (event) => {
+    console.log("delete reply")
     event.preventDefault();
     try {
-      deleteComment.mutate(props.data.id);
+      deleteReply.mutate(props.data.id);
     } catch (err) {
       console.log(err);
     }
@@ -110,24 +110,24 @@ function ReplyMoreMenuButton(props) {
 
 
       <Dialog open={openDelete} onClose={handleCloseDelete}>
-        <DialogTitle>Delete Comment</DialogTitle>
+        <DialogTitle>Delete Reply</DialogTitle>
         <DialogContent sx={{ minWidth: "500px" }}>
-          {deleteComment.isError && (
+          {deleteReply.isError && (
             <Alert variant="filled" severity="error">
               Something went wrong !
             </Alert>
           )}
           <DialogContentText>
-            delete this comment ?
+            delete this reply ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Box sx={{ flexGrow: 1 }} />
           <Button onClick={handleCloseDelete}>Cancel</Button>
           <LoadingButton
-            loading={deleteComment.isLoading}
+            loading={deleteReply.isLoading}
             loadingPosition="end"
-            onClick={(event) => { onSubmitDeleteComment(event); handleCloseDelete() }}
+            onClick={(event) => { onSubmitDeleteReply(event); handleCloseDelete() }}
           >
             Delete
           </LoadingButton>
@@ -174,13 +174,13 @@ function ReplyMoreMenuButton(props) {
                 <ListItemIcon>
                   <ReportIcon />
                 </ListItemIcon>
-                <ListItemText>Report this comment</ListItemText>
+                <ListItemText>Report this reply</ListItemText>
               </MenuItem>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <ReportIcon />
                 </ListItemIcon>
-                <ListItemText>Share comment</ListItemText>
+                <ListItemText>Share reply</ListItemText>
               </MenuItem>
             </>
           )

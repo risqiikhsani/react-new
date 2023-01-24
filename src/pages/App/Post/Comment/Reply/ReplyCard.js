@@ -20,7 +20,40 @@ function ReplyCard(props) {
   const navigate = useNavigate();
   
 
+  const likeReply = useQuery({
+    queryKey: ["like-reply"],
+    queryFn: () => {
+      return AppApi.likeReply(props.data.id);
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    onError: (error, variables, context) => {
+      console.log("something went wrong");
+      console.log(error.message);
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("like reply success");
+      console.log(data);
 
+      let newData = data;
+      queryClient.setQueryData(
+        ["replylist", { id: props.data.comment }],
+        (data) => ({
+          ...data,
+          pages: data.pages.map((page) => ({
+            ...page,
+            results: page.results.map((a) =>
+              a.id === newData.data.id ? newData.data : a
+            ),
+          })),
+        })
+      );
+    },
+  });
+
+  const onSubmitLikeReply = () => {
+    likeReply.refetch();
+  };
 
   return (
     <Stack
@@ -69,6 +102,7 @@ function ReplyCard(props) {
               aria-label="like"
               size="small"
               color="error"
+              onClick={onSubmitLikeReply}
             >
               <FavoriteIcon fontSize="small" />
             </IconButton>
@@ -77,6 +111,7 @@ function ReplyCard(props) {
               aria-label="like"
               size="small"
               color="default"
+              onClick={onSubmitLikeReply}
             >
               <FavoriteIcon fontSize="small" />
             </IconButton>

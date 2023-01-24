@@ -76,6 +76,7 @@ export default function ReplyList(props) {
             loading={replyInfiniteList.isLoading}
             loadingPosition="end"
             onClick={fetchMoreReplies}
+            variant="outlined" size="small" sx={{borderRadius:'20px', textTransform: "none" }}
           >
             load more replies ..
           </LoadingButton>
