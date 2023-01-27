@@ -40,7 +40,14 @@ export default function Home() {
     console.log(acceptedFiles)
     setMedias(acceptedFiles)
   }, [])
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ onDrop });
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+  const { acceptedFiles, fileRejections,getRootProps, getInputProps } = useDropzone({ 
+    onDrop,
+    accept: {
+      'image/png': ['.png','.jpg','.jpeg','.webpg'],
+      'text/html': ['.html', '.htm'],
+    }
+   });
 
 
 
