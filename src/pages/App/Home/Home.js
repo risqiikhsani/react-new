@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import * as React from "react";
 
-import { Badge, Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SpeedDial, Typography } from "@mui/material";
+import { Badge, Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SpeedDial, SpeedDialAction, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -26,12 +26,26 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 
 import AppApi from "../../../api/AppApi";
 import PostSkeleton from "../../../components/SuspenseFallback/PostSkeleton";
 import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import PostCard from "../Post/PostCard";
 import { useDropzone } from "react-dropzone";
+
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import PollIcon from '@mui/icons-material/Poll';
+import QuizIcon from '@mui/icons-material/Quiz';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+
+const actions = [
+  { icon: <PostAddIcon />, name: 'Create Post' },
+  { icon: <PollIcon />, name: 'Create Votes' },
+  { icon: <QuizIcon />, name: 'Ask Questions' },
+  { icon: <OndemandVideoIcon />, name: 'Create Reels' },
+];
+
 
 export default function Home() {
   const [media, setMedias] = React.useState(null)
@@ -169,8 +183,21 @@ export default function Home() {
     <React.Fragment>
       {console.log("Home JSX is running")}
       <Container maxWidth="sm">
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Create Post</DialogTitle>
+        <Dialog fullScreen open={open} onClose={handleClose}>
+          <DialogTitle>Create Post
+          <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+          </DialogTitle>
           <DialogContent sx={{ minWidth: "500px" }}>
             {createPost.isError && (
               <Alert variant="filled" severity="error">
@@ -220,15 +247,11 @@ export default function Home() {
           </DialogContent>
 
           <DialogActions>
-            <IconButton>
-              <AttachFileIcon />
-            </IconButton>
+
             <IconButton>
               <EmojiEmotionsIcon />
             </IconButton>
-            <IconButton>
-              <ImageIcon />
-            </IconButton>
+
             <Box sx={{ flexGrow: 1 }} />
             <Button onClick={handleClose}>Cancel</Button>
             <LoadingButton
@@ -241,11 +264,20 @@ export default function Home() {
           </DialogActions>
         </Dialog>
         <SpeedDial
-          ariaLabel="Create Post"
+          ariaLabel="Create Something"
           sx={{ position: "fixed", bottom: 16, right: 16 }}
           icon={<AddIcon />}
-          onClick={handleOpen}
-        />
+        >
+        {actions.map((action) => (
+          
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={handleOpen}
+          />
+        ))}
+        </SpeedDial>
 
         <Stack
           direction="column"
