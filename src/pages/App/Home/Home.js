@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import * as React from "react";
 
-import { Box, IconButton, SpeedDial } from "@mui/material";
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SpeedDial, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -25,13 +25,40 @@ import AddIcon from "@mui/icons-material/Add";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import AppApi from "../../../api/AppApi";
 import PostSkeleton from "../../../components/SuspenseFallback/PostSkeleton";
 import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import PostCard from "../Post/PostCard";
+import { useDropzone } from "react-dropzone";
 
 export default function Home() {
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+  const files = (<React.Fragment>
+    <List>
+      {
+        acceptedFiles.map(file => (
+          <ListItem disablePadding key={file.path}
+          secondaryAction={
+            <IconButton edge="end" aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          }
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <ImageIcon />
+              </ListItemIcon>
+              <ListItemText primary={file.path} secondary={`${file.size} bytes`} />
+            </ListItemButton>
+          </ListItem>
+        ))
+      }
+
+    </List>
+  </React.Fragment>)
   // const count = useSelector((state) => state.counter.value)
   const authenticated_user_id = useSelector((state) => state.user.id);
   const authenticated_user_name = useSelector((state) => state.user.name);
@@ -141,7 +168,7 @@ export default function Home() {
     return (
       <React.Fragment>
         <Container maxWidth="sm">
-          <PostSkeleton/>
+          <PostSkeleton />
         </Container>
       </React.Fragment>
     );
@@ -173,7 +200,16 @@ export default function Home() {
               value={value}
               onChange={handleChange}
             />
+
+
+              <Box {...getRootProps({ className: 'dropzone' })} sx={{ bgcolor: "aquamarine",borderRadius:'20px',p:'30px' }}>
+                <input {...getInputProps()} />
+                <Typography>Drag 'n' drop some files here, or click to select files</Typography>
+              </Box>
+              <Typography>Files : </Typography>
+              {files}
           </DialogContent>
+
           <DialogActions>
             <IconButton>
               <AttachFileIcon />
@@ -208,12 +244,12 @@ export default function Home() {
           alignItems="center"
           spacing={2}
         >
-          
+
           {postInfiniteList.data.pages.map((a) => (
             <>
               {/* {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)} */}
               {a.results.map((post) => (
-                  <PostCard key={post.id} data={post} />
+                <PostCard key={post.id} data={post} />
               ))}
             </>
           ))}
