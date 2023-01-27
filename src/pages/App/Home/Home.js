@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import * as React from "react";
 
-import { Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SpeedDial, Typography } from "@mui/material";
+import { Badge, Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SpeedDial, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -34,31 +34,16 @@ import PostCard from "../Post/PostCard";
 import { useDropzone } from "react-dropzone";
 
 export default function Home() {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const [media, setMedias] = React.useState(null)
+  const onDrop = React.useCallback(acceptedFiles => {
+    console.log("test")
+    console.log(acceptedFiles)
+    setMedias(acceptedFiles)
+  }, [])
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const files = (<React.Fragment>
-    <List>
-      {
-        acceptedFiles.map(file => (
-          <ListItem disablePadding key={file.path}
-          secondaryAction={
-            <IconButton edge="end" aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          }
-          >
-            <ListItemButton>
-              <ListItemIcon>
-                <ImageIcon />
-              </ListItemIcon>
-              <ListItemText primary={file.path} secondary={`${file.size} bytes`} />
-            </ListItemButton>
-          </ListItem>
-        ))
-      }
 
-    </List>
-  </React.Fragment>)
+
   // const count = useSelector((state) => state.counter.value)
   const authenticated_user_id = useSelector((state) => state.user.id);
   const authenticated_user_name = useSelector((state) => state.user.name);
@@ -202,12 +187,29 @@ export default function Home() {
             />
 
 
-              <Box {...getRootProps({ className: 'dropzone' })} sx={{ bgcolor: "aquamarine",borderRadius:'20px',p:'30px' }}>
-                <input {...getInputProps()} />
-                <Typography>Drag 'n' drop some files here, or click to select files</Typography>
-              </Box>
-              <Typography>Files : </Typography>
-              {files}
+            <Box {...getRootProps({ className: 'dropzone' })} sx={{ mt: '10px', bgcolor: "aquamarine", borderRadius: '20px', p: '30px' }}>
+              <input {...getInputProps()} />
+              <Typography>Drag 'n' drop some files here, or click to select files</Typography>
+            </Box>
+
+            {acceptedFiles && (
+              <React.Fragment>
+                <Typography>Files : </Typography>
+                {
+                  acceptedFiles.map(file => (
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                      spacing={1}
+                      sx={{ bgcolor: "palegreen", borderRadius: '20px', p: '5px', mt: '5px' }}
+                    >
+                      <Typography>{file.path}</Typography>
+                      <Box sx={{ bgcolor: "white", borderRadius: '20px', p: '5px', fontSize: '10px' }}>{file.size} bytes</Box>
+                    </Stack>))
+                }
+              </React.Fragment>
+            )}
           </DialogContent>
 
           <DialogActions>
