@@ -2,7 +2,7 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Box, Button, Divider, Stack } from "@mui/material";
+import { Badge, Box, Button, Divider, Stack } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -27,7 +27,21 @@ import PostShareMenuButton from "./Buttons/PostShareMenuButton";
 
 import CommentList from "./Comment/CommentList";
 import CommentInput from "./Comment/CommentInput";
+import ReactImageGallery from "react-image-gallery";
 
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: 10,
+    top: 30,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -40,9 +54,24 @@ const ExpandMore = styled((props) => {
 }));
 
 function PostCard(props) {
+
+  const images = [];
+  if (props.data.postmedia_set !== undefined) {
+    props.data.postmedia_set.map((a) => {
+      images.push({
+        //'original':a.image.medium_square_crop,
+        'original': a.image.full_size,
+        // 'thumbnail':a.image.thumbnail,
+        'originalHeight': '350px',
+        'originalWidth': '500px',
+        'fullscreen': a.image.full_size,
+      })
+    })
+  }
+
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
- 
+
 
   const likePost = useQuery({
     queryKey: ["like-post"],
@@ -65,18 +94,18 @@ function PostCard(props) {
       let newData = data
       queryClient.setQueryData(["posts"], data => ({
         ...data,
-        pages:data.pages.map((page) => ({
+        pages: data.pages.map((page) => ({
           ...page,
-          results:page.results.map((a) => a.id === newData.data.id ? newData.data : a)
+          results: page.results.map((a) => a.id === newData.data.id ? newData.data : a)
         }))
       }))
 
       // refetch post detail
-      queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
+      queryClient.setQueryData(['post-detail', { id: JSON.stringify(props.data.id) }], newData)
 
 
       // queryClient.invalidateQueries("posts")
-      
+
     }
   })
 
@@ -106,14 +135,14 @@ function PostCard(props) {
       let newData = data
       queryClient.setQueryData(["posts"], data => ({
         ...data,
-        pages:data.pages.map((page) => ({
+        pages: data.pages.map((page) => ({
           ...page,
-          results:page.results.map((a) => a.id === newData.data.id ? newData.data : a)
+          results: page.results.map((a) => a.id === newData.data.id ? newData.data : a)
         }))
       }))
 
       // refetch post detail
-      queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
+      queryClient.setQueryData(['post-detail', { id: JSON.stringify(props.data.id) }], newData)
 
     }
   })
@@ -128,7 +157,7 @@ function PostCard(props) {
       {console.log("PostCard is rendering")}
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" 
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"
           //src={props.data.user.profile.profile_picture} 
           />
         }
@@ -141,11 +170,26 @@ function PostCard(props) {
         title={<Link underline="hover" component={LinkRouter} to={`/user/${props.data.user.id}`}>{props.data.user.profile.name}</Link>}
         subheader={props.data.natural_time}
       />
-      {props.data.images && (
-        <CardMedia
-          component="img"
-          image="https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2018/06/cat-217679.jpg?h=c4ed616d&itok=3qHaqQ56"
-          alt="Paella dish"
+      {images.length!==0 && (
+        <ReactImageGallery
+          items={images}
+          showBullets={true}
+          showPlayButton={false}
+          renderLeftNav={(onClick, disabled) => (
+            <IconButton onClick={onClick} disabled={disabled} sx={{ position: 'absolute', top: '40%', bgcolor: "transparent", cursor: 'pointer', zIndex: '4', m: '5px' }}>
+              <ArrowBackIosIcon />
+            </IconButton>
+          )}
+          renderRightNav={(onClick, disabled) => (
+            <IconButton onClick={onClick} disabled={disabled} sx={{ position: 'absolute', top: '40%', right: 0, bgcolor: "transparent", cursor: 'pointer', zIndex: '4', m: '5px' }}>
+              <ArrowForwardIosIcon />
+            </IconButton>
+          )}
+          renderFullscreenButton={(onClick, isFullscreen) => (
+            <IconButton onClick={onClick} sx={{ position: 'absolute', bottom: 0, right: 0, bgcolor: "transparent", cursor: 'pointer', zIndex: '4', m: '5px' }}>
+              {isFullscreen ? <FullscreenExitIcon color="primary" /> : <FullscreenIcon />}
+            </IconButton>
+          )}
         />
       )}
       <Divider />
@@ -155,61 +199,60 @@ function PostCard(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing sx={{ alignItems: "flex-end" }}>
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={0}
-        >
-          {props.data.liked == true ? (
-            <IconButton aria-label="like" color="error" onClick={onSubmitLikePost}>
-              <FavoriteIcon />
-            </IconButton>
-          ) : (
-            <IconButton aria-label="like" color="default" onClick={onSubmitLikePost}>
-              <FavoriteIcon />
-            </IconButton>
-          )}
+        
+          <StyledBadge
+            badgeContent={props.data.likes_amount}
+            color="primary"
+          >
 
-          <Typography fontSize={10}>{props.data.likes_amount}</Typography>
-        </Stack>
-
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={0}
-        >
-          {
-            props.detail == true ? (
-              <IconButton>
-                <CommentIcon />
+            {props.data.liked == true ? (
+              <IconButton aria-label="like" color="error" onClick={onSubmitLikePost}>
+                <FavoriteIcon />
               </IconButton>
             ) : (
-              <IconButton component={LinkRouter} to={`post/${props.data.id}`}>
-                <CommentIcon />
+              <IconButton aria-label="like" color="default" onClick={onSubmitLikePost}>
+                <FavoriteIcon />
               </IconButton>
-            )
-          }
+            )}
+
+          </StyledBadge>
+          {/* <Typography fontSize={10}>{props.data.likes_amount}</Typography> */}
+        
+
+        
+          <StyledBadge
+            badgeContent={props.data.comments_amount}
+            color="primary"
+          >
+            {
+              props.detail == true ? (
+                <IconButton>
+                  <CommentIcon />
+                </IconButton>
+              ) : (
+                <IconButton component={LinkRouter} to={`post/${props.data.id}`}>
+                  <CommentIcon />
+                </IconButton>
+              )
+            }
+          </StyledBadge>
 
 
-          <Typography fontSize={10}>{props.data.comments_amount}</Typography>
-        </Stack>
 
 
 
         {/* <IconButton aria-label="share">
             <ShareIcon />
           </IconButton> */}
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={0}
-        >
-          <PostShareMenuButton post_id={props.data.id} post_user_id={props.data.user.id} />
-          <Typography fontSize={10}>{props.data.shares_amount}</Typography>
-        </Stack>
+        
+          <StyledBadge
+            badgeContent={props.data.shares_amount}
+            color="primary"
+          >
+            <PostShareMenuButton post_id={props.data.id} post_user_id={props.data.user.id} />
+
+          </StyledBadge>
+
 
         <Box sx={{ flexGrow: 1 }} />
 
@@ -230,7 +273,7 @@ function PostCard(props) {
       </CardActions>
       <Divider />
       {props.detail == true && (
-        <CommentList post_id={props.data.id}/>
+        <CommentList post_id={props.data.id} />
       )}
       <CommentInput post_id={props.data.id} />
     </Card>

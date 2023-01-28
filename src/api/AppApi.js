@@ -1,5 +1,9 @@
 import instance from "./instance";
 
+const config = {
+  headers: { 'content-type': 'multipart/form-data' }
+}
+
 class AppApi {
   fetchPostList(last_string) {
     return instance.get(`/app/posts${last_string}`);
@@ -35,7 +39,7 @@ class AppApi {
   }
 
   createPost(data) {
-    return instance.post("/app/posts", JSON.stringify(data));
+    return instance.post("/app/posts", data, config);
   }
 
   createComment(post_id,data){

@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+// import "react-image-gallery/styles/scss/image-gallery.scss";
+import "react-image-gallery/styles/css/image-gallery.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 

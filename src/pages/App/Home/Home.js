@@ -161,10 +161,20 @@ export default function Home() {
 
   const onSubmitCreatePost = (event) => {
     event.preventDefault();
-    try {
-      createPost.mutate({
-        text: value,
+
+    var form = new FormData();
+    form.append("text",value);
+    if(media!==null){
+      media.forEach(element => {
+        form.append(element.name,element);
       });
+    }
+
+    try {
+      // createPost.mutate({
+      //   text: value,
+      // });
+      createPost.mutate(form);
     } catch (err) {
       console.log(err);
     }
@@ -178,7 +188,14 @@ export default function Home() {
         </Container>
       </React.Fragment>
     );
-
+    if (postInfiniteList.isError)
+    return (
+      <React.Fragment>
+        <Container maxWidth="sm">
+          <p>something wrong</p>
+        </Container>
+      </React.Fragment>
+    );
   return (
     <React.Fragment>
       {console.log("Home JSX is running")}
