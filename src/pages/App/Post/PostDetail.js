@@ -10,9 +10,6 @@ export default function PostDetail(props) {
   const navigate = useNavigate();
   let { postId } = useParams();
 
-  const is_post_detail_refetch = useSelector(
-    (state) => state.refetch.post_detail_refetch
-  );
   // const postList = useQuery({
   //   queryKey: ["post-list"],
   //   queryFn: () => {

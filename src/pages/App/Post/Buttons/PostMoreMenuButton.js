@@ -4,7 +4,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
 
-
 import { useNavigate } from "react-router-dom";
 
 //
@@ -22,34 +21,57 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 
-
-
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ReportIcon from "@mui/icons-material/Report";
-
+import CloseIcon from "@mui/icons-material/Close";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
 import LoadingButton from "@mui/lab/LoadingButton";
+import FolderIcon from "@mui/icons-material/Folder";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppApi from "../../../../api/AppApi";
 import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
-
+import {
+  Avatar,
+  Badge,
+  List,
+  ListItem,
+  ListItemButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useDropzone } from "react-dropzone";
 
 function PostMoreMenuButton(props) {
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const [media, setMedias] = React.useState(null);
+  const onDrop = React.useCallback((acceptedFiles) => {
+    console.log("test");
+    console.log(acceptedFiles);
+    setMedias(acceptedFiles);
+  }, []);
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+  const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
+    useDropzone({
+      onDrop,
+      accept: {
+        "image/png": [".png", ".jpg", ".jpeg", ".webpg"],
+        "text/html": [".html", ".htm"],
+      },
+    });
 
-  const authenticated_user_id = useSelector((state) => state.user.id)
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const authenticated_user_id = useSelector((state) => state.user.id);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -75,7 +97,6 @@ function PostMoreMenuButton(props) {
 
   const editPost = useMutation({
     mutationFn: (data) => {
-
       return AppApi.editPost(data.post_id, data.new_data);
     },
     onError: (error, variables, context) => {
@@ -85,25 +106,28 @@ function PostMoreMenuButton(props) {
     onSuccess: (data, variables, context) => {
       console.log("success edit post");
       // open snackbar success
-      dispatch(setSnackbar({ type: "success", string: "Post edited!" }))
+      dispatch(setSnackbar({ type: "success", string: "Post edited!" }));
       // refetch post list
       // dispatch(refetch_post_list_toggle())
 
-
-      let newData = data
-      queryClient.setQueryData(["posts"], data => ({
+      let newData = data;
+      queryClient.setQueryData(["posts"], (data) => ({
         ...data,
-        pages:data.pages.map((page) => ({
+        pages: data.pages.map((page) => ({
           ...page,
-          results:page.results.map((a) => a.id === newData.data.id ? newData.data : a)
-        }))
-      }))
+          results: page.results.map((a) =>
+            a.id === newData.data.id ? newData.data : a
+          ),
+        })),
+      }));
 
       // refetch post detail
-      queryClient.setQueryData(['post-detail',{id:JSON.stringify(props.data.id)}], newData)
-
+      queryClient.setQueryData(
+        ["post-detail", { id: JSON.stringify(props.data.id) }],
+        newData
+      );
     },
-  })
+  });
 
   const deletePost = useMutation({
     mutationFn: (id) => {
@@ -116,28 +140,29 @@ function PostMoreMenuButton(props) {
     onSuccess: (data, variables, context) => {
       console.log("success delete post");
       // open snackbar success
-      dispatch(setSnackbar({ type: "success", string: "Post deleted!" }))
+      dispatch(setSnackbar({ type: "success", string: "Post deleted!" }));
       // refetch post list
       // dispatch(refetch_post_list_toggle())
 
-
-
-      queryClient.setQueryData(["posts"], data => ({
+      queryClient.setQueryData(["posts"], (data) => ({
         ...data,
-        pages:data.pages.map((page) => ({
+        pages: data.pages.map((page) => ({
           ...page,
-          results:page.results.filter(a => a.id != props.data.id)
-        }))
-      }))
+          results: page.results.filter((a) => a.id != props.data.id),
+        })),
+      }));
 
-      queryClient.invalidateQueries(['post-detail',{id:JSON.stringify(props.data.id)}])
+      queryClient.invalidateQueries([
+        "post-detail",
+        { id: JSON.stringify(props.data.id) },
+      ]);
       //return to post list
       // navigate("/")
     },
   });
 
   const onSubmitDeletePost = (event) => {
-    console.log("delete post")
+    console.log("delete post");
     event.preventDefault();
     try {
       deletePost.mutate(props.data.id);
@@ -146,17 +171,15 @@ function PostMoreMenuButton(props) {
     }
   };
 
-
-
   const onSubmitEditPost = (event) => {
     event.preventDefault();
-    
+
     let data = {
-      post_id : props.data.id,
-      new_data : {
-        text:value,
-      }
-    }
+      post_id: props.data.id,
+      new_data: {
+        text: value,
+      },
+    };
 
     try {
       editPost.mutate(data);
@@ -167,7 +190,7 @@ function PostMoreMenuButton(props) {
 
   return (
     <React.Fragment>
-      <Dialog open={openEdit} onClose={handleCloseEdit}>
+      <Dialog fullScreen open={openEdit} onClose={handleCloseEdit}>
         <DialogTitle>Edit Post</DialogTitle>
         <DialogContent sx={{ minWidth: "500px" }}>
           {editPost.isError && (
@@ -187,23 +210,117 @@ function PostMoreMenuButton(props) {
             value={value}
             onChange={handleChangeEdit}
           />
+
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            spacing={4}
+          >
+            {props.data.postmedia_set !== undefined && (
+              <>
+                <Typography>current files : </Typography>
+                <Stack
+                  direction="row"
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  spacing={5}
+                >
+                  {props.data.postmedia_set.map((a) => (
+                    <Badge
+                      badgeContent={
+                        <IconButton>
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                    >
+                      <Avatar
+                        alt="image"
+                        src={a.image.thumbnail}
+                        variant="rounded"
+                        sx={{ width: 56, height: 56 }}
+                      />
+                    </Badge>
+                  ))}
+                </Stack>
+              </>
+            )}
+
+            <Button
+              sx={{
+                textTransform: "none",
+                width: "100%",
+                p: "20px",
+                borderRadius: "20px",
+              }}
+              {...getRootProps({ className: "dropzone" })}
+              variant="outlined"
+              startIcon={<AttachFileIcon />}
+            >
+              <input {...getInputProps()} />
+              Drag and drop files here , or click to select
+            </Button>
+
+            {acceptedFiles && (
+              <React.Fragment>
+                <Typography>new files : </Typography>
+                {acceptedFiles.map((file) => (
+                  <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{
+                      borderRadius: "20px",
+                      p: "5px",
+                      mt: "5px",
+                    }}
+                  >
+                    <Badge
+                      badgeContent={
+                        <IconButton>
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                    >
+                      <Avatar
+                        alt="image"
+                        src={URL.createObjectURL(file)}
+                        variant="rounded"
+                        sx={{ width: 56, height: 56 }}
+                      />
+                    </Badge>
+                    <Typography>{file.path}</Typography>
+                    <Box
+                      sx={{
+                        bgcolor: "white",
+                        borderRadius: "20px",
+                        p: "5px",
+                        fontSize: "10px",
+                      }}
+                    >
+                      {file.size} bytes
+                    </Box>
+                  </Stack>
+                ))}
+              </React.Fragment>
+            )}
+          </Stack>
         </DialogContent>
         <DialogActions>
           <IconButton>
-            <AttachFileIcon />
-          </IconButton>
-          <IconButton>
             <EmojiEmotionsIcon />
           </IconButton>
-          <IconButton>
-            <ImageIcon />
-          </IconButton>
+
           <Box sx={{ flexGrow: 1 }} />
           <Button onClick={handleCloseEdit}>Cancel</Button>
           <LoadingButton
             loading={editPost.isLoading}
             loadingPosition="end"
-            onClick={(event) => { onSubmitEditPost(event); handleCloseEdit() }}
+            onClick={(event) => {
+              onSubmitEditPost(event);
+              handleCloseEdit();
+            }}
           >
             Post
           </LoadingButton>
@@ -228,7 +345,10 @@ function PostMoreMenuButton(props) {
           <LoadingButton
             loading={deletePost.isLoading}
             loadingPosition="end"
-            onClick={(event) => { onSubmitDeletePost(event); handleCloseDelete() }}
+            onClick={(event) => {
+              onSubmitDeletePost(event);
+              handleCloseDelete();
+            }}
           >
             Delete
           </LoadingButton>
@@ -241,7 +361,6 @@ function PostMoreMenuButton(props) {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           aria-label="show notification"
-
           onClick={handleClick}
         >
           <MoreVertIcon />
@@ -259,47 +378,53 @@ function PostMoreMenuButton(props) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {
-          props.data.user.id == authenticated_user_id ? (
-            <>
-
-              <MenuItem onClick={() => { handleOpenEdit(); handleClose() }}>
-                <ListItemIcon>
-                  <EditIcon />
-                </ListItemIcon>
-                <ListItemText>Edit</ListItemText>
-              </MenuItem>
-              <MenuItem onClick={() => { handleOpenDelete(); handleClose() }}>
-                <ListItemIcon>
-                  <DeleteIcon />
-                </ListItemIcon>
-                <ListItemText>Delete</ListItemText>
-              </MenuItem>
-            </>
-          ) : (
-            <>
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <NotificationsIcon />
-                </ListItemIcon>
-                <ListItemText>Turn on notification for this post</ListItemText>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <HideSourceIcon />
-                </ListItemIcon>
-                <ListItemText>Hide all post from this user</ListItemText>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <ReportIcon />
-                </ListItemIcon>
-                <ListItemText>Report this post</ListItemText>
-              </MenuItem>
-            </>
-          )
-        }
-
+        {props.data.user.id == authenticated_user_id ? (
+          <>
+            <MenuItem
+              onClick={() => {
+                handleOpenEdit();
+                handleClose();
+              }}
+            >
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText>Edit</ListItemText>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleOpenDelete();
+                handleClose();
+              }}
+            >
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              <ListItemText>Delete</ListItemText>
+            </MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <NotificationsIcon />
+              </ListItemIcon>
+              <ListItemText>Turn on notification for this post</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <HideSourceIcon />
+              </ListItemIcon>
+              <ListItemText>Hide all post from this user</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <ReportIcon />
+              </ListItemIcon>
+              <ListItemText>Report this post</ListItemText>
+            </MenuItem>
+          </>
+        )}
       </Menu>
     </React.Fragment>
   );
