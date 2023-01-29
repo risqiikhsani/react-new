@@ -51,24 +51,28 @@ import {
 import { useDropzone } from "react-dropzone";
 
 function PostMoreMenuButton(props) {
-
-  const [currentFiles,setCurrentFiles] = React.useState(props.data.postmedia_set)
-  const [removeCurrentFilesId,setRemoveCurrentFilesId] = React.useState([])
+  const [currentFiles, setCurrentFiles] = React.useState(
+    props.data.postmedia_set
+  );
+  const [removeCurrentFilesId, setRemoveCurrentFilesId] = React.useState([]);
   const removeCurrentFiles = (id) => {
-    setCurrentFiles((currentFiles) => currentFiles.filter((a) => a.id !== id))
-    setRemoveCurrentFilesId((removeCurrentFilesId) => [...removeCurrentFilesId,id])
-  }
+    setCurrentFiles((currentFiles) => currentFiles.filter((a) => a.id !== id));
+    setRemoveCurrentFilesId((removeCurrentFilesId) => [
+      ...removeCurrentFilesId,
+      id,
+    ]);
+  };
 
   const [uploadFiles, setUploadFiles] = React.useState([]);
   const onDrop = React.useCallback((acceptedFiles) => {
     console.log("test");
     console.log(acceptedFiles);
-    setUploadFiles(...uploadFiles,acceptedFiles);
+    setUploadFiles((uploadFiles) => [...uploadFiles,...acceptedFiles]);
   }, []);
 
   const removeMedia = (path) => {
-    setUploadFiles((uploadFiles) => uploadFiles.filter((a) => a.path !== path))
-  }
+    setUploadFiles((uploadFiles) => uploadFiles.filter((a) => a.path !== path));
+  };
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
     useDropzone({
@@ -78,6 +82,20 @@ function PostMoreMenuButton(props) {
         "text/html": [".html", ".htm"],
       },
     });
+
+  // let refsById = React.useMemo(() => {
+  //   const refs = {};
+  //   uploadFiles.forEach((item) => {
+  //     refs[item.path] = React.createRef(null);
+  //   });
+  //   return refs;
+  // }, [uploadFiles]);
+
+  // React.useEffect(() => {
+  //   uploadFiles.forEach((item) => {
+  //     refsById[item.path].current.srcObject = item.path;
+  //   });
+  // }, [refsById]);
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -97,10 +115,11 @@ function PostMoreMenuButton(props) {
   const [openEdit, setOpenEdit] = React.useState(false);
   const handleOpenEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => {
-    setOpenEdit(false)
+    setOpenEdit(false);
     // if user cancel edit , currentfiles to default
-    setCurrentFiles(props.data.postmedia_set)
-    setRemoveCurrentFilesId([])
+    setCurrentFiles(props.data.postmedia_set);
+    setRemoveCurrentFilesId([]);
+    setUploadFiles([]);
   };
 
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -143,6 +162,11 @@ function PostMoreMenuButton(props) {
         ["post-detail", { id: JSON.stringify(props.data.id) }],
         newData
       );
+
+      // if user success edit , currentfiles to default
+      setCurrentFiles(props.data.postmedia_set);
+      setRemoveCurrentFilesId([]);
+      setUploadFiles([]);
     },
   });
 
@@ -192,14 +216,14 @@ function PostMoreMenuButton(props) {
     event.preventDefault();
 
     var form = new FormData();
-    form.append("text",value)
-    if(uploadFiles!==null){
-      uploadFiles.forEach(element => {
-        form.append(element.name,element);
-      })
+    form.append("text", value);
+    if (uploadFiles !== null) {
+      uploadFiles.forEach((element) => {
+        form.append(element.name, element);
+      });
     }
-    if(removeCurrentFilesId.length>0){
-      form.append("delete_images_id",JSON.stringify(removeCurrentFilesId))
+    if (removeCurrentFilesId.length > 0) {
+      form.append("delete_images_id", JSON.stringify(removeCurrentFilesId));
     }
 
     try {
@@ -215,19 +239,20 @@ function PostMoreMenuButton(props) {
       {console.log(uploadFiles)}
       {console.log(removeCurrentFilesId)}
       <Dialog fullScreen open={openEdit} onClose={handleCloseEdit}>
-        <DialogTitle>Edit Post
-        <IconButton
-          aria-label="close"
-          onClick={handleCloseEdit}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+        <DialogTitle>
+          Edit Post
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseEdit}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent sx={{ minWidth: "500px" }}>
           {editPost.isError && (
@@ -254,7 +279,7 @@ function PostMoreMenuButton(props) {
             alignItems="flex-start"
             spacing={4}
           >
-            {currentFiles && (
+            {currentFiles.length > 0 && (
               <>
                 <Typography>current files : </Typography>
                 <Stack
@@ -298,7 +323,7 @@ function PostMoreMenuButton(props) {
               Drag and drop files here , or click to select
             </Button>
 
-            {uploadFiles && (
+            {uploadFiles.length > 0 && (
               <React.Fragment>
                 <Typography>new files : </Typography>
                 {uploadFiles.map((file) => (
@@ -313,6 +338,7 @@ function PostMoreMenuButton(props) {
                       mt: "5px",
                     }}
                   >
+                    
                     <Badge
                       badgeContent={
                         <IconButton onClick={() => removeMedia(file.path)}>
@@ -322,7 +348,8 @@ function PostMoreMenuButton(props) {
                     >
                       <Avatar
                         alt="image"
-                        src={URL.createObjectURL(file)}
+                        // ref={refsById[file.path]}
+                        // src={URL.createObjectURL(file.path)}
                         variant="rounded"
                         sx={{ width: 56, height: 56 }}
                       />
