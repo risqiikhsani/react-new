@@ -27,7 +27,7 @@ class AppApi {
 
 
   editPost(id,data){
-    return instance.put(`/app/post/${id}`, JSON.stringify(data));
+    return instance.put(`/app/post/${id}`, data, config);
   }
 
   editComment(id,data){

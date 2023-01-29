@@ -4,7 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
 
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 
 //
 
@@ -51,12 +51,24 @@ import {
 import { useDropzone } from "react-dropzone";
 
 function PostMoreMenuButton(props) {
-  const [media, setMedias] = React.useState(null);
+
+  const [currentFiles,setCurrentFiles] = React.useState(props.data.postmedia_set)
+  const [removeCurrentFilesId,setRemoveCurrentFilesId] = React.useState([])
+  const removeCurrentFiles = (id) => {
+    setCurrentFiles((currentFiles) => currentFiles.filter((a) => a.id !== id))
+    setRemoveCurrentFilesId((removeCurrentFilesId) => [...removeCurrentFilesId,id])
+  }
+
+  const [uploadFiles, setUploadFiles] = React.useState([]);
   const onDrop = React.useCallback((acceptedFiles) => {
     console.log("test");
     console.log(acceptedFiles);
-    setMedias(acceptedFiles);
+    setUploadFiles(...uploadFiles,acceptedFiles);
   }, []);
+
+  const removeMedia = (path) => {
+    setUploadFiles((uploadFiles) => uploadFiles.filter((a) => a.path !== path))
+  }
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
     useDropzone({
@@ -84,7 +96,12 @@ function PostMoreMenuButton(props) {
 
   const [openEdit, setOpenEdit] = React.useState(false);
   const handleOpenEdit = () => setOpenEdit(true);
-  const handleCloseEdit = () => setOpenEdit(false);
+  const handleCloseEdit = () => {
+    setOpenEdit(false)
+    // if user cancel edit , currentfiles to default
+    setCurrentFiles(props.data.postmedia_set)
+    setRemoveCurrentFilesId([])
+  };
 
   const [openDelete, setOpenDelete] = React.useState(false);
   const handleOpenDelete = () => setOpenDelete(true);
@@ -97,7 +114,7 @@ function PostMoreMenuButton(props) {
 
   const editPost = useMutation({
     mutationFn: (data) => {
-      return AppApi.editPost(data.post_id, data.new_data);
+      return AppApi.editPost(props.data.id, data);
     },
     onError: (error, variables, context) => {
       console.log("something went wrong");
@@ -174,15 +191,19 @@ function PostMoreMenuButton(props) {
   const onSubmitEditPost = (event) => {
     event.preventDefault();
 
-    let data = {
-      post_id: props.data.id,
-      new_data: {
-        text: value,
-      },
-    };
+    var form = new FormData();
+    form.append("text",value)
+    if(uploadFiles!==null){
+      uploadFiles.forEach(element => {
+        form.append(element.name,element);
+      })
+    }
+    if(removeCurrentFilesId.length>0){
+      form.append("delete_images_id",JSON.stringify(removeCurrentFilesId))
+    }
 
     try {
-      editPost.mutate(data);
+      editPost.mutate(form);
     } catch (err) {
       console.log(err);
     }
@@ -190,8 +211,24 @@ function PostMoreMenuButton(props) {
 
   return (
     <React.Fragment>
+      {console.log(currentFiles)}
+      {console.log(uploadFiles)}
+      {console.log(removeCurrentFilesId)}
       <Dialog fullScreen open={openEdit} onClose={handleCloseEdit}>
-        <DialogTitle>Edit Post</DialogTitle>
+        <DialogTitle>Edit Post
+        <IconButton
+          aria-label="close"
+          onClick={handleCloseEdit}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        </DialogTitle>
         <DialogContent sx={{ minWidth: "500px" }}>
           {editPost.isError && (
             <Alert variant="filled" severity="error">
@@ -217,7 +254,7 @@ function PostMoreMenuButton(props) {
             alignItems="flex-start"
             spacing={4}
           >
-            {props.data.postmedia_set !== undefined && (
+            {currentFiles && (
               <>
                 <Typography>current files : </Typography>
                 <Stack
@@ -226,10 +263,10 @@ function PostMoreMenuButton(props) {
                   alignItems="flex-start"
                   spacing={5}
                 >
-                  {props.data.postmedia_set.map((a) => (
+                  {currentFiles.map((a) => (
                     <Badge
                       badgeContent={
-                        <IconButton>
+                        <IconButton onClick={() => removeCurrentFiles(a.id)}>
                           <DeleteIcon />
                         </IconButton>
                       }
@@ -261,10 +298,10 @@ function PostMoreMenuButton(props) {
               Drag and drop files here , or click to select
             </Button>
 
-            {acceptedFiles && (
+            {uploadFiles && (
               <React.Fragment>
                 <Typography>new files : </Typography>
-                {acceptedFiles.map((file) => (
+                {uploadFiles.map((file) => (
                   <Stack
                     direction="row"
                     justifyContent="center"
@@ -278,7 +315,7 @@ function PostMoreMenuButton(props) {
                   >
                     <Badge
                       badgeContent={
-                        <IconButton>
+                        <IconButton onClick={() => removeMedia(file.path)}>
                           <DeleteIcon />
                         </IconButton>
                       }
