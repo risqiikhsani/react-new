@@ -351,7 +351,7 @@ function PostMoreMenuButton(props) {
                       <Avatar
                         alt="image"
                         // ref={refsById[file.path]}
-                        // src={URL.createObjectURL(file.path)}
+                        src={window.URL.createObjectURL(file.path)}
                         variant="rounded"
                         sx={{ width: 56, height: 56 }}
                       />

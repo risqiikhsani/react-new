@@ -130,7 +130,7 @@ const router = createBrowserRouter([
           },
           {
             path: "user/:userId",
-            element: null,
+            element: <Profile/>,
           },
           {
             path: "chats",

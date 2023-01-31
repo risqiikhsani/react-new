@@ -76,6 +76,14 @@ class AppApi {
     return instance.get(`/app/comment/${comment_id}/replies${last_string}`);
   }  
 
+  fetchUserDetail(id){
+    return instance.get(`/user-detail/${id}`);
+  }
+
+  fetchUserList(){
+    return instance.get(`/user-list`);
+  }
+
 }
 
 export default new AppApi();
