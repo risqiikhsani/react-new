@@ -80,9 +80,7 @@ export default function CommentList(props) {
           >
             load more comments ..
           </LoadingButton>
-        ) : (
-          "Nothing more to load"
-        )}
+        ) : null}
       </Stack>
     </React.Fragment>
   );

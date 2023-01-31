@@ -1,18 +1,16 @@
-import { Avatar, Button, Container, IconButton, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
-import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
+import { Avatar, Box, Button, Container, IconButton, Typography } from "@mui/material";
 import Tab from "@mui/material/Tab";
-import { Box } from "@mui/material";
+import Tabs from "@mui/material/Tabs";
+import { Stack } from "@mui/system";
+import PropTypes from "prop-types";
+import * as React from "react";
 import Timeline from "./Timeline";
-
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MutualConnections from "./MutualConnections";
 import MutualGroups from "./MutualGroups";
+import Posts from "./Posts";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,7 +54,7 @@ export default function Profile() {
 
   return (
     <React.Fragment>
-      <Container maxWidth="lg">
+      <Container maxWidth="sm">
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -68,6 +66,7 @@ export default function Profile() {
           justifyContent="flex-start"
           alignItems="center"
           spacing={2}
+          
         >
           <Avatar sx={{ width: 70, height: 70 }} />
           <Stack
@@ -75,6 +74,7 @@ export default function Profile() {
             justifyContent="center"
             alignItems="flex-start"
             spacing={1}
+            sx={{bgcolor:'whitesmoke',borderRadius:'20px',p:'10px'}}
           >
             <Typography>nama</Typography>
             <Typography>id</Typography>
@@ -90,10 +90,11 @@ export default function Profile() {
             variant="contained"
             size="small"
             startIcon={<PersonAddIcon />}
+            sx={{textTransform:'none'}}
           >
             Connect
           </Button>
-          <Button variant="contained" size="small" startIcon={<ChatIcon />}>
+          <Button sx={{textTransform:'none'}} variant="contained" size="small" startIcon={<ChatIcon />}>
             Message
           </Button>
           <IconButton>
@@ -103,24 +104,28 @@ export default function Profile() {
       </Stack>
 
       <Box sx={{ width: "100%", mt: "20px" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
             <Tab label="Timeline" {...a11yProps(0)} />
-            <Tab label="Mutual Connections" {...a11yProps(1)} />
-            <Tab label="Mutual Groups" {...a11yProps(2)} />
+            <Tab label="Posts" {...a11yProps(1)} />
+            <Tab label="Mutual Connections" {...a11yProps(2)} />
+            <Tab label="Mutual Groups" {...a11yProps(3)} />
           </Tabs>
-        </Box>
+       
         <TabPanel value={value} index={0}>
           <Timeline />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <MutualConnections/>
+          <Posts />
         </TabPanel>
         <TabPanel value={value} index={2}>
+          <MutualConnections/>
+        </TabPanel>
+        <TabPanel value={value} index={3}>
           <MutualGroups/>
         </TabPanel>
       </Box>

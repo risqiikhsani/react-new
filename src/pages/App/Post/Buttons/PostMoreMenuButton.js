@@ -113,13 +113,18 @@ function PostMoreMenuButton(props) {
   };
 
   const [openEdit, setOpenEdit] = React.useState(false);
-  const handleOpenEdit = () => setOpenEdit(true);
+  const handleOpenEdit = () => {
+    setOpenEdit(true)
+      // if user edit , currentfiles to default
+    setCurrentFiles(props.data.postmedia_set);
+    setRemoveCurrentFilesId([]);
+    setUploadFiles([]);};
   const handleCloseEdit = () => {
     setOpenEdit(false);
     // if user cancel edit , currentfiles to default
-    setCurrentFiles(props.data.postmedia_set);
-    setRemoveCurrentFilesId([]);
-    setUploadFiles([]);
+    // setCurrentFiles(props.data.postmedia_set);
+    // setRemoveCurrentFilesId([]);
+    // setUploadFiles([]);
   };
 
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -163,10 +168,7 @@ function PostMoreMenuButton(props) {
         newData
       );
 
-      // if user success edit , currentfiles to default
-      setCurrentFiles(props.data.postmedia_set);
-      setRemoveCurrentFilesId([]);
-      setUploadFiles([]);
+
     },
   });
 
@@ -279,7 +281,7 @@ function PostMoreMenuButton(props) {
             alignItems="flex-start"
             spacing={4}
           >
-            {currentFiles.length > 0 && (
+            {currentFiles !== undefined && (
               <>
                 <Typography>current files : </Typography>
                 <Stack
