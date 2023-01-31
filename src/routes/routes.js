@@ -74,6 +74,7 @@ const PostDetail = loadable(() => import("../pages/App/Post/PostDetail"));
 
 
 const Profile = loadable(() => import("../pages/App/Profile/Profile"));
+const UserDetail = loadable(() => import("../pages/App/Profile/UserDetail"));
 
 
 const RootApp = loadable(() => import("../pages/RootApp"));
@@ -130,7 +131,7 @@ const router = createBrowserRouter([
           },
           {
             path: "user/:userId",
-            element: <Profile/>,
+            element: <UserDetail/>,
           },
           {
             path: "chats",
@@ -142,7 +143,7 @@ const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <Profile />,
+            element: <UserDetail />,
           },
 
           {
