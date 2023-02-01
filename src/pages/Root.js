@@ -36,7 +36,9 @@ export default function Root() {
         public_username: user.user.profile.public_username,
         profile_picture: user.user.profile.profile_picture.medium,
       }));
+
     }
+
   }, []);
 
   useEffect(() => {
@@ -56,8 +58,6 @@ export default function Root() {
 
   return (
     <React.Fragment>
-
-
       <SnackbarHandler />
       <Outlet />
     </React.Fragment>
