@@ -76,6 +76,9 @@ const routeMenu = [
 ];
 
 export default function ProfileMenuIcon(props) {
+  const authenticated_user_profile_picture = useSelector((state) => state.user.profile_picture);
+  const authenticated_user_name = useSelector((state) => state.user.name);
+  const authenticated_user_public_username = useSelector((state) => state.user.public_username);
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -110,7 +113,7 @@ export default function ProfileMenuIcon(props) {
           color="inherit"
           onClick={handleClick}
         >
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt={authenticated_user_name || null} src={authenticated_user_profile_picture || null} />
         </IconButton>
       </Tooltip>
 
@@ -156,9 +159,9 @@ export default function ProfileMenuIcon(props) {
       >
         <ListItem>
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt={authenticated_user_name || null} src={authenticated_user_profile_picture || null} />
           </ListItemAvatar>
-          <ListItemText primary="Ricks" secondary="Ricks@gmail.com" />
+          <ListItemText primary={authenticated_user_name || null} secondary={authenticated_user_public_username || null} />
         </ListItem>
 
         <Divider />

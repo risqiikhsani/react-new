@@ -72,7 +72,7 @@ export default function UserDetail(props) {
           && userDetail.data.data.profile.name === authenticated_user_name
           && userDetail.data.data.profile.public_username === authenticated_user_public_username && (
             <React.Fragment>
-              <EditProfileDial />
+              <EditProfileDial data={userDetail.data.data}/>
               <CreatePostDial />
             </React.Fragment>
           )
