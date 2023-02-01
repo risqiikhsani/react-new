@@ -82,7 +82,12 @@ export default function Login() {
         localStorageApi.setUser(data.data);
 
         // set user state
-        dispatch(setUser(data.data));
+        dispatch(setUser({
+          id:data.data.user.id,
+          name:data.data.user.profile.name,
+          public_username:data.data.user.profile.public_username,
+          profile_picture:data.data.user.profile.profile_picture.medium,
+        }));
       },
     }
   );

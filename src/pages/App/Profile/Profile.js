@@ -94,7 +94,8 @@ export default function Profile(props) {
             </Stack>
           </Stack>
 
-          <Stack
+          {props.mine!==true && (
+            <Stack
             direction="row"
             justifyContent="flex-end"
             alignItems="center"
@@ -120,6 +121,8 @@ export default function Profile(props) {
               <MoreVertIcon />
             </IconButton>
           </Stack>
+          )}
+          
         </Stack>
 
         {props.data.profile.about && (
