@@ -10,99 +10,55 @@ import { setUser } from "../hooks/slices/userSlice";
 
 import { useIsFetching } from "@tanstack/react-query";
 
-import {
-  Alert,
-  Backdrop,
-  CircularProgress,
-  LinearProgress,
-  Snackbar,
-  Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
+import SnackbarHandler from "./App/Global/SnackbarHandler";
 export default function Root() {
   const isFetching = useIsFetching();
-
-  // const user_name = useSelector((state) => state.user.name)
-
-  let navigate = useNavigate();
-  const user_id = useSelector((state) => state.user.id);
-  const user_email_confirmed = useSelector(
-    (state) => state.user.email_confirmed
-  );
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
-  const snackbar_type = useSelector((state) => state.snackbar.type);
-  const snackbar_string = useSelector((state) => state.snackbar.string);
-  const snackbar_detail = useSelector((state) => state.snackbar.detail);
-  const snackbar_trigger = useSelector((state) => state.snackbar.count);
+
+
+  const authenticated_user_id = useSelector((state) => state.user.id);
+  const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed);
+
+
 
   useEffect(() => {
-    console.log(
-      "Root.js ~~~~~~~~~~~~~ useEffect is running,checking the user token validation"
-    );
     const user = localStorageApi.getUser();
     console.log(user);
 
     // if there's user in localStorage , change user state , otherwise user state is remain null
-    if (user != null) {
-      console.log(
-        "user information is detected in Local Storage , will redirect you to app!"
-      );
+    if (user !== null) {
       // set user state
-      dispatch(setUser(user));
-    } else {
-      console.log(
-        "user information isn't detected in local storage, redirect to login page!"
-      );
+      dispatch(setUser({
+        id: user.user.id,
+        name: user.user.profile.name,
+        public_username: user.user.profile.public_username,
+        profile_picture: user.user.profile.profile_picture.medium,
+      }));
     }
   }, []);
 
   useEffect(() => {
-    if (!user_id) {
+    if (!authenticated_user_id) {
       // if there's no user in state , redirect to login page
       return navigate("/auth/login");
-    } else if (user_id && !user_email_confirmed) {
+    } else if (authenticated_user_id && !authenticated_user_email_confirmed) {
       // if email isn't comfirmed , user should confirm first
       return navigate("/auth/signup-completion");
     }
     // else{
     //   return navigate(0);
     // }
-  }, [user_id, user_email_confirmed]);
+  }, [authenticated_user_id, authenticated_user_email_confirmed]);
 
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
 
-  React.useEffect(() => {
-    if (snackbar_trigger > 0) {
-      setOpenSnackbar(true);
-    }
-  }, [snackbar_trigger]);
 
   return (
     <React.Fragment>
-      {/* {isFetching && (
-        <Box sx={{ width: "100%" }}>
-          <LinearProgress />
-        </Box>
-      )} */}
 
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        onClose={handleCloseSnackbar}
-        open={openSnackbar}
-        autoHideDuration={5000}
-      >
-        <Alert variant="filled" severity={snackbar_type=="error"? "error" : "success"}sx={{ width: "100%" }}>
-          {snackbar_string}
-          <Typography>{snackbar_detail}</Typography>
-        </Alert>
-      </Snackbar>
+
+      <SnackbarHandler />
       <Outlet />
     </React.Fragment>
   );
