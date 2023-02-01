@@ -26,38 +26,65 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { memo } from "react";
 
 
-export default function EditProfileDial(props) {
-    const [media, setMedias] = React.useState(null)
-    const onDrop = React.useCallback(acceptedFiles => {
-        console.log("test")
-        console.log(acceptedFiles)
-        setMedias(acceptedFiles)
+function EditProfileDial(props) {
+    const [updateProfilePicture, setUpdateProfilePicture] = React.useState(null)
+    const onDropProfile = React.useCallback(acceptedFiles => {
+        setUpdateProfilePicture(acceptedFiles)
     }, [])
 
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-    const { acceptedFiles, fileRejections, getRootProps, getInputProps } = useDropzone({
-        onDrop,
+    const { getRootProps:getRootPropsProfile, getInputProps:getInputPropsProfile } = useDropzone({
+        onDropProfile,
         accept: {
             'image/png': ['.png', '.jpg', '.jpeg', '.webpg'],
-            'text/html': ['.html', '.htm'],
-        }
+        },
+        maxFiles:1,
     });
 
+    const [updatePosterPicture, setUpdatePosterPicture] = React.useState(null)
+    const onDropPoster = React.useCallback(acceptedFiles => {
+        setUpdatePosterPicture(acceptedFiles)
+    }, [])
+    const { getRootProps:getRootPropsPoster, getInputProps:getInputPropsPoster } = useDropzone({
+        onDropPoster,
+        accept: {
+            'image/png': ['.png', '.jpg', '.jpeg', '.webpg'],
+        },
+        maxFiles:1,
+    });
 
     const queryClient = useQueryClient();
 
     const dispatch = useDispatch();
 
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        setOpen(true)
+        setUpdateProfilePicture(null)
+        setUpdatePosterPicture(null)
+        setName(props.data.profile.name)
+        setPublicUsername(props.data.profile.public_username)
+        setAbout(props.data.profile.about)
+    };
     const handleClose = () => setOpen(false);
 
-    const [value, setValue] = React.useState("");
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
+    const [name, setName] = React.useState(props.data.profile.name);
+    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
+
+    const [publicUsername, setPublicUsername] = React.useState(props.data.profile.public_username);
+    const handleChangePublicUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPublicUsername(event.target.value);
+    };
+
+    const [about, setAbout] = React.useState(props.data.profile.about);
+    const handleChangeAbout = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAbout(event.target.value);
     };
 
 
@@ -74,31 +101,32 @@ export default function EditProfileDial(props) {
                     detail: error.message,
                 })
             );
-            setValue("");
         },
         onSuccess: (data, variables, context) => {
-            console.log("success create post");
-            // open snackbar success
-            // setOpenSnackbar(true);
             dispatch(setSnackbar({ type: "success", string: "Profile Updated !" }));
-            // close dialog
+            
             handleClose();
-            // refetch post list
+
             // queryClient.invalidateQueries("posts");
-            // postInfiniteList.refetch();
-            // dispatch(refetch_post_list_toggle())
-            setValue("");
         },
     });
 
-    const onSubmitCreatePost = (event) => {
+    const onSubmitUpdateProfile = (event) => {
         event.preventDefault();
 
         var form = new FormData();
-        form.append("text", value);
-        if (media !== null) {
-            media.forEach(element => {
-                form.append(element.name, element);
+        form.append("name", name);
+        form.append("public_username",publicUsername);
+        form.append("about",about);
+        if (updateProfilePicture !== null) {
+            updateProfilePicture.forEach(element => {
+                form.append("profile_picture", element);
+            });
+        }
+
+        if(updatePosterPicture !== null){
+            updatePosterPicture.forEach(element => {
+                form.append("poster_picture",element);
             });
         }
 
@@ -158,7 +186,7 @@ export default function EditProfileDial(props) {
                                 
                                     <Avatar
                                         alt=""
-                                        src={props.data.profile.profile_picture.medium || null}
+                                        src={updateProfilePicture ? URL.createObjectURL(updateProfilePicture[0].path) : props.data.profile.profile_picture.medium || null}
                                         sx={{ width: '150px', height: '150px' }}
                                     />
                                     <Stack
@@ -170,7 +198,8 @@ export default function EditProfileDial(props) {
                                         <Button variant="outlined" color="error" startIcon={<DeleteIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
                                             Delete Photo
                                         </Button>
-                                        <Button variant="contained" endIcon={<EditIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
+                                        <Button {...getRootPropsProfile({ className: 'dropzone' })} variant="contained" endIcon={<EditIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
+                                            <input {...getInputPropsProfile()} />
                                             Change Photo
                                         </Button>
                                     </Stack>
@@ -195,7 +224,7 @@ export default function EditProfileDial(props) {
                                         component="img"
                                         height="200px"
                                         width="300px"
-                                        image={props.data.profile.poster_picture.medium || null}
+                                        image={updatePosterPicture ? URL.createObjectURL(updatePosterPicture[0].path) : props.data.profile.poster_picture.medium || null}
                                     />
                                     <Stack
                                         direction="row"
@@ -206,7 +235,8 @@ export default function EditProfileDial(props) {
                                         <Button variant="outlined" color="error" startIcon={<DeleteIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
                                             Delete Photo
                                         </Button>
-                                        <Button variant="contained" endIcon={<EditIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
+                                        <Button {...getRootPropsPoster({ className: 'dropzone' })} variant="contained" endIcon={<EditIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
+                                            <input {...getInputPropsPoster()} />
                                             Change Photo
                                         </Button>
                                     </Stack>
@@ -223,9 +253,8 @@ export default function EditProfileDial(props) {
                             error={false}
                             id="outlined-name"
                             label="Name"
-                            value={null}
-                            defaultValue={props.data.profile.name || null}
-                            onChange={null}
+                            value={name}
+                            onChange={handleChangeName}
                             variant="standard"
                         />
 
@@ -234,7 +263,6 @@ export default function EditProfileDial(props) {
                             error={false}
                             id="input-with-icon-textfield"
                             label="Public Username"
-                            defaultValue={props.data.profile.public_username || null}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -247,9 +275,9 @@ export default function EditProfileDial(props) {
                                     </InputAdornment>
                                 )
                             }}
-
+                            value={publicUsername}
                             variant="standard"
-                            onChange={null}
+                            onChange={handleChangePublicUsername}
                             helperText="the displayed username"
                         />
 
@@ -260,8 +288,8 @@ export default function EditProfileDial(props) {
                             multiline
                             variant="standard"
                             maxRows={6}
-                            defaultValue={props.data.profile.about}
-                            onChange={null}
+                            value={about}
+                            onChange={handleChangeAbout}
                         />
                     </Stack>
 
@@ -278,7 +306,7 @@ export default function EditProfileDial(props) {
                     <LoadingButton
                         loading={updateProfile.isLoading}
                         loadingPosition="end"
-                        onClick={onSubmitCreatePost}
+                        onClick={onSubmitUpdateProfile}
                     >
                         Save
                     </LoadingButton>
@@ -298,3 +326,5 @@ export default function EditProfileDial(props) {
         </React.Fragment>
     )
 }
+
+export default memo(EditProfileDial);

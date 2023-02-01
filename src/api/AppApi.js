@@ -84,6 +84,18 @@ class AppApi {
     return instance.get(`/user-list`);
   }
 
+  
+
+  updateUser(data){
+    return instance.put(`/app/my/user`, data, config);
+  }
+  
+
+  updateProfile(data){
+    return instance.put(`/app/my/profile`, data, config);
+  }
+
+
 }
 
 export default new AppApi();
