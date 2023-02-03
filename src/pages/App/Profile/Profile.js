@@ -26,6 +26,7 @@ import { useQuery } from "@tanstack/react-query";
 import AppApi from "../../../api/AppApi";
 import FaceIcon from '@mui/icons-material/Face';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { memo } from "react";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -59,7 +60,7 @@ function a11yProps(index) {
   };
 }
 
-export default function Profile(props) {
+function Profile(props) {
 
   const [value, setValue] = React.useState(0);
 
@@ -218,3 +219,6 @@ export default function Profile(props) {
     </React.Fragment>
   );
 }
+
+
+export default memo(Profile)

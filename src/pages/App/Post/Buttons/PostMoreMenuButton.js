@@ -195,10 +195,10 @@ function PostMoreMenuButton(props) {
         })),
       }));
 
-      queryClient.invalidateQueries([
+      queryClient.invalidateQueries(
         "post-detail",
-        { id: JSON.stringify(props.data.id) },
-      ]);
+        { id: props.data.id },
+      );
       //return to post list
       // navigate("/")
     },

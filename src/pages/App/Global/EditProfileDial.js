@@ -136,7 +136,13 @@ function EditProfileDial(props) {
             
             handleClose();
 
-            // queryClient.invalidateQueries("posts");
+
+            queryClient.invalidateQueries(
+                "user-detail",
+                { id: props.data.id }
+              );
+
+
         },
     });
 
