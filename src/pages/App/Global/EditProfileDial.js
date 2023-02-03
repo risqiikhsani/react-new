@@ -31,14 +31,17 @@ import { memo } from "react";
 
 function EditProfileDial(props) {
     const [updateProfilePicture, setUpdateProfilePicture] = React.useState(null)
-    const onDropProfile = React.useCallback(acceptedFiles => {
-        setUpdateProfilePicture(acceptedFiles)
-    }, [])
+    const [profilePicturePreview,setProfilePicturePreview] = React.useState(props.data.profile.profile_picture.medium)
+    // const onDrop = React.useCallback(acceptedFiles => {
+    //     setUpdateProfilePicture(acceptedFiles)
+    // }, [])
 
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
     const { getRootProps:getRootPropsProfile, getInputProps:getInputPropsProfile } = useDropzone({
-        onDropProfile,
+        onDrop:(acceptedFiles) => {
+            setUpdateProfilePicture(acceptedFiles)
+        },
         accept: {
             'image/png': ['.png', '.jpg', '.jpeg', '.webpg'],
         },
@@ -46,16 +49,32 @@ function EditProfileDial(props) {
     });
 
     const [updatePosterPicture, setUpdatePosterPicture] = React.useState(null)
-    const onDropPoster = React.useCallback(acceptedFiles => {
-        setUpdatePosterPicture(acceptedFiles)
-    }, [])
+    const [posterPicturePreview,setPosterPicturePreview] = React.useState(props.data.profile.poster_picture.medium)
+    // const onDropPoster = React.useCallback(acceptedFiles => {
+    //     setUpdatePosterPicture(acceptedFiles)
+    // }, [])
     const { getRootProps:getRootPropsPoster, getInputProps:getInputPropsPoster } = useDropzone({
-        onDropPoster,
+        onDrop:(acceptedFiles) => {
+            setUpdatePosterPicture(acceptedFiles)
+        },
         accept: {
             'image/png': ['.png', '.jpg', '.jpeg', '.webpg'],
         },
         maxFiles:1,
     });
+
+    React.useEffect(() => {
+        if(updateProfilePicture!==null){
+            const objectUrl = URL.createObjectURL(updateProfilePicture[0])
+            setProfilePicturePreview(objectUrl)
+            // return () => URL.revokeObjectURL(objectUrl)
+        }
+        if(updatePosterPicture!==null){
+            const objectUrl2 = URL.createObjectURL(updatePosterPicture[0])
+            setPosterPicturePreview(objectUrl2)
+            // return () => URL.revokeObjectURL(objectUrl2)
+        }
+    },[updateProfilePicture,updatePosterPicture])
 
     const queryClient = useQueryClient();
 
@@ -140,6 +159,8 @@ function EditProfileDial(props) {
 
     return (
         <React.Fragment>
+            {console.log(updateProfilePicture)}
+            {console.log(updatePosterPicture)}
             <Dialog fullScreen open={open} onClose={handleClose}>
                 <DialogTitle>Update Profile
                     <IconButton
@@ -186,7 +207,8 @@ function EditProfileDial(props) {
                                 
                                     <Avatar
                                         alt=""
-                                        src={updateProfilePicture ? URL.createObjectURL(updateProfilePicture[0].path) : props.data.profile.profile_picture.medium || null}
+                                        src={profilePicturePreview}
+                                        //src={updateProfilePicture ? window.URL.createObjectURL(updateProfilePicture[0].path) : props.data.profile.profile_picture.medium || null}
                                         sx={{ width: '150px', height: '150px' }}
                                     />
                                     <Stack
@@ -224,7 +246,8 @@ function EditProfileDial(props) {
                                         component="img"
                                         height="200px"
                                         width="300px"
-                                        image={updatePosterPicture ? URL.createObjectURL(updatePosterPicture[0].path) : props.data.profile.poster_picture.medium || null}
+                                        image={posterPicturePreview}
+                                        //image={updatePosterPicture ? window.URL.createObjectURL(updatePosterPicture[0].path) : props.data.profile.poster_picture.medium || null}
                                     />
                                     <Stack
                                         direction="row"

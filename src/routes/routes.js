@@ -57,10 +57,10 @@ import Chat from "../pages/App/Chat/Chat";
 // import ForgotPassword from "../pages/Auth/ForgotPassword";
 // import SignupProgress from "../pages/Auth/SignupProgress";
 const Error = loadable(() => import("../pages/Others/Error"));
-// const Root = loadable(() => import("../pages/Root"));
-const Root = loadable(() =>
-  pMinDelay(import("../pages/Root"), 4000)
-)
+const Root = loadable(() => import("../pages/Root"));
+// const Root = loadable(() =>
+//   pMinDelay(import("../pages/Root"), 4000)
+// )
 //const Home = loadable(() => import("../pages/App/Home/Home"));
 // const Home = loadable(() =>
 //   pMinDelay(import("../pages/App/Home/Home"), 1000)

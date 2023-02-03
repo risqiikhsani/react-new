@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Grid, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
 import * as React from "react";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -13,55 +13,55 @@ import WebIcon from '@mui/icons-material/Web';
 
 const data = [
   {
-    name:'Connections',
-    amount:29,
-    icon:<PeopleIcon/>,
+    name: 'Connections',
+    amount: 29,
+    icon: <PeopleIcon />,
   },
   {
-    name:'Community',
-    amount:10,
-    icon:<GroupWorkIcon/>
+    name: 'Community',
+    amount: 10,
+    icon: <GroupWorkIcon />
   },
   {
-    name:'Group',
-    amount:23,
-    icon:<GroupsIcon/>
+    name: 'Group',
+    amount: 23,
+    icon: <GroupsIcon />
   },
   {
-    name:'Fanspage Following',
-    amount:30,
-    icon:<WebIcon/>
+    name: 'Fanspage Following',
+    amount: 30,
+    icon: <WebIcon />
   },
 ]
 
 const platforms = [
   {
-    name:'spotify',
-    icon:"",
+    name: 'spotify',
+    icon: "",
     name_account: "kucing",
     link_account: "spotify.com/id/awdawdwa",
   },
   {
-    name:'steam',
-    icon:"",
+    name: 'steam',
+    icon: "",
     name_account: "kucing channel",
     link_account: "spotify.com/id/awdawdwa",
   },
   {
-    name:'Youtube',
-    icon:"",
+    name: 'Youtube',
+    icon: "",
     name_account: "kucing channel",
     link_account: "spotify.com/id/awdawdwa",
   },
   {
-    name:'Twitch',
-    icon:"",
+    name: 'Twitch',
+    icon: "",
     name_account: "kucing shooter",
     link_account: "spotify.com/id/awdawdwa",
   },
   {
-    name:'instagram',
-    icon:"",
+    name: 'instagram',
+    icon: "",
     name_account: "scarlett",
     link_account: "spotify.com/id/awdawdwa",
   },
@@ -69,99 +69,146 @@ const platforms = [
 
 const loved_topics = [
   {
-    name:"developer",
+    name: "developer",
   },
   {
-    name:"programmer",
+    name: "programmer",
   },
   {
-    name:"computer science",
+    name: "computer science",
   },
   {
-    name:"python",
+    name: "python",
   },
   {
-    name:"C++",
+    name: "C++",
   },
-  
+  {
+    name:'technologies',
+  },
+  {
+    name:'nature',
+  },
+  {
+    name:'pc builder',
+  },
+  {
+    name:'cat lover',
+  },
+  {
+    name:'animals lover',
+  },
+
 ]
 
 export default function Timeline() {
   return (
     <React.Fragment>
-      <List>
-        <Grid container>
-        {data.map((a) => (
-          <Grid item md={6}>
-          <ListItem>
-          <ListItemButton sx={{bgcolor:'whitesmoke',borderRadius:'10px',boxShadow:3}}>
-            <ListItemAvatar>
-              <Avatar>
-                {a.icon}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={a.name} secondary={a.amount} />
-          </ListItemButton>
-        </ListItem>
-        </Grid>
-        ))}
+      <Stack
+        direction="column"
+        spacing={2}
+      >
+        <List>
+          <Grid container>
+            {data.map((a) => (
+              <Grid item md={6}>
+                <ListItem>
+                  <ListItemButton sx={{ bgcolor: 'whitesmoke', borderRadius: '10px', boxShadow: 3 }}>
+                    <ListItemAvatar>
+                      <Avatar>
+                        {a.icon}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={a.name} secondary={a.amount} />
+                  </ListItemButton>
+                </ListItem>
+              </Grid>
+            ))}
 
-        </Grid>
-        
+          </Grid>
 
-      </List>
-      
-      <Box>
-        <Typography>General info</Typography>
-        <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Accordion 1</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Accordion 2</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion disabled>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3a-content"
-          id="panel3a-header"
-        >
-          <Typography>Disabled Accordion</Typography>
-        </AccordionSummary>
-      </Accordion>
-      </Box>
-      
-      <Box>
-        <Typography>Connected Platforms</Typography>
-      </Box>
 
-      <Box>
-        <Typography>Related topics</Typography>
-      </Box>
-      
+        </List>
+
+        <Box>
+          <Typography>General info</Typography>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Accordion 1</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                malesuada lacus ex, sit amet blandit leo lobortis eget.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Accordion 2</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                malesuada lacus ex, sit amet blandit leo lobortis eget.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion disabled>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3a-content"
+              id="panel3a-header"
+            >
+              <Typography>Disabled Accordion</Typography>
+            </AccordionSummary>
+          </Accordion>
+        </Box>
+
+        <Box>
+          <Typography>Connected Platforms</Typography>
+          <List>
+          <Grid container>
+            {platforms.map((a) => (
+              <Grid item md={6}>
+                <ListItem>
+                  <ListItemButton sx={{ bgcolor: 'whitesmoke', borderRadius: '10px', boxShadow: 3 }}>
+                    <ListItemAvatar>
+                      <Avatar>
+                        {a.icon}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={a.name} secondary={a.name_account} />
+                  </ListItemButton>
+                </ListItem>
+              </Grid>
+            ))}
+
+          </Grid>
+        </List>
+        </Box>
+
+        <Box>
+          <Typography>Loved topics</Typography>
+          <Box sx={{bgcolor:'whitesmoke',borderRadius:'10px',boxShadow:3,p:'10px'}}>
+            {
+              loved_topics.map((a) => (
+                <Chip label={a.name} color="primary" sx={{m:'5px'}}/>
+              ))
+            }
+          </Box>
+        </Box>
+
+
+      </Stack>
     </React.Fragment>
   );
 }
