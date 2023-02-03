@@ -87,12 +87,12 @@ class AppApi {
   
 
   updateUser(data){
-    return instance.put(`/app/my/user`, data, config);
+    return instance.put(`/my/user`, data, config);
   }
   
 
   updateProfile(data){
-    return instance.put(`/app/my/profile`, data, config);
+    return instance.put(`/my/profile`, data, config);
   }
 
 

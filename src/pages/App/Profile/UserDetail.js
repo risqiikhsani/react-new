@@ -62,15 +62,11 @@ export default function UserDetail(props) {
     <React.Fragment>
       <Container maxWidth="sm">
         <Profile data={userDetail.data.data}
-          mine={userDetail.data.data.id === authenticated_user_id
-            && userDetail.data.data.profile.name === authenticated_user_name
-            && userDetail.data.data.profile.public_username === authenticated_user_public_username}
+          mine={userDetail.data.data.id === authenticated_user_id}
         />
 
         {
-          userDetail.data.data.id === authenticated_user_id
-          && userDetail.data.data.profile.name === authenticated_user_name
-          && userDetail.data.data.profile.public_username === authenticated_user_public_username && (
+          userDetail.data.data.id === authenticated_user_id && (
             <React.Fragment>
               <EditProfileDial data={userDetail.data.data}/>
               <CreatePostDial />

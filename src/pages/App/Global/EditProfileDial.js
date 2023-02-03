@@ -48,6 +48,11 @@ function EditProfileDial(props) {
         maxFiles:1,
     });
 
+    const deleteProfilePicture = () => {
+        setUpdateProfilePicture(null)
+        setProfilePicturePreview(null)
+    }
+
     const [updatePosterPicture, setUpdatePosterPicture] = React.useState(null)
     const [posterPicturePreview,setPosterPicturePreview] = React.useState(props.data.profile.poster_picture.medium)
     // const onDropPoster = React.useCallback(acceptedFiles => {
@@ -62,6 +67,11 @@ function EditProfileDial(props) {
         },
         maxFiles:1,
     });
+
+    const deletePosterPicture = () => {
+        setUpdatePosterPicture(null)
+        setPosterPicturePreview(null)
+    }
 
     React.useEffect(() => {
         if(updateProfilePicture!==null){
@@ -217,7 +227,7 @@ function EditProfileDial(props) {
                                         alignItems="center"
                                         spacing={0}
                                     >
-                                        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
+                                        <Button onClick={deleteProfilePicture} variant="outlined" color="error" startIcon={<DeleteIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
                                             Delete Photo
                                         </Button>
                                         <Button {...getRootPropsProfile({ className: 'dropzone' })} variant="contained" endIcon={<EditIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
@@ -255,7 +265,7 @@ function EditProfileDial(props) {
                                         alignItems="center"
                                         spacing={0}
                                     >
-                                        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
+                                        <Button onClick={deletePosterPicture} variant="outlined" color="error" startIcon={<DeleteIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
                                             Delete Photo
                                         </Button>
                                         <Button {...getRootPropsPoster({ className: 'dropzone' })} variant="contained" endIcon={<EditIcon />} sx={{ borderRadius: '10px', m: '10px', textTransform: 'none' }}>
