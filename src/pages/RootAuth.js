@@ -18,8 +18,8 @@ export default function RootAuth() {
   const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed)
   useEffect(() => {
     if (authenticated_user_id && authenticated_user_email_confirmed){
-      // return navigate("/");
-      return navigate(-1);
+      return navigate("/");
+      // return navigate(-1);
     }
   },[authenticated_user_id,authenticated_user_email_confirmed]);
 

@@ -237,9 +237,6 @@ function PostMoreMenuButton(props) {
 
   return (
     <React.Fragment>
-      {console.log(currentFiles)}
-      {console.log(uploadFiles)}
-      {console.log(removeCurrentFilesId)}
       <Dialog fullScreen open={openEdit} onClose={handleCloseEdit}>
         <DialogTitle>
           Edit Post
