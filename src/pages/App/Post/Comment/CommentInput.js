@@ -9,16 +9,17 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { LoadingButton } from "@mui/lab";
+import { memo } from "react";
 import AppApi from "../../../../api/AppApi";
 import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
-import { memo } from "react";
+import { comment_api } from "../../../../api/Api";
 
 function CommentInput(props) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const createComment = useMutation({
     mutationFn: (data) => {
-      return AppApi.createComment(props.post_id, data);
+      return comment_api.create(props.post_id, data);
     },
     onError: (error, variables, context) => {
       dispatch(

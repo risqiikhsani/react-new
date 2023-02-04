@@ -15,6 +15,7 @@ import PostSkeleton from "../../../components/SuspenseFallback/PostSkeleton";
 import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import PostCard from "../Post/PostCard";
 import { useDispatch, useSelector } from "react-redux";
+import { post_api } from "../../../api/Api";
 
 
 export default function PostList(props) {
@@ -32,7 +33,9 @@ export default function PostList(props) {
     const postInfiniteList = useInfiniteQuery(
         ["posts"],
         async ({ pageParam = 1 }) => {
-            const res = await AppApi.fetchPostList(`?page=${pageParam}`);
+            
+            const res = await post_api.get_list(`?page=${pageParam}`);
+            // const res = await AppApi.post().get_list(`?page=${pageParam}`);
             return res.data;
         },
         {

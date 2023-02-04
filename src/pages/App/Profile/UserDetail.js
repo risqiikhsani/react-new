@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import { user_api } from "../../../api/Api";
 import AppApi from "../../../api/AppApi";
 import CreatePostDial from "../Global/CreatePostDial";
 import EditProfileDial from "../Global/EditProfileDial";
@@ -26,7 +27,7 @@ export default function UserDetail(props) {
   const userDetail = useQuery(
     ["user-detail", { id: userId }],
     () => {
-      return AppApi.fetchUserDetail(userId);
+      return user_api.get_detail(userId);
     },
     {
       keepPreviousData: true,

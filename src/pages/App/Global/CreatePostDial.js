@@ -30,6 +30,7 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import PollIcon from '@mui/icons-material/Poll';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import QuizIcon from '@mui/icons-material/Quiz';
+import { post_api } from "../../../api/Api";
 
 const actions = [
     { icon: <PostAddIcon />, name: 'Create Post' },
@@ -75,7 +76,7 @@ export default function CreatePostDial(props) {
 
     const createPost = useMutation({
         mutationFn: (data) => {
-            return AppApi.createPost(data);
+            return post_api.create(data);
         },
         onError: (error, variables, context) => {
             dispatch(

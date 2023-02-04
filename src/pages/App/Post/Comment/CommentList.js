@@ -4,6 +4,7 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useDispatch } from "react-redux";
+import { comment_api } from "../../../../api/Api";
 
 import AppApi from "../../../../api/AppApi";
 import CommentSkeleton from "../../../../components/SuspenseFallback/CommentSkeleton";
@@ -19,7 +20,7 @@ export default function CommentList(props) {
   const commentInfiniteList = useInfiniteQuery(
     ["commentlist",{id:props.post_id}],
     async ({ pageParam = 1 }) => {
-      const res = await AppApi.fetchCommentList(
+      const res = await comment_api.get_list(
         props.post_id,
         `?page=${pageParam}`
       );

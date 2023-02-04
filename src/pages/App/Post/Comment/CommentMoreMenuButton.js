@@ -20,21 +20,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
 
 
 
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import HideSourceIcon from "@mui/icons-material/HideSource";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import ReportIcon from "@mui/icons-material/Report";
 
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
-import ImageIcon from "@mui/icons-material/Image";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -42,6 +35,7 @@ import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppApi from "../../../../api/AppApi";
 import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
+import { comment_api } from "../../../../api/Api";
 
 
 function CommentMoreMenuButton(props) {
@@ -73,7 +67,7 @@ function CommentMoreMenuButton(props) {
 
   const deleteComment = useMutation({
     mutationFn: (id) => {
-      return AppApi.deleteComment(id);
+      return comment_api.del(id);
     },
     onError: (error, variables, context) => {
       console.log("something went wrong");

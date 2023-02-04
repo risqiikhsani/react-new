@@ -49,6 +49,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useDropzone } from "react-dropzone";
+import { post_api } from "../../../../api/Api";
 
 function PostMoreMenuButton(props) {
   const [currentFiles, setCurrentFiles] = React.useState(
@@ -138,7 +139,7 @@ function PostMoreMenuButton(props) {
 
   const editPost = useMutation({
     mutationFn: (data) => {
-      return AppApi.editPost(props.data.id, data);
+      return post_api.update(props.data.id, data);
     },
     onError: (error, variables, context) => {
       console.log("something went wrong");
@@ -174,7 +175,7 @@ function PostMoreMenuButton(props) {
 
   const deletePost = useMutation({
     mutationFn: (id) => {
-      return AppApi.deletePost(id);
+      return post_api.del(id);
     },
     onError: (error, variables, context) => {
       console.log("something went wrong");

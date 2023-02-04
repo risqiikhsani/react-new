@@ -2,8 +2,8 @@ import { LoadingButton } from "@mui/lab";
 import { Stack, Typography } from "@mui/material";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { useInView } from "react-intersection-observer";
 import { useDispatch } from "react-redux";
+import { reply_api } from "../../../../../api/Api";
 
 
 
@@ -21,7 +21,7 @@ export default function ReplyList(props) {
   const replyInfiniteList = useInfiniteQuery(
     ["replylist",{id:props.comment_id}],
     async ({ pageParam = 1 }) => {
-      const res = await AppApi.fetchReplyList(
+      const res = await reply_api.get_list(
         props.comment_id,
         `?page=${pageParam}`
       );

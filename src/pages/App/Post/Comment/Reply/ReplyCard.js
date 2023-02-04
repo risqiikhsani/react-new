@@ -9,11 +9,11 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useDispatch } from "react-redux";
+import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import ReplyMoreMenuButton from "./ReplyMoreMenuButton";
-import { Link as LinkRouter } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 import AppApi from "../../../../../api/AppApi";
+import { like_api } from "../../../../../api/Api";
 function ReplyCard(props) {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function ReplyCard(props) {
   const likeReply = useQuery({
     queryKey: ["like-reply"],
     queryFn: () => {
-      return AppApi.likeReply(props.data.id);
+      return like_api.reply_likehandler(props.data.id);
     },
     refetchOnWindowFocus: false,
     enabled: false,

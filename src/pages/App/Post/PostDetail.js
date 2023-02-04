@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import AppApi from "../../../api/AppApi";
 import { useSelector } from "react-redux";
+import { post_api } from "../../../api/Api";
 
 export default function PostDetail(props) {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function PostDetail(props) {
   const postDetail = useQuery(
     ["post-detail",{id:postId}],
     () => {
-      return AppApi.fetchPostDetail(postId);
+      return post_api.get_detail(postId);
     },
     {
       keepPreviousData: true,

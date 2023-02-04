@@ -33,6 +33,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import { like_api, save_api } from "../../../api/Api";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -76,7 +77,7 @@ function PostCard(props) {
   const likePost = useQuery({
     queryKey: ["like-post"],
     queryFn: () => {
-      return AppApi.likePost(props.data.id);
+      return like_api.post_likehandler(props.data.id);
     },
     refetchOnWindowFocus: false,
     enabled: false,
@@ -117,7 +118,7 @@ function PostCard(props) {
   const savePost = useQuery({
     queryKey: ["save-post"],
     queryFn: () => {
-      return AppApi.savePost(props.data.id);
+      return save_api.post_savehandler(props.data.id);
     },
     refetchOnWindowFocus: false,
     enabled: false,

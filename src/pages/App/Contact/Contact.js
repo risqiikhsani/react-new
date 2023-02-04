@@ -80,7 +80,7 @@ export default function Contact(props) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+
       <Stack spacing={2}>
         {/* <Item>Item 1</Item>
         <Item>Item 2</Item>
@@ -158,6 +158,6 @@ export default function Contact(props) {
 
         </Box>
       </Stack>
-    </Box>
+
   );
 }

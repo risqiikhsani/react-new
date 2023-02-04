@@ -12,13 +12,14 @@ import { LoadingButton } from "@mui/lab";
 import { memo } from "react";
 import AppApi from "../../../../../api/AppApi";
 import { setSnackbar } from "../../../../../hooks/slices/snackbarSlice";
+import { reply_api } from "../../../../../api/Api";
 
 function ReplyInput(props) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const createReply = useMutation({
     mutationFn: (data) => {
-      return AppApi.createReply(props.comment_id, data);
+      return reply_api.create(props.comment_id, data);
     },
     onError: (error, variables, context) => {
       dispatch(

@@ -12,8 +12,9 @@ import { useDispatch } from "react-redux";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import AppApi from "../../../../api/AppApi";
 import CommentMoreMenuButton from "./CommentMoreMenuButton";
-import ReplyList from "./Reply/ReplyList";
 import ReplyInput from "./Reply/ReplyInput";
+import ReplyList from "./Reply/ReplyList";
+import { like_api } from "../../../../api/Api";
 function CommentCard(props) {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function CommentCard(props) {
   const likeComment = useQuery({
     queryKey: ["like-comment"],
     queryFn: () => {
-      return AppApi.likeComment(props.data.id);
+      return like_api.comment_likehandler(props.data.id);
     },
     refetchOnWindowFocus: false,
     enabled: false,

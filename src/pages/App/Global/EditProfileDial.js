@@ -27,6 +27,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { memo } from "react";
+import { my_api } from "../../../api/Api";
 
 
 function EditProfileDial(props) {
@@ -120,7 +121,7 @@ function EditProfileDial(props) {
 
     const updateProfile = useMutation({
         mutationFn: (data) => {
-            return AppApi.updateProfile(data);
+            return my_api.update_profile(data);
         },
         onError: (error, variables, context) => {
             dispatch(

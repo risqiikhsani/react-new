@@ -5,95 +5,161 @@ const config = {
 }
 
 class AppApi {
-  fetchPostList(last_string) {
-    return instance.get(`/app/posts${last_string}`);
+
+  post(){
+    function create(data) {
+      return instance.post("/app/posts", data, config);
+    }
+
+    function get_list(last_string) {
+      return instance.get(`/app/posts${last_string}`);
+    }
+
+    function get_detail(id){
+      return instance.get(`/app/post/${id}`);
+    }
+
+    function update(id,data){
+      return instance.put(`/app/post/${id}`, data, config);
+    }
+
+    function del(id){
+      return instance.delete(`/app/post/${id}`);
+    }
+
+    
+
+    return {
+      create,
+      get_list,
+      get_detail,
+      update,
+      del,
+    }
   }
 
-  fetchPostDetail(id){
-    return instance.get(`/app/post/${id}`);
+  comment(){
+
+    function create(post_id,data){
+      return instance.post(`/app/post/${post_id}/comments`,JSON.stringify(data));
+    }
+
+    function get_list(post_id,last_string){
+      return instance.get(`/app/post/${post_id}/comments${last_string}`);
+    }
+
+    function update(id,data){
+      return instance.put(`/app/comment/${id}`, JSON.stringify(data));
+    }
+
+    function del(id){
+      return instance.delete(`/app/comment/${id}`);
+    }  
+
+    return {
+      create,
+      get_list,
+      update,
+      del,
+    }
   }
 
-  deletePost(id){
-    return instance.delete(`/app/post/${id}`);
+  reply(){
+    function create(comment_id,data){
+      return instance.post(`/app/comment/${comment_id}/replies`,JSON.stringify(data));
+    }
+
+    function get_list(comment_id,last_string){
+      return instance.get(`/app/comment/${comment_id}/replies${last_string}`);
+    }  
+
+    function update(id,data){
+      return instance.put(`/app/reply/${id}`, JSON.stringify(data));
+    }
+
+    function del(id){
+      return instance.delete(`/app/reply/${id}`);
+    }
+
+
+    return{
+      create,
+      get_list,
+      update,
+      del,
+    }
   }
 
-  deleteComment(id){
-    return instance.delete(`/app/comment/${id}`);
+  like(){
+    function post_likehandler(id){
+      return instance.get(`/app/post/${id}/likehandler`);
+    }
+  
+    function comment_likehandler(id){
+      return instance.get(`/app/comment/${id}/likehandler`);
+    }
+  
+    function reply_likehandler(id){
+      return instance.get(`/app/reply/${id}/likehandler`);
+    }
+
+    return{
+      post_likehandler,
+      comment_likehandler,
+      reply_likehandler,
+    }
   }
 
-  deleteReply(id){
-    return instance.delete(`/app/reply/${id}`);
+  save(){
+    function post_savehandler(id){
+      return instance.get(`/app/post/${id}/savehandler`);
+    }
+
+    return{
+      post_savehandler,
+    }
   }
 
+  user(){
+    function get_detail(id){
+      return instance.get(`/user-detail/${id}`);
+    }
+  
+    function get_list(){
+      return instance.get(`/user-list`);
+    }
 
-  editPost(id,data){
-    return instance.put(`/app/post/${id}`, data, config);
+    return{
+      get_list,
+      get_detail,
+    }
+  }
+  
+  mine(){
+    function updateUser(data){
+      return instance.put(`/my/user`, data, config);
+    }
+
+    function updateProfile(data){
+      return instance.put(`/my/profile`, data, config);
+    }
+
+    return {
+      updateUser,
+      updateProfile,
+    }
   }
 
-  editComment(id,data){
-    return instance.put(`/app/comment/${id}`, JSON.stringify(data));
-  }
-
-  editReply(id,data){
-    return instance.put(`/app/reply/${id}`, JSON.stringify(data));
-  }
-
-  createPost(data) {
-    return instance.post("/app/posts", data, config);
-  }
-
-  createComment(post_id,data){
-    return instance.post(`/app/post/${post_id}/comments`,JSON.stringify(data));
-  }
-
-  createReply(comment_id,data){
-    return instance.post(`/app/comment/${comment_id}/replies`,JSON.stringify(data));
-  }
-
-  likePost(id){
-    return instance.get(`/app/post/${id}/likehandler`);
-  }
-
-  likeComment(id){
-    return instance.get(`/app/comment/${id}/likehandler`);
-  }
-
-  likeReply(id){
-    return instance.get(`/app/reply/${id}/likehandler`);
-  }
-
-  savePost(id){
-    return instance.get(`/app/post/${id}/savehandler`);
-  }
-
-
-
-  fetchCommentList(post_id,last_string){
-    return instance.get(`/app/post/${post_id}/comments${last_string}`);
-  }  
-
-  fetchReplyList(comment_id,last_string){
-    return instance.get(`/app/comment/${comment_id}/replies${last_string}`);
-  }  
-
-  fetchUserDetail(id){
-    return instance.get(`/user-detail/${id}`);
-  }
-
-  fetchUserList(){
-    return instance.get(`/user-list`);
-  }
-
+  // updateUser(data){
+  //   return instance.put(`/my/user`, data, config);
+  // }
   
 
-  updateUser(data){
-    return instance.put(`/my/user`, data, config);
-  }
-  
+  // updateProfile(data){
+  //   return instance.put(`/my/profile`, data, config);
+  // }
 
-  updateProfile(data){
-    return instance.put(`/my/profile`, data, config);
-  }
+
 
 
 }
