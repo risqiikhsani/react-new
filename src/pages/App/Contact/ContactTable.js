@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { memo } from 'react';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -19,7 +20,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function ContactTable() {
+function ContactTable(props) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -54,3 +55,5 @@ export default function ContactTable() {
     </TableContainer>
   );
 }
+
+export default memo(ContactTable)

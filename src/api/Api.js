@@ -106,4 +106,27 @@ const my_api = {
     },
 }
 
-export { post_api, comment_api, reply_api, like_api, save_api, user_api ,my_api}
+const request_api = {
+    get_list: function () {
+        return instance.get(`requests`);
+    },
+}
+
+const connection_api = {
+    get_list: function() {
+        return instance.get(`connections`);
+    },
+}
+
+export { 
+    post_api, 
+    comment_api, 
+    reply_api, 
+    like_api, 
+    save_api, 
+    user_api ,
+    my_api,
+    request_api,
+    connection_api,
+}
+

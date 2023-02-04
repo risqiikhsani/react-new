@@ -4,11 +4,14 @@ import Paper from "@mui/material/Paper";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Box, Stack } from "@mui/system";
+import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import * as React from "react";
+import { connection_api, request_api } from "../../../api/Api";
 import ContactFilter from "./ContactFilter";
 import ContactSearchSortBy from "./ContactSearchSortBy";
 import ContactTable from "./ContactTable";
+import FriendRequestTable from "./FriendRequestTable";
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -73,11 +76,35 @@ const tableColumn = [
 ]
 
 export default function Contact(props) {
+
+  const connections = useQuery(
+    ["connections"],
+    () => {
+      return connection_api.get_list();
+    },
+    {
+      keepPreviousData: true,
+    }
+  );
+
+  const friendRequests = useQuery(
+    ["friend-requests"],
+    () => {
+      return request_api.get_list();
+    },
+    {
+      keepPreviousData: true,
+    }
+  );
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+
+
 
   return (
 
@@ -85,6 +112,7 @@ export default function Contact(props) {
         {/* <Item>Item 1</Item>
         <Item>Item 2</Item>
         <Item>Item 3</Item> */}
+        {console.log(friendRequests.data)}
 
         <Stack
           direction="row"
@@ -143,10 +171,14 @@ export default function Contact(props) {
             <TabPanel value={value} index={0}>
               {/* <ContactSearchSortBy/>
             <ContactFilter/> */}
-              <ContactTable />
+              {connections.isLoading && <Typography>loading...</Typography>}
+              {connections.isError && <Typography>error</Typography>}
+              {connections.data && <ContactTable data={connections.data.data}/>}
             </TabPanel>
             <TabPanel value={value} index={1}>
-              Item Three
+              {friendRequests.isLoading && <Typography>loading...</Typography>}
+              {friendRequests.isError && <Typography>error</Typography>}
+              {friendRequests.data && <FriendRequestTable data={friendRequests.data.data}/>}
             </TabPanel>
             <TabPanel value={value} index={2}>
               Item Two
