@@ -110,6 +110,18 @@ const request_api = {
     get_list: function () {
         return instance.get(`requests`);
     },
+    accept_user: function(id){
+        return instance.get(`requests/${id}/accept`);
+    },
+    decline_user: function(id){
+        return instance.get(`requests/${id}/accept`);
+    },
+    send_request: function(id){
+        return instance.get(`user/${id}/send_request`);
+    },
+    cancel_sent_request: function(id){
+        return instance.get(`user/${id}/cancel_sent_request`);
+    },
 }
 
 const connection_api = {
@@ -117,6 +129,7 @@ const connection_api = {
         return instance.get(`connections`);
     },
 }
+
 
 export { 
     post_api, 
