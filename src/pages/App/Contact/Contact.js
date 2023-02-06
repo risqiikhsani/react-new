@@ -126,12 +126,7 @@ export default function Contact(props) {
           </Button>
         </Stack>
 
-        <Box
-          sx={{
-            width: "100%",
-          }}
-        >
-          <Paper>
+        
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -152,22 +147,10 @@ export default function Contact(props) {
                     } {...a11yProps(a.index)} />
                   ))
                 }
-                {/* <Tab sx={{textTransform:'none'}} label="Connected" {...a11yProps(0)} />
-              <Tab sx={{textTransform:'none'}} label={
-                <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-              >
-                Friend Request
-                <Chip size="small" variant="outlined" label="12" color="success" sx={{ml:'5px'}}/>
-              </Stack>
-                
-              } {...a11yProps(1)} />
-              <Tab sx={{textTransform:'none'}} label="Waiting Requests" {...a11yProps(2)} />
-              <Tab sx={{textTransform:'none'}} label="Blocked users" {...a11yProps(3)} /> */}
               </Tabs>
             </Box>
+
+            
             <TabPanel value={value} index={0}>
               {/* <ContactSearchSortBy/>
             <ContactFilter/> */}
@@ -186,9 +169,8 @@ export default function Contact(props) {
             <TabPanel value={value} index={3}>
               Item Three
             </TabPanel>
-          </Paper>
+          
 
-        </Box>
       </Stack>
 
   );
