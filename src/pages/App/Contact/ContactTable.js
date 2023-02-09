@@ -78,7 +78,15 @@ export default function ContactTable(props) {
                 <TableCell align="right">{a.relationship.follow && (<CheckCircleIcon color='success'/>)}</TableCell>
                 <TableCell align="right">{a.relationship.time_creation}</TableCell>
                 <TableCell align="right">-</TableCell>
-                <TableCell align="right"><ContactTableRowMenu/></TableCell>
+                <TableCell align="right"><ContactTableRowMenu
+                  user_id={a.user.id}
+                  user_name={a.user.profile.name}
+                  pin={a.relationship.pin}
+                  notification={a.relationship.notification}
+                  follow={a.relationship.follow}
+                  nickname={a.relationship.nickname}
+                  is_connected={true}
+                /></TableCell>
               </TableRow>
             ))
           }

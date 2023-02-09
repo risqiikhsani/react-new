@@ -1,32 +1,26 @@
+import ChatIcon from "@mui/icons-material/Chat";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
   Avatar,
   Box,
   Button,
-  CardMedia,
-  Chip,
-  Container,
-  Divider,
+  CardMedia, Divider,
   IconButton,
-  Typography,
+  Typography
 } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Stack } from "@mui/system";
 import PropTypes from "prop-types";
 import * as React from "react";
-import Timeline from "./Timeline";
-import ChatIcon from "@mui/icons-material/Chat";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { memo } from "react";
+import ContactTableRowMenu from "../Contact/ContactTableRowMenu";
 import MutualConnections from "./MutualConnections";
 import MutualGroups from "./MutualGroups";
 import Posts from "./Posts";
-import { useNavigate, useParams } from "react-router";
-import { useQuery } from "@tanstack/react-query";
-import AppApi from "../../../api/AppApi";
-import FaceIcon from '@mui/icons-material/Face';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { memo } from "react";
+import Timeline from "./Timeline";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -73,12 +67,12 @@ function Profile(props) {
       <Stack direction="column" spacing={2}>
         {props.data.profile.poster_picture && (
           <CardMedia
-          component="img"
+            component="img"
 
-          image={props.data.profile.poster_picture.full_size || null}
-          alt="Paella dish"
-          sx={{ borderRadius: '10px' }}
-        />
+            image={props.data.profile.poster_picture.full_size || null}
+            alt="Paella dish"
+            sx={{ borderRadius: '10px' }}
+          />
         )}
         <Stack
           direction="row"
@@ -100,7 +94,7 @@ function Profile(props) {
               spacing={1}
 
             >
-              <Typography fontSize="30px">{props.data.profile.name}</Typography>
+              <Typography noWrap={true} fontSize="30px">{props.data.profile.name}</Typography>
               <Typography>Arizona,United States</Typography>
             </Stack>
           </Stack>
@@ -114,25 +108,46 @@ function Profile(props) {
               alignItems="center"
               spacing={2}
             >
-              <Button
+              {props.data.is_connected ? (
+                <Button
+                  disabled
+                  variant="contained"
+                  size="small"
+                  startIcon={<CheckCircleIcon color="success" />}
+                  sx={{ textTransform: "none", borderRadius: '20px' }}
+                >
+                  Connected
+                </Button>
+              ) : props.data.is_requested ? (<Button
                 variant="contained"
                 size="small"
                 startIcon={<PersonAddIcon />}
-                sx={{ textTransform: "none" ,borderRadius:'20px'}}
+                sx={{ textTransform: "none", borderRadius: '20px' }}
               >
-                Connect
-              </Button>
+                Cancel Request
+              </Button>) : (<Button
+                variant="contained"
+                size="small"
+                startIcon={<PersonAddIcon />}
+                sx={{ textTransform: "none", borderRadius: '20px' }}
+              >
+                Send Request
+              </Button>)}
+
               <Button
-                sx={{ textTransform: "none" ,borderRadius:'20px'}}
+                sx={{ textTransform: "none", borderRadius: '20px' }}
                 variant="contained"
                 size="small"
                 startIcon={<ChatIcon />}
               >
                 Message
               </Button>
-              <IconButton>
+              <ContactTableRowMenu />
+
+
+              {/* <IconButton>
                 <MoreVertIcon />
-              </IconButton>
+              </IconButton> */}
             </Stack>
           )}
 
@@ -140,7 +155,7 @@ function Profile(props) {
 
         </Stack>
 
-        <Divider/>
+        <Divider />
 
         <Stack
           direction="row"
@@ -157,7 +172,7 @@ function Profile(props) {
           <IconButton size="sm"><ContentCopyIcon fontSize="small" /></IconButton>
         </Stack>
 
-        <Divider/>
+        <Divider />
 
         {props.data.profile.about && (
           <>

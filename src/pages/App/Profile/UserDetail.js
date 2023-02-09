@@ -62,8 +62,9 @@ export default function UserDetail(props) {
   return (
     <React.Fragment>
       <Container maxWidth="sm">
-        <Profile data={userDetail.data.data}
-          mine={userDetail.data.data.id === authenticated_user_id}
+        <Profile 
+        data={userDetail.data.data}
+        mine={userDetail.data.data.id === authenticated_user_id}
         />
 
         {

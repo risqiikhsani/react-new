@@ -21,9 +21,11 @@ export default function Root() {
   const authenticated_user_id = useSelector((state) => state.user.id);
   const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed);
 
+  const [initialRender,setInitialRender] = React.useState(true)
 
 
   useEffect(() => {
+    setInitialRender(false)
     const user = localStorageApi.getUser();
     console.log(user);
 
@@ -42,10 +44,12 @@ export default function Root() {
   }, []);
 
   useEffect(() => {
-    if (!authenticated_user_id) {
+    if (!initialRender && !authenticated_user_id) {
+      console.log("test root")
+      console.log(authenticated_user_id)
       // if there's no user in state , redirect to login page
       return navigate("/auth/login");
-    } else if (authenticated_user_id && !authenticated_user_email_confirmed) {
+    } else if (!initialRender && authenticated_user_id && !authenticated_user_email_confirmed) {
       // if email isn't comfirmed , user should confirm first
       return navigate("/auth/signup-completion");
     }

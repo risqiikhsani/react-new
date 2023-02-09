@@ -16,8 +16,15 @@ export default function RootAuth() {
   let navigate = useNavigate();
   const authenticated_user_id = useSelector((state) => state.user.id)
   const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed)
+
+  const [initialRender,setInitialRender] = React.useState(true)
+
   useEffect(() => {
-    if (authenticated_user_id && authenticated_user_email_confirmed){
+    setInitialRender(false)
+  },[])
+
+  useEffect(() => {
+    if (!initialRender && authenticated_user_id && authenticated_user_email_confirmed){
       return navigate("/");
       // return navigate(-1);
     }

@@ -128,6 +128,21 @@ const connection_api = {
     get_list: function() {
         return instance.get(`connections`);
     },
+    get_user_list: function(id){
+        return instance.get(`user/${id}/connections`);
+    },
+    disconnect: function(id){
+        return instance.get(`user/${id}/remove_connection`);
+    },
+}
+
+const relationship_api = {
+    get_detail: function(id){
+        return instance.get(`user/${id}/relationship`);
+    },
+    update: function(id,data){
+        return instance.put(`user/${id}/relationship`,JSON.stringify(data));
+    },
 }
 
 
@@ -141,5 +156,6 @@ export {
     my_api,
     request_api,
     connection_api,
+    relationship_api,
 }
 
