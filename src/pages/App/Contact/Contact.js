@@ -3,6 +3,7 @@ import { Button, Typography } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Box, Stack } from "@mui/system";
+import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import * as React from "react";
 import BlockTable from "./BlockTable";
@@ -54,12 +55,16 @@ function a11yProps(index) {
 export default function Contact(props) {
 
   
-
-
+  const queryClient = useQueryClient();
+  
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    // queryClient.invalidateQueries("connections");
+    // queryClient.invalidateQueries("friend-requests");
+    // queryClient.invalidateQueries("my-requests");
+    // queryClient.invalidateQueries("blocked-users");
   };
 
 

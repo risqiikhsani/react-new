@@ -110,6 +110,9 @@ const request_api = {
     get_list: function () {
         return instance.get(`requests`);
     },
+    get_my_waiting_list: function () {
+        return instance.get(`waiting-requests`);
+    },
     accept_user: function(id){
         return instance.get(`requests/${id}/accept`);
     },

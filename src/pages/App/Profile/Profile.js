@@ -21,6 +21,15 @@ import MutualConnections from "./MutualConnections";
 import MutualGroups from "./MutualGroups";
 import Posts from "./Posts";
 import Timeline from "./Timeline";
+
+import PushPinIcon from '@mui/icons-material/PushPin';
+import { orange } from "@mui/material/colors";
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
+import { request_api } from "../../../api/Api";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -55,6 +64,9 @@ function a11yProps(index) {
 }
 
 function Profile(props) {
+  const queryClient = useQueryClient()
+  const dispatch = useDispatch()
+  const { data, mine, ...other } = props;
 
   const [value, setValue] = React.useState(0);
 
@@ -62,15 +74,55 @@ function Profile(props) {
     setValue(newValue);
   };
 
+  const sendRequest = useQuery(
+    ["send-request", { id: data.id }],
+    () => {
+      return request_api.send_request(data.id);
+    },
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      enabled: false,
+      onSuccess: (data, variables, context) => {
+        dispatch(setSnackbar({ type: "success", string: "Request Sent !" }));
+        queryClient.invalidateQueries("user-detail", { id: data.id });
+      },
+    }
+  );
+
+  const cancelRequest = useQuery(
+    ["cancel-request", { id: data.id }],
+    () => {
+      return request_api.cancel_sent_request(data.id);
+    },
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      enabled: false,
+      onSuccess: (data, variables, context) => {
+        dispatch(setSnackbar({ type: "success", string: "Request Cancelled !" }));
+        queryClient.invalidateQueries("user-detail", { id: data.id });
+      },
+    }
+  );
+
+  const sendRequestButton = (event) => {
+    event.preventDefault();
+    sendRequest.refetch()
+  }
+
+  const cancelRequestButton = (event) => {
+    event.preventDefault();
+    cancelRequest.refetch()
+  }
+
   return (
     <React.Fragment>
       <Stack direction="column" spacing={2}>
-        {props.data.profile.poster_picture && (
+        {data.profile.poster_picture && (
           <CardMedia
             component="img"
-
-            image={props.data.profile.poster_picture.full_size || null}
-            alt="Paella dish"
+            image={data.profile.poster_picture.full_size || null}
             sx={{ borderRadius: '10px' }}
           />
         )}
@@ -83,77 +135,96 @@ function Profile(props) {
           <Stack
             direction="row"
             justifyContent="center"
-            alignItems="center"
+            alignItems="flex-start"
             spacing={2}
           >
-            <Avatar sx={{ width: 70, height: 70 }} src={props.data.profile.profile_picture.medium || null} />
+            <Avatar sx={{ width: 70, height: 70 }} src={data.profile.profile_picture.medium || null} />
             <Stack
               direction="column"
               justifyContent="center"
               alignItems="flex-start"
               spacing={1}
-
             >
-              <Typography noWrap={true} fontSize="30px">{props.data.profile.name}</Typography>
-              <Typography>Arizona,United States</Typography>
+              <Typography noWrap={true} fontSize="30px">{data.profile.name}
+
+                {data.relationship ? data.relationship.pin && <PushPinIcon sx={{ color: orange[800] }} /> : null}
+                {data.relationship ? data.relationship.notification && <NotificationsActiveIcon sx={{ color: orange[800] }} /> : null}
+                {data.relationship ? data.relationship.follow && <HowToRegIcon sx={{ color: orange[800] }} /> : null}
+              </Typography>
+              {data.relationship ? <Typography noWrap={true} fontSize="20px">{data.relationship.nickname}</Typography> : null}
+              <Typography noWrap={true} fontSize="10px">Arizona,United States</Typography>
             </Stack>
           </Stack>
 
 
 
-          {props.mine !== true && (
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-              spacing={2}
-            >
-              {props.data.is_connected ? (
-                <Button
-                  disabled
-                  variant="contained"
-                  size="small"
-                  startIcon={<CheckCircleIcon color="success" />}
-                  sx={{ textTransform: "none", borderRadius: '20px' }}
-                >
-                  Connected
-                </Button>
-              ) : props.data.is_requested ? (<Button
-                variant="contained"
-                size="small"
-                startIcon={<PersonAddIcon />}
-                sx={{ textTransform: "none", borderRadius: '20px' }}
-              >
-                Cancel Request
-              </Button>) : (<Button
-                variant="contained"
-                size="small"
-                startIcon={<PersonAddIcon />}
-                sx={{ textTransform: "none", borderRadius: '20px' }}
-              >
-                Send Request
-              </Button>)}
-
-              <Button
-                sx={{ textTransform: "none", borderRadius: '20px' }}
-                variant="contained"
-                size="small"
-                startIcon={<ChatIcon />}
-              >
-                Message
-              </Button>
-              <ContactTableRowMenu />
-
-
-              {/* <IconButton>
-                <MoreVertIcon />
-              </IconButton> */}
-            </Stack>
-          )}
 
 
 
         </Stack>
+
+        {mine !== true && (
+          <Stack
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={2}
+          >
+            {data.is_connected ? (
+              <Button
+                disabled
+                variant="contained"
+
+                startIcon={<CheckCircleIcon color="success" />}
+                sx={{ textTransform: "none", borderRadius: '20px' }}
+              >
+                Connected
+              </Button>
+            ) : data.is_requested ? (<Button
+              variant="contained"
+              color="error"
+              onClick={cancelRequestButton}
+              startIcon={<PersonAddIcon />}
+              sx={{ textTransform: "none", borderRadius: '20px' }}
+            >
+              Cancel Request
+            </Button>) : (<Button
+              variant="contained"
+              color="success"
+              onClick={sendRequestButton}
+              startIcon={<PersonAddIcon />}
+              sx={{ textTransform: "none", borderRadius: '20px' }}
+            >
+              Send Request
+            </Button>)}
+
+            <Button
+              sx={{ textTransform: "none", borderRadius: '20px' }}
+              variant="contained"
+
+              startIcon={<ChatIcon />}
+            >
+              Message
+            </Button>
+
+
+            <ContactTableRowMenu
+              user_name={data.profile.name}
+              user_id={data.id}
+              pin={data.relationship ? data.relationship.pin : null}
+              notification={data.relationship ? data.relationship.notification : null}
+              follow={data.relationship ? data.relationship.follow : null}
+              nickname={data.relationship ? data.relationship.nickname : null}
+              is_connected={data.is_connected}
+            />
+
+
+            {/* <IconButton>
+                <MoreVertIcon />
+              </IconButton> */}
+          </Stack>
+        )}
+
 
         <Divider />
 
@@ -168,13 +239,13 @@ function Profile(props) {
             <Typography fontSize="10px">public username</Typography>
           </Box>
 
-          <Typography>{props.data.profile.public_username}</Typography>
+          <Typography>{data.profile.public_username}</Typography>
           <IconButton size="sm"><ContentCopyIcon fontSize="small" /></IconButton>
         </Stack>
 
         <Divider />
 
-        {props.data.profile.about && (
+        {data.profile.about && (
           <>
             <Typography>about me</Typography>
             <Stack
@@ -184,7 +255,7 @@ function Profile(props) {
               spacing={2}
               sx={{ bgcolor: "whitesmoke", borderRadius: "20px", p: "20px" }}
             >
-              <Typography>{props.data.profile.about || null}</Typography>
+              <Typography>{data.profile.about || null}</Typography>
             </Stack>
           </>
         )}

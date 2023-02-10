@@ -23,8 +23,8 @@ function ContactTableRowMenu(props) {
 
     const dispatch = useDispatch()
     const queryClient = useQueryClient();
-    
-    const { 
+
+    const {
         user_name,
         user_id,
         pin,
@@ -34,7 +34,7 @@ function ContactTableRowMenu(props) {
         is_connected,
         is_blocked } = props
 
-    
+
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -45,30 +45,32 @@ function ContactTableRowMenu(props) {
         setAnchorEl(null);
     };
 
-    
+
     const updateRelationship = useMutation({
         mutationFn: (data) => {
-            return relationship_api.update(user_id,data);
+            return relationship_api.update(user_id, data);
         },
         onSuccess: (data, variables, context) => {
             dispatch(setSnackbar({ type: "success", string: "Relationship Updated !" }));
             queryClient.invalidateQueries("connections");
+            queryClient.invalidateQueries("user-detail", { id: user_id });
         },
     });
 
     const disconnectUser = useQuery(
-        ["disconnect-user",{id:user_id}],
+        ["disconnect-user", { id: user_id }],
         () => {
             return connection_api.disconnect(user_id);
         },
         {
-          keepPreviousData: true,
-          refetchOnWindowFocus: false,
-          enabled: false,
-          onSuccess: (data, variables, context) => {
-            dispatch(setSnackbar({ type: "success", string: "User removed !" }));
-            queryClient.invalidateQueries("connections");
-        },
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
+            enabled: false,
+            onSuccess: (data, variables, context) => {
+                dispatch(setSnackbar({ type: "success", string: "User removed !" }));
+                queryClient.invalidateQueries("connections");
+                queryClient.invalidateQueries("user-detail", { id: user_id });
+            },
         }
     );
 
@@ -76,16 +78,16 @@ function ContactTableRowMenu(props) {
         event.preventDefault();
         disconnectUser.refetch()
     }
-    
+
 
 
     const updatePinButton = (event) => {
         console.log("clicked")
         event.preventDefault();
         let data = {
-            pin:pin ? false:true,
+            pin: pin ? false : true,
         }
-        
+
         try {
             updateRelationship.mutate(data);
         } catch (err) {
@@ -96,7 +98,7 @@ function ContactTableRowMenu(props) {
     const updateNotifyButton = (event) => {
         event.preventDefault();
         let data = {
-            notification:notification ? false:true,
+            notification: notification ? false : true,
         }
         try {
             updateRelationship.mutate(data);
@@ -108,7 +110,7 @@ function ContactTableRowMenu(props) {
     const updateFollowingButton = (event) => {
         event.preventDefault();
         let data = {
-            follow:follow ? false:true,
+            follow: follow ? false : true,
         }
         try {
             updateRelationship.mutate(data);
@@ -117,7 +119,7 @@ function ContactTableRowMenu(props) {
         }
     };
 
-    const [value,setValue] = React.useState(nickname);
+    const [value, setValue] = React.useState(nickname);
     const handleChangeNickname = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
     };
@@ -125,7 +127,7 @@ function ContactTableRowMenu(props) {
     const updateNicknameButton = (event) => {
         event.preventDefault();
         let data = {
-            nickname:value,
+            nickname: value,
         }
         try {
             updateRelationship.mutate(data);
@@ -134,52 +136,52 @@ function ContactTableRowMenu(props) {
         }
     };
 
-    
+
 
     const [openEditNickname, setOpenEditNickname] = React.useState(false);
     const handleOpenEditNickname = () => {
         setOpenEditNickname(true)
         setValue(nickname)
     };
-    const handleCloseEditNickname = () => {setOpenEditNickname(false)};
+    const handleCloseEditNickname = () => { setOpenEditNickname(false) };
 
-    const [openConfirmation1,setOpenConfirmation1] = React.useState(false);
-    const handleOpenConfirmation1 = () => {setOpenConfirmation1(true)};
-    const handleCloseConfirmation1 = () => {setOpenConfirmation1(false)};
-    const [openConfirmation2,setOpenConfirmation2] = React.useState(false);
-    const handleOpenConfirmation2 = () => {setOpenConfirmation2(true)};
-    const handleCloseConfirmation2 = () => {setOpenConfirmation2(false)};
+    const [openConfirmation1, setOpenConfirmation1] = React.useState(false);
+    const handleOpenConfirmation1 = () => { setOpenConfirmation1(true) };
+    const handleCloseConfirmation1 = () => { setOpenConfirmation1(false) };
+    const [openConfirmation2, setOpenConfirmation2] = React.useState(false);
+    const handleOpenConfirmation2 = () => { setOpenConfirmation2(true) };
+    const handleCloseConfirmation2 = () => { setOpenConfirmation2(false) };
 
 
 
     return (
         <React.Fragment>
             <DialogConfirmation
-                is_open = {openConfirmation1}
-                title = "Disconnect user :"
-                text = {`${user_name}  `}
-                submitfunction = {disconnectUserButton}
-                handleClose = {handleCloseConfirmation1}
+                is_open={openConfirmation1}
+                title="Disconnect user :"
+                text={`${user_name}  `}
+                submitfunction={disconnectUserButton}
+                handleClose={handleCloseConfirmation1}
             />
             <DialogConfirmation
-                is_open = {openConfirmation2}
-                title = "Block user :"
-                text = {`${user_name}  `}
-                submitfunction = {null}
-                handleClose = {handleCloseConfirmation2}
+                is_open={openConfirmation2}
+                title="Block user :"
+                text={`${user_name}  `}
+                submitfunction={null}
+                handleClose={handleCloseConfirmation2}
             />
 
             <Dialog open={openEditNickname} onClose={handleCloseEditNickname}>
                 <DialogTitle>Change nickname</DialogTitle>
                 <DialogContent sx={{ minWidth: "500px" }}>
-                        <TextField
-                            fullWidth
-                            id="outlined-name"
-                            label="Nickname"
-                            value={value}
-                            onChange={handleChangeNickname}
-                            variant="standard"
-                        />
+                    <TextField
+                        fullWidth
+                        id="outlined-name"
+                        label="Nickname"
+                        value={value}
+                        onChange={handleChangeNickname}
+                        variant="standard"
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Box sx={{ flexGrow: 1 }} />
@@ -187,7 +189,7 @@ function ContactTableRowMenu(props) {
                     <LoadingButton
                         loading={updateRelationship.isLoading}
                         loadingPosition="end"
-                        onClick={(event)=>{updateNicknameButton(event);handleCloseEditNickname(event);}}
+                        onClick={(event) => { updateNicknameButton(event); handleCloseEditNickname(event); }}
                     >
                         Save
                     </LoadingButton>
@@ -210,38 +212,34 @@ function ContactTableRowMenu(props) {
                 }}
             >
                 <MenuList dense>
-                    <MenuItem onClick={(event)=> {updatePinButton(event);handleClose(event);}}>
-                        {pin && <ListItemIcon><Check /></ListItemIcon>}
-                        <ListItemText inset={pin ? false : true}>Pin</ListItemText>
-                    </MenuItem>
-                    <MenuItem onClick={(event)=> {updateNotifyButton(event);handleClose(event);}}>
-                        {notification && <ListItemIcon><Check /></ListItemIcon>}
-                        <ListItemText inset={notification ? false : true}>Notify</ListItemText>
-                    </MenuItem>
-                    <MenuItem onClick={(event)=> {updateFollowingButton(event);handleClose(event);}}>
-                        {follow && <ListItemIcon><Check /></ListItemIcon>}
-                        <ListItemText inset={follow ? false : true}>Following</ListItemText>
-                    </MenuItem>
-                    <Divider />
-                    {
-                        is_connected && (
-                            <>
-                                <MenuItem onClick={(event)=>{handleOpenEditNickname(event);handleClose(event);}}>
-                                    <ListItemText>Edit nickname</ListItemText>
-                                </MenuItem>
-                                <Divider />
-                            </>)
+                    {is_connected && (
+                        <>
+                            <MenuItem onClick={(event) => { updatePinButton(event); handleClose(event); }}>
+                                {pin && <ListItemIcon><Check /></ListItemIcon>}
+                                <ListItemText inset={pin ? false : true}>Pin</ListItemText>
+                            </MenuItem>
+                            <MenuItem onClick={(event) => { updateNotifyButton(event); handleClose(event); }}>
+                                {notification && <ListItemIcon><Check /></ListItemIcon>}
+                                <ListItemText inset={notification ? false : true}>Notify</ListItemText>
+                            </MenuItem>
+                            <MenuItem onClick={(event) => { updateFollowingButton(event); handleClose(event); }}>
+                                {follow && <ListItemIcon><Check /></ListItemIcon>}
+                                <ListItemText inset={follow ? false : true}>Following</ListItemText>
+                            </MenuItem>
+                            <Divider />
 
-                    }
+                            <MenuItem onClick={(event) => { handleOpenEditNickname(event); handleClose(event); }}>
+                                <ListItemText>Edit nickname</ListItemText>
+                            </MenuItem>
+                            <Divider />
 
+                            <MenuItem onClick={(event) => { handleOpenConfirmation1(event); handleClose(event); }}>
+                                <ListItemText>Disconnect user</ListItemText>
+                            </MenuItem >
+                        </>
+                    )}
 
-                    {
-                        is_connected && <MenuItem onClick={(event)=> {handleOpenConfirmation1(event);handleClose(event);}}>
-                            <ListItemText>Disconnect user</ListItemText>
-                        </MenuItem >
-                    }
-
-                    <MenuItem onClick={(event)=> {handleOpenConfirmation2(event);handleClose(event);}}>
+                    <MenuItem onClick={(event) => { handleOpenConfirmation2(event); handleClose(event); }}>
                         <ListItemText>Block user</ListItemText>
                     </MenuItem >
 
