@@ -30,46 +30,53 @@ export default function WaitingRequestTable(props) {
 
     return (
         <React.Fragment>
-            {waitingRequests.data && <Typography fontSize={25} sx={{m:'10px'}}>Count = {waitingRequests.data.data.length}</Typography>}
-        <TableContainer component={Paper}>
-            <Table aria-label="simple table">
+            {waitingRequests.data && <Typography fontSize={25} sx={{ m: '10px' }}>Count = {waitingRequests.data.data.length}</Typography>}
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
 
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Date request</TableCell>
-                        <TableCell align="right">Cancel</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {waitingRequests.isLoading && <Typography>loading...</Typography>}
-                    {waitingRequests.isError && <Typography>error</Typography>}
-                    {
-                        waitingRequests.data && waitingRequests.data.data.map((a) => (
-                            <TableRow
-                                key={a.id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    <Stack
-                                        direction="row"
-                                        spacing={2}
-                                    >
-                                        <Avatar
-                                            src={a.user.profile.profile_picture.small}
-                                            sx={{ width: 24, height: 24 }}
-                                        />
-                                        <Link underline="hover" component={LinkRouter} to={`/user/${a.user.id}`}>{a.user.profile.name}</Link>
-                                    </Stack>
-                                </TableCell>
-                                <TableCell align="right">{a.time_creation}</TableCell>
-                                <WaitingRequestTableRowButton user_id={a.user.id} />
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>no</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Date request</TableCell>
+                            <TableCell>Cancel</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {waitingRequests.isLoading && <Typography>loading...</Typography>}
+                        {waitingRequests.isError && <Typography>error</Typography>}
+                        {waitingRequests.data && waitingRequests.data.data.length == 0 && (<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell>-</TableCell>
+                        </TableRow>)}
+                        {
+                            waitingRequests.data && waitingRequests.data.data.map((a,i) => (
+                                <TableRow
+                                    key={a.id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {i+1}
+                                    </TableCell>
+                                    <TableCell >
+                                        <Stack
+                                            direction="row"
+                                            spacing={2}
+                                        >
+                                            <Avatar
+                                                src={a.user.profile.profile_picture.small}
+                                                sx={{ width: 24, height: 24 }}
+                                            />
+                                            <Link underline="hover" component={LinkRouter} to={`/user/${a.user.id}`}>{a.user.profile.name}</Link>
+                                        </Stack>
+                                    </TableCell>
+                                    <TableCell>{a.time_creation}</TableCell>
+                                    <WaitingRequestTableRowButton user_id={a.user.id} />
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </React.Fragment>
 
     );

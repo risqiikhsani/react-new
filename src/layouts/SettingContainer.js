@@ -18,7 +18,7 @@ import { Container, Stack } from "@mui/system";
 import { IconButton, Button } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Link } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -132,18 +132,19 @@ export default function PermanentDrawerLeft() {
               <Divider/>
               {i.children.map((a) => (
                 <React.Fragment>
+                  <NavLink
+                  to={`/setting` + i.route + a.route} style={({isActive,isPending}) => isActive ? {color:'violet',textDecoration:'none'} : {color:"black",textDecoration:'none'}}
+                  >
                   <ListItem
                     key={a.name}
                     disablePadding
-                    component={Link}
-                    to={`/setting` + i.route + a.route}
                   >
-                    <ListItemButton>
+                    <ListItemButton sx={{textTransform:'none'}}>
                       <ListItemIcon>{a.icon}</ListItemIcon>
                       <ListItemText primary={a.name} />
                     </ListItemButton>
                   </ListItem>
-                  
+                  </NavLink>    
                 </React.Fragment>
               ))}
               

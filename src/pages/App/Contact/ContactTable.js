@@ -17,8 +17,13 @@ import { useQuery } from '@tanstack/react-query';
 import { connection_api } from '../../../api/Api';
 import ContactTableRowMenu from './ContactTableRowMenu';
 
+import PushPinIcon from '@mui/icons-material/PushPin';
+import { orange } from "@mui/material/colors";
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+
 export default function ContactTable(props) {
-  
+
 
   const connections = useQuery(
     ["connections"],
@@ -30,69 +35,74 @@ export default function ContactTable(props) {
     }
   );
 
-  
+
   return (
     <React.Fragment>
-      {connections.data && <Typography fontSize={25} sx={{m:'10px'}}>Count = {connections.data.data.length}</Typography>}
+      {connections.data && <Typography fontSize={25} sx={{ m: '10px' }}>Count = {connections.data.data.length}</Typography>}
       <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Nickname</TableCell>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>no</TableCell>
+              <TableCell >Name</TableCell>
+              <TableCell>Nickname</TableCell>
 
-            <TableCell align="right">Pinned</TableCell>
-            <TableCell align="right">Notify</TableCell>
-            <TableCell align="right">Following</TableCell>
-            <TableCell align="right">Connected Date</TableCell>
-            <TableCell align="right">Contact Groups</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        {connections.isLoading && <Typography>loading...</Typography>}
-        {connections.isError && <Typography>error</Typography>}
-        
-          {
-            connections.data && connections.data.data.map((a) => (
-              <TableRow
-                key={a.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                  >
-                    <Avatar
-                      src={a.user.profile.profile_picture.small}
-                      sx={{ width: 24, height: 24 }}
-                    />
-                    <Link underline="hover" component={LinkRouter} to={`/user/${a.user.id}`}>{a.user.profile.name}</Link>
-                  </Stack>
+              <TableCell align="center">Pinned</TableCell>
+              <TableCell align="center">Notify</TableCell>
+              <TableCell align="center">Following</TableCell>
+              <TableCell>Connected Date</TableCell>
+              <TableCell>Contact Groups</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {connections.isLoading && <Typography>loading...</Typography>}
+            {connections.isError && <Typography>error</Typography>}
+            {connections.data && connections.data.data.length == 0 && (<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell>-</TableCell>
+            </TableRow>)}
 
-                </TableCell>
-                <TableCell align="right">{a.relationship.nickname}</TableCell>
-                
-                <TableCell align="right">{a.relationship.pin && (<CheckCircleIcon color='success'/>)}</TableCell>
-                <TableCell align="right">{a.relationship.notification && (<CheckCircleIcon color='success'/>)}</TableCell>
-                <TableCell align="right">{a.relationship.follow && (<CheckCircleIcon color='success'/>)}</TableCell>
-                <TableCell align="right">{a.relationship.time_creation}</TableCell>
-                <TableCell align="right">-</TableCell>
-                <TableCell align="right"><ContactTableRowMenu
-                  user_id={a.user.id}
-                  user_name={a.user.profile.name}
-                  pin={a.relationship.pin}
-                  notification={a.relationship.notification}
-                  follow={a.relationship.follow}
-                  nickname={a.relationship.nickname}
-                  is_connected={true}
-                /></TableCell>
-              </TableRow>
-            ))
-          }
-        </TableBody>
-      </Table>
-    </TableContainer>
+            {
+              connections.data && connections.data.data.map((a,i) => (
+                <TableRow
+                  key={a.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">{i+1}</TableCell>
+                  <TableCell>
+                    <Stack
+                      direction="row"
+                      spacing={2}
+                    >
+                      <Avatar
+                        src={a.user.profile.profile_picture.small}
+                        sx={{ width: 24, height: 24 }}
+                      />
+                      <Link underline="hover" component={LinkRouter} to={`/user/${a.user.id}`}>{a.user.profile.name}</Link>
+                    </Stack>
+
+                  </TableCell>
+                  
+                  <TableCell >{a.relationship.nickname}<p>&#128540;</p></TableCell>
+                  <TableCell align="center">{a.relationship.pin && (<PushPinIcon sx={{ color: orange[800],ml:'5px' }} fontSize="small"/>)}</TableCell>
+                  <TableCell align="center">{a.relationship.notification && (<NotificationsActiveIcon sx={{ color: orange[800],ml:'5px' }} fontSize="small"/>)}</TableCell>
+                  <TableCell align="center">{a.relationship.follow && (<HowToRegIcon sx={{ color: orange[800] ,ml:'5px'}} fontSize="small"/>)}</TableCell>
+                  <TableCell >{a.relationship.time_creation}</TableCell>
+                  <TableCell >-</TableCell>
+                  <TableCell ><ContactTableRowMenu
+                    user_id={a.user.id}
+                    user_name={a.user.profile.name}
+                    pin={a.relationship.pin}
+                    notification={a.relationship.notification}
+                    follow={a.relationship.follow}
+                    nickname={a.relationship.nickname}
+                    is_connected={true}
+                  /></TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
     </React.Fragment>
   );
 }

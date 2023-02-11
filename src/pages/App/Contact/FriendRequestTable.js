@@ -29,47 +29,54 @@ export default function FriendRequestTable(props) {
 
     return (
         <React.Fragment>
-            {friendRequests.data && <Typography fontSize={25} sx={{m:'10px'}}>Count = {friendRequests.data.data.length}</Typography>}
-        <TableContainer component={Paper}>
-            <Table aria-label="simple table">
+            {friendRequests.data && <Typography fontSize={25} sx={{ m: '10px' }}>Count = {friendRequests.data.data.length}</Typography>}
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
 
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Date request</TableCell>
-                        <TableCell align="right">Accept</TableCell>
-                        <TableCell align="right">Decline</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {friendRequests.isLoading && <Typography>loading...</Typography>}
-                    {friendRequests.isError && <Typography>error</Typography>}
-                    {
-                        friendRequests.data && friendRequests.data.data.map((a) => (
-                            <TableRow
-                                key={a.id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    <Stack
-                                        direction="row"
-                                        spacing={2}
-                                    >
-                                        <Avatar
-                                            src={a.sender.profile.profile_picture.small}
-                                            sx={{ width: 24, height: 24 }}
-                                        />
-                                        <Link underline="hover" component={LinkRouter} to={`/user/${a.sender.id}`}>{a.sender.profile.name}</Link>
-                                    </Stack>
-                                </TableCell>
-                                <TableCell align="right">{a.time_creation}</TableCell>
-                                <FriendRequestTableRowButton id={a.id} />
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>no</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Date request</TableCell>
+                            <TableCell>Accept</TableCell>
+                            <TableCell>Decline</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {friendRequests.isLoading && <Typography>loading...</Typography>}
+                        {friendRequests.isError && <Typography>error</Typography>}
+                        {friendRequests.data && friendRequests.data.data.length == 0 && (<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell>-</TableCell>
+                        </TableRow>)}
+                        {
+                            friendRequests.data && friendRequests.data.data.map((a,i) => (
+                                <TableRow
+                                    key={a.id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {i+1}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Stack
+                                            direction="row"
+                                            spacing={2}
+                                        >
+                                            <Avatar
+                                                src={a.sender.profile.profile_picture.small}
+                                                sx={{ width: 24, height: 24 }}
+                                            />
+                                            <Link underline="hover" component={LinkRouter} to={`/user/${a.sender.id}`}>{a.sender.profile.name}</Link>
+                                        </Stack>
+                                    </TableCell>
+                                    <TableCell>{a.time_creation}</TableCell>
+                                    <FriendRequestTableRowButton id={a.id} />
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </React.Fragment>
 
     );

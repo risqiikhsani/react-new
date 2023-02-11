@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import ChatIcon from "@mui/icons-material/Chat";
 import HomeIcon from "@mui/icons-material/Home";
@@ -24,7 +24,7 @@ const iconDrawerColor = '#F9FAFC';
 
 const routeDrawer = [
   {
-    name: "Home",
+    name: "",
     route: "/",
     icon: <HomeIcon sx={{ color: iconDrawerColor }} />,
 
@@ -55,12 +55,14 @@ export default function LeftDrawer(props) {
       <Divider />
       <List sx={{ color: fontDrawerColor }}>
         {routeDrawer.map((item) => (
+          <NavLink to={item.route} style={({isActive,isPending}) => isActive ? {color:'violet',textDecoration:'none'} : {color:'white',textDecoration:'none'}}>
           <ListItem key={item} disablePadding>
-            <ListItemButton component={Link} preventScrollReset={true} to={item.route} >
+            <ListItemButton preventScrollReset={true} sx={{textTransform:'none'}}>
               <ListItemIcon >{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
+          </NavLink>
         ))}
       </List>
       <Divider sx={{ bgcolor: '#ECECEC' }} variant="middle" />

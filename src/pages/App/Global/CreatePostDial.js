@@ -31,6 +31,8 @@ import PollIcon from '@mui/icons-material/Poll';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { post_api } from "../../../api/Api";
+import EmojiPicker from "emoji-picker-react";
+import EmojiPickerButton from "./EmojiPickerButton";
 
 const actions = [
     { icon: <PostAddIcon />, name: 'Create Post' },
@@ -192,11 +194,13 @@ export default function CreatePostDial(props) {
 
                 <DialogActions>
 
-                    <IconButton>
-                        <EmojiEmotionsIcon />
-                    </IconButton>
+                    
 
                     <Box sx={{ flexGrow: 1 }} />
+                    <EmojiPickerButton 
+                        value={value}
+                        setValue={setValue}
+                    />
                     <Button onClick={handleClose}>Cancel</Button>
                     <LoadingButton
                         loading={createPost.isLoading}
