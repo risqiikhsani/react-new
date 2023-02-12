@@ -116,6 +116,11 @@ function Profile(props) {
     cancelRequest.refetch()
   }
 
+  const copyUsernameButton = () => {
+    navigator.clipboard.writeText(data.profile.public_username)
+    dispatch(setSnackbar({ type: "success", string: "Copied !" }));
+  }
+
   return (
     <React.Fragment>
       <Stack direction="column" spacing={2}>
@@ -240,7 +245,7 @@ function Profile(props) {
           </Box>
 
           <Typography>{data.profile.public_username}</Typography>
-          <IconButton size="sm"><ContentCopyIcon fontSize="small" /></IconButton>
+          <IconButton size="sm" onClick={copyUsernameButton}><ContentCopyIcon fontSize="small" /></IconButton>
         </Stack>
 
         <Divider />

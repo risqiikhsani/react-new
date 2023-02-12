@@ -82,7 +82,7 @@ export default function ContactTable(props) {
 
                   </TableCell>
                   
-                  <TableCell >{a.relationship.nickname}<p>&#128540;</p></TableCell>
+                  <TableCell >{a.relationship.nickname}</TableCell>
                   <TableCell align="center">{a.relationship.pin && (<PushPinIcon sx={{ color: orange[800],ml:'5px' }} fontSize="small"/>)}</TableCell>
                   <TableCell align="center">{a.relationship.notification && (<NotificationsActiveIcon sx={{ color: orange[800],ml:'5px' }} fontSize="small"/>)}</TableCell>
                   <TableCell align="center">{a.relationship.follow && (<HowToRegIcon sx={{ color: orange[800] ,ml:'5px'}} fontSize="small"/>)}</TableCell>

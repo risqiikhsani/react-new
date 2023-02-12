@@ -40,8 +40,15 @@ export default function Root() {
       }));
 
     }
+    else{
+      return navigate("/auth/login");
+    }
 
   }, []);
+
+
+
+  
 
   useEffect(() => {
     if (!initialRender && !authenticated_user_id) {

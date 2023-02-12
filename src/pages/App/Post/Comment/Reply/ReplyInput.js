@@ -13,6 +13,7 @@ import { memo } from "react";
 import AppApi from "../../../../../api/AppApi";
 import { setSnackbar } from "../../../../../hooks/slices/snackbarSlice";
 import { reply_api } from "../../../../../api/Api";
+import EmojiPickerButton from "../../../Global/EmojiPickerButton";
 
 function ReplyInput(props) {
   const dispatch = useDispatch();
@@ -79,9 +80,7 @@ function ReplyInput(props) {
           size="small"
         />
         <Box>
-          <IconButton color="primary">
-            <EmojiEmotionsIcon />
-          </IconButton>
+          <EmojiPickerButton value={input} setValue={setInput}/>
           {/* <IconButton
             color="primary"
             aria-label="upload picture"

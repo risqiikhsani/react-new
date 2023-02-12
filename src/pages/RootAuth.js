@@ -21,6 +21,9 @@ export default function RootAuth() {
 
   useEffect(() => {
     setInitialRender(false)
+    if(authenticated_user_id){
+      return navigate("/");
+    }
   },[])
 
   useEffect(() => {

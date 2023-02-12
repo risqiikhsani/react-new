@@ -1,60 +1,21 @@
 import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Avatar, TextField } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Avatar, Button } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import ChatIcon from "@mui/icons-material/Chat";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
-import PeopleIcon from "@mui/icons-material/People";
-import { TextField } from "@mui/material";
-import Home from "../../pages/App/Home/Home";
-import Chat from "../../pages/App/Chat/Chat";
+import { useQuery } from "@tanstack/react-query";
+import { connection_api } from "../../api/Api";
 
 const fontDrawerColor = "#9A9FA7";
 const iconDrawerColor = "#F9FAFC";
 
-const contact = [
-  {
-    id: 1,
-    name: "John",
-    is_online: false,
-    last_online: "",
-    profile_picture: "",
-  },
-  {
-    id: 2,
-    name: "Kenny",
-    is_online: true,
-    last_online: "",
-    profile_picture: "",
-  },
-  {
-    id: 3,
-    name: "Zer",
-    is_online: false,
-    last_online: "",
-    profile_picture: "",
-  },
-];
 
 export default function RightDrawerContact(props) {
   const [name, setName] = React.useState("");
@@ -63,6 +24,17 @@ export default function RightDrawerContact(props) {
     setName(event.target.value);
   };
 
+  const connections = useQuery(
+    ["connections"],
+    () => {
+      return connection_api.get_list();
+    },
+    {
+      keepPreviousData: true,
+    }
+  );
+
+  
   return (
     <React.Fragment>
       <Toolbar>
@@ -78,14 +50,16 @@ export default function RightDrawerContact(props) {
       </Toolbar>
       <Divider />
       <List sx={{ color: fontDrawerColor }}>
-        {contact.map((item) => (
-          <ListItem key={item.id} disablePadding>
+      {connections.isLoading && <Typography>loading...</Typography>}
+      {connections.isError && <Typography>error</Typography>}
+      {connections.data && connections.data.data.map((a,i) => (
+        <ListItem key={i} disablePadding>
             <ListItemButton component={Link} to={null}>
               <ListItemIcon>
-                <Avatar src={null} />
+                <Avatar src={a.user.profile.profile_picture.small} />
               </ListItemIcon>
-              <ListItemText primary={item.name} />
-              {item.is_online ? (
+              <ListItemText primary={a.user.profile.name} />
+              {/* {item.is_online ? (
                 <Box
                   sx={{
                     bgcolor: "green",
@@ -96,10 +70,12 @@ export default function RightDrawerContact(props) {
                 />
               ) : (
                 <Typography variant="body2">3 hours ago</Typography>
-              )}
+              )} */}
             </ListItemButton>
           </ListItem>
-        ))}
+      ))}
+
+
       </List>
     </React.Fragment>
   );
