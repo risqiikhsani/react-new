@@ -79,7 +79,7 @@ function ReplyInput(props) {
           onChange={handleChange}
           size="small"
         />
-        <Box>
+        <Box> 
           <EmojiPickerButton value={input} setValue={setInput}/>
           {/* <IconButton
             color="primary"

@@ -23,7 +23,7 @@ export default function Message() {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         alignItems="flex-start"
-        sx={{ width: "100%", bgcolor: "background.paper" }}
+        sx={{ maxWidth: "80%", bgcolor: "violet" }}
       >
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
