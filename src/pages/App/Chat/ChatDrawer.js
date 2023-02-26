@@ -20,6 +20,8 @@ const drawerWidthOuter = 240;
 const ChatBarColor = "#ade8f4";
 
 export default function ChatDrawer(props) {
+    const {onOpen} = props;
+
     return (
         <React.Fragment>
             <Paper
@@ -41,7 +43,7 @@ export default function ChatDrawer(props) {
                 {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
                     <>
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={onOpen}>
                                 <ListItemIcon>
                                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                                 </ListItemIcon>

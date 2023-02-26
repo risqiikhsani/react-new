@@ -14,10 +14,12 @@ const drawerWidth = 400;
 const drawerWidthOuter = 240;
 const ChatRoomBarColor = "#ffb703";
 
-export default function ChatRoom() {
+export default function ChatRoom(props) {
+  const {onClose} = props;
+
   return (
     <React.Fragment>
-      <Box sx={{ flexGrow: 1, bgcolor:'skyblue',height:'100vh' }}>
+
         <AppBar
           sx={{
             zIndex: "1059",
@@ -29,13 +31,13 @@ export default function ChatRoom() {
               lg: `${drawerWidth + drawerWidthOuter}px`,
               md: `${drawerWidth}px`,
             },
-            // background: 'transparent',
+            background: 'transparent',
             // bgcolor:ChatRoomBarColor,
           }}
         >
-          <Toolbar />
-          <Toolbar />
-          <Toolbar>
+          <Toolbar/>
+          <Toolbar/>
+          <Toolbar sx={{bgcolor:"powderblue"}}>
             <IconButton
               size="large"
               edge="start"
@@ -51,17 +53,17 @@ export default function ChatRoom() {
             <IconButton>
               <MoreVertIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={onClose}>
               <CloseIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
 
-        <Toolbar />
+          <Toolbar/>
 
-        <List>
+        {/* <List>
           <Message />
-        </List>
+        </List> */}
 
         <AppBar position="fixed" color="primary"
 
@@ -76,6 +78,7 @@ export default function ChatRoom() {
               lg: `${drawerWidth + drawerWidthOuter}px`,
               md: `${drawerWidth}px`,
             },
+            bgcolor:'white'
             // background: 'transparent',
             // bgcolor:ChatRoomBarColor,
           }}
@@ -84,7 +87,7 @@ export default function ChatRoom() {
             <ChatInput />
           </Toolbar>
         </AppBar>
-      </Box>
+      
     </React.Fragment>
   );
 }

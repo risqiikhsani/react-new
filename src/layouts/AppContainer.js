@@ -56,6 +56,7 @@ import ProfileMenuIcon from "./Navbar/ProfileMenuIcon";
 import SettingDrawerIcon from "./Navbar/SettingDrawerIcon";
 import OnlineContactIcon from "./Navbar/OnlineContactIcon";
 import { useQueryClient } from "@tanstack/react-query";
+import FixedBuggyToolbar from "../components/Others/FixedBuggyToolbar";
 
 // const drawerWidth = 240;
 const drawerWidth = 240;
@@ -82,12 +83,12 @@ function AppContainer(props) {
   return (
     <Box sx={{
       display: "flex",
-      minHeight:'100vh',
-      background:backgroundColorTheme,
+      minHeight: '100vh',
+      background: backgroundColorTheme,
       // backgroundImage:'https://i0.wp.com/css-tricks.com/wp-content/uploads/2020/11/css-gradient.png?fit=1200%2C600&ssl=1',
       // backgroundRepeat:'no-repeat',
       // backgroundAttachment:'fixed',
-     }}>
+    }}>
       <CssBaseline />
       {/* this is the NavBar */}
       <AppBar
@@ -98,7 +99,8 @@ function AppContainer(props) {
           // saat screen lg,xl  maka marginLeft =  240
           ml: { lg: `${drawerWidth}px` },
           // zIndex: (theme) => theme.zIndex.drawer + 1,
-          bgcolor:BarColor,
+          // bgcolor:BarColor,
+          background: 'transparent',
         }}
       >
         <Toolbar>
@@ -124,18 +126,18 @@ function AppContainer(props) {
               variant="h6"
               noWrap
               component="div"
-              // sx={{ display: { xs: 'none', sm: 'block' } }}
+            // sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              MUI
+              App
             </Typography>
           </Button>
 
           <Box sx={{ flexGrow: 1 }} />
           <Box>
             {/* here is the icons */}
-            
+
             <SearchMenuIcon />
-            <OnlineContactIcon/>
+            <OnlineContactIcon />
             <NotificationMenuIcon />
             <ProfileMenuIcon />
             <SettingDrawerIcon />
@@ -143,10 +145,10 @@ function AppContainer(props) {
         </Toolbar>
       </AppBar>
       <Box
-        component="nav"
-        sx={{ 
-          
-          width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{
+          width: { lg: drawerWidth }, flexShrink: { lg: 0 },
+          bgcolor:"sienna",
+        }}
         aria-label="drawer"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -159,7 +161,8 @@ function AppContainer(props) {
           onClose={handleDrawerToggle}
           PaperProps={{
             sx: {
-              backgroundColor: drawerColor,
+              // backgroundColor: drawerColor,
+              background:'transparent',
             },
           }}
           ModalProps={{
@@ -184,7 +187,8 @@ function AppContainer(props) {
           variant="permanent"
           PaperProps={{
             sx: {
-              backgroundColor: drawerColor,
+              // backgroundColor: drawerColor,
+              background:'transparent',
             },
           }}
           sx={{
@@ -209,12 +213,16 @@ function AppContainer(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          
+          bgcolor: "thistle",
           // ml: { lg: `${drawerWidth}px` },
-          // width: { md: `calc(100% - ${drawerWidth}px` },
+          //width: { lg: `calc(100% - ${drawerWidth}px` },
         }}
       >
-        <Toolbar />
+        {/* set height to 70px because there was a BUG of toolbar's height when the resolution is at "sm" */}
+        <Toolbar/>
+        
+        
         {props.children}
       </Box>
 

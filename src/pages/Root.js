@@ -10,7 +10,31 @@ import { setUser } from "../hooks/slices/userSlice";
 
 import { useIsFetching } from "@tanstack/react-query";
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
 import SnackbarHandler from "./App/Global/SnackbarHandler";
+
+const theme = createTheme({
+  components: {
+    // Name of the component ⚛️
+    MuiButtonBase: {
+      defaultProps: {
+        // The default props to change
+        disableRipple: true, // No more ripple, on the whole application 💣!
+      },
+    },
+    MuiToolbar:{
+      styleOverrides:{
+        root:{
+          height:'70px',
+        },
+      },
+    },
+  },
+});
+
+
 export default function Root() {
   const isFetching = useIsFetching();
   const dispatch = useDispatch();
@@ -69,8 +93,10 @@ export default function Root() {
 
   return (
     <React.Fragment>
+      <ThemeProvider theme={theme}>
       <SnackbarHandler />
       <Outlet />
+      </ThemeProvider>
     </React.Fragment>
   );
 }

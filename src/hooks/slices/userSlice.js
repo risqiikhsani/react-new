@@ -10,6 +10,7 @@ export const userSlice = createSlice({
     email_confirmed:false,
     role:null,
 
+
     // id: 1,
     // name: "test",
     // email_confirmed:true,
@@ -37,6 +38,7 @@ export const userSlice = createSlice({
       state.profile_picture = null
       state.email_confirmed= false
       state.role=null
+
     },
   },
 })

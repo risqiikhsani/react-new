@@ -13,6 +13,7 @@ import * as React from "react";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ChatDrawer from "./ChatDrawer";
 import ChatRoom from "./ChatRoom";
+import ChatRoom2 from "./ChatRoom2";
 
 
 const drawerWidth = 400;
@@ -22,6 +23,13 @@ const ChatBarColor = "#ade8f4";
 function Chat(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+
+  const [showRoom,setShowRoom] = React.useState(false);
+
+  const handleShowRoom = () => {
+    setShowRoom(!showRoom);
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -35,7 +43,7 @@ function Chat(props) {
           <ArrowBackIosIcon />
         </IconButton>
       </Toolbar>
-      <ChatDrawer />
+      <ChatDrawer onOpen={handleShowRoom}/>
     </React.Fragment>
 
   );
@@ -44,10 +52,9 @@ function Chat(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex",  }}>
       <CssBaseline />
       <AppBar
-        position="fixed"
         sx={{
           width: {
             lg: `calc(100% - ${drawerWidth + drawerWidthOuter}px)`,
@@ -58,14 +65,14 @@ function Chat(props) {
             md: `${drawerWidth}px`,
           },
           zIndex: "1060",
-          bgcolor: ChatBarColor,
-          // background: 'transparent', boxShadow: 'none',
-          boxShadow: 'none',
+          // bgcolor: ChatBarColor,
+          background: 'transparent', boxShadow: 'none',
         }}
       >
-        <Toolbar />
+        <Toolbar/>
+        
 
-        <Toolbar>
+        <Toolbar >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -118,14 +125,15 @@ function Chat(props) {
             zIndex: "1070",
             display: { xs: "block", lg: "none", },
             "& .MuiDrawer-paper": {
-              bgcolor: ChatBarColor,
+              // bgcolor: ChatBarColor,
+              background: 'transparent',
               zIndex: "1070",
               boxSizing: "border-box",
               width: drawerWidth,
             },
           }}
         >
-          <Toolbar />
+          <Toolbar/>
           {drawer}
         </Drawer>
         {/* the permanent drawer , only showed when md++ */}
@@ -135,7 +143,8 @@ function Chat(props) {
             zIndex: "1070",
             display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
-              bgcolor: ChatBarColor,
+              // bgcolor: ChatBarColor,
+              background: 'transparent',
               zIndex: "1070",
               boxSizing: "border-box",
               width: drawerWidth,
@@ -144,7 +153,7 @@ function Chat(props) {
           }}
           open
         >
-          <Toolbar />
+          <Toolbar/>
           {drawer}
         </Drawer>
       </Box>
@@ -153,13 +162,16 @@ function Chat(props) {
         sx={{
           flexGrow:1,
           width: { md: `calc(100% - ${drawerWidth}px)`, },
-          // bgcolor:"white",
+          
           
         }}
       >
         <Toolbar/>
-        <Typography>test</Typography>
-        {/* <ChatRoom /> */}
+        {/* <ChatRoom2/> */}
+        {/* <Typography>test</Typography> */}
+
+        {showRoom && <ChatRoom onClose={handleShowRoom}/>}
+        
       </Box>
     </Box>
   );
