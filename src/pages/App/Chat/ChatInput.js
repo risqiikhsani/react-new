@@ -17,6 +17,16 @@ function ChatInput(props) {
   };
 
   
+  const handleClick = () => {
+    onSend({
+        'command':'chat',
+        'data':{
+            'text':input,
+        }
+    })
+  }
+
+  
   return (
     <React.Fragment>
 
@@ -42,7 +52,7 @@ function ChatInput(props) {
         <IconButton>
           <MicIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={handleClick}>
           <SendIcon />
         </IconButton>
  

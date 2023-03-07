@@ -13,53 +13,60 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { memo } from "react";
 
-export default function Message() {
-  const [hover, setHover] = useState(false);
+function Message(props) {
+  const {data} = props;
 
   return (
     <React.Fragment>
       <ListItem
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
+        // onMouseEnter={() => setHover(true)}
+        // onMouseLeave={() => setHover(false)}
         alignItems="flex-start"
-        sx={{ maxWidth: "80%", bgcolor: "white" }}
+        sx={{ bgcolor: "white" ,mb:'20px'}}
       >
-        <ListItemAvatar>
+        {/* <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
+        </ListItemAvatar> */}
         <ListItemText
-          primary={
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="flex-start"
-              spacing={1}
-            >
-              <Typography>Alex</Typography>
-              {hover && (
-                <ButtonGroup
-                  size="small"
-                  variant="contained"
-                  aria-label="outlined primary button group"
+          // primary={
+          //   <Stack
+          //     direction="row"
+          //     justifyContent="space-between"
+          //     alignItems="flex-start"
+          //     spacing={1}
+          //   >
+          //     <Typography>{data.sender.profile.name}</Typography>
+          //     {/* {hover && (
+          //       <ButtonGroup
+          //         size="small"
+          //         variant="contained"
+          //         aria-label="outlined primary button group"
                   
-                >
-                  <IconButton size="small">
-                    <AddReactionIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small">
-                    <ReplyIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small">
-                    <MoreVertIcon fontSize="small" />
-                  </IconButton>
-                </ButtonGroup>
-              )}
-            </Stack>
-          }
-          secondary="I'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands thisI'll be in your neighborhood doing errands this your neighborhood doing errands this…"
+          //       >
+          //         <IconButton size="small">
+          //           <AddReactionIcon fontSize="small" />
+          //         </IconButton>
+          //         <IconButton size="small">
+          //           <ReplyIcon fontSize="small" />
+          //         </IconButton>
+          //         <IconButton size="small">
+          //           <MoreVertIcon fontSize="small" />
+          //         </IconButton>
+          //       </ButtonGroup>
+          //     )} */}
+          //   </Stack>
+          // }
+          // secondary={data.text}
+          secondary={data.text}
         />
+        <Typography sx={{fontSize:'10px'}}>{data.time_creation}</Typography>
+        
       </ListItem>
     </React.Fragment>
   );
 }
+
+
+export default memo(Message);

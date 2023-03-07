@@ -4,13 +4,13 @@ import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { List } from "@mui/material";
-import ChatInput from "../../../components/Input/ChatInput";
 
 import Message from "./Message";
 import { useDispatch, useSelector } from "react-redux";
 import { clearChatroom } from "../../../hooks/slices/chatroomSlice";
 import localStorageApi from "../../../api/localStorageApi";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import ChatInput from "./ChatInput";
 
 
 
@@ -29,6 +29,7 @@ export default function ChatRoom(props) {
     dispatch(clearChatroom())
   }
 
+  const [messageHistory, setMessageHistory] = React.useState([]);
 
   const access_token = localStorageApi.getAccessToken();
 
@@ -45,15 +46,14 @@ export default function ChatRoom(props) {
   }[readyState];
 
   React.useEffect(() => {
-    if (connectionStatus === "Open" && lastMessage !== null) {
-
+    if (connectionStatus === "Open" && lastJsonMessage !== null) {
+      setMessageHistory((prev) => prev.concat(lastJsonMessage.data));
     }
-  }, [lastMessage])
+  }, [lastJsonMessage, setMessageHistory])
 
   return (
     <React.Fragment>
-      {console.log(chatroomData)}
-
+      {console.log(messageHistory)}
       <AppBar
         sx={{
           zIndex: "1059",
@@ -95,10 +95,18 @@ export default function ChatRoom(props) {
 
       <Toolbar />
       <Typography sx={{ color: "greenyellow", zIndex: '2000' }}>Connection status = {connectionStatus}</Typography>
-      {/* <List>
-          <Message />
-        </List> */}
 
+      <List>
+        {messageHistory.map((a) => (
+          <React.Fragment>
+            <Message key={a.id} data={a} />
+          </React.Fragment>
+
+        ))}
+      </List>
+
+
+      <Toolbar/>
       <AppBar position="fixed" color="primary"
 
         sx={{
@@ -118,7 +126,7 @@ export default function ChatRoom(props) {
         }}
       >
         <Toolbar>
-          <ChatInput />
+          <ChatInput onSend={sendJsonMessage} />
         </Toolbar>
       </AppBar>
 
