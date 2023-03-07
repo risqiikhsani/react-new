@@ -1,26 +1,73 @@
-import { Chip } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import { Box } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/system";
 import * as React from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { useDispatch } from "react-redux";
+import { chatroom_api } from "../../../api/Api";
+import { setChatroom } from "../../../hooks/slices/chatroomSlice";
+import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
+import ChatDrawerItem from "./ChatDrawerItem";
 const drawerWidth = 400;
 const drawerWidthOuter = 240;
 
 const ChatBarColor = "#ade8f4";
 
 export default function ChatDrawer(props) {
-    const {onOpen} = props;
+    const { onOpen } = props;
+
+    const dispatch = useDispatch();
+
+    const { ref, inView } = useInView();
+
+    const chatroomInfiniteList = useInfiniteQuery(
+        ["chatrooms"],
+        async ({ pageParam = 1 }) => {
+            const res = await chatroom_api.get_list(`?page=${pageParam}`);
+            // const res = await AppApi.post().get_list(`?page=${pageParam}`);
+            return res.data;
+        },
+        {
+            getPreviousPageParam: (firstPage) => firstPage.previous ?? undefined,
+            getNextPageParam: (lastPage) => lastPage.next ?? undefined,
+            keepPreviousData: true,
+            onError: (error, variables, context) => {
+                dispatch(
+                    setSnackbar({
+                        type: "error",
+                        string: "Something went wrong !",
+                        detail: error.message,
+                    })
+                );
+            },
+        }
+    );
+
+    React.useEffect(() => {
+        if (inView) {
+            chatroomInfiniteList.fetchNextPage();
+        }
+    }, [inView]);
+
+
+
+    if (chatroomInfiniteList.isLoading)
+        return (
+            <Typography>Loading....</Typography>
+        );
+    if (chatroomInfiniteList.isError)
+        return (
+            <Typography>Something went wrong</Typography>
+        );
+
+
 
     return (
         <React.Fragment>
@@ -40,32 +87,27 @@ export default function ChatDrawer(props) {
             </Paper>
 
             <List>
-                {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+                {chatroomInfiniteList.data.pages.map((a) => (
                     <>
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton onClick={onOpen}>
-                                <ListItemIcon>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={<Typography>Tyler</Typography>}
-                                    secondary={text}
-                                />
-                                <Stack
-                                    direction="column"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    spacing={0}
-                                >
-                                    <Chip label={122} color="success" size="small" />
-                                    <Typography variant="caption">3h</Typography>
-                                </Stack>
-                            </ListItemButton>
-                        </ListItem>
-                        <Divider />
+                        {a.results.map((chatroom) => (
+                            <ChatDrawerItem data={chatroom} />
+                        ))}
                     </>
                 ))}
             </List>
+
+            <Box ref={ref}>
+                {chatroomInfiniteList.isFetchingNextPage ? (
+                    "Loading..."
+                ) : chatroomInfiniteList.hasNextPage ? (
+                    "Load Newer"
+                ) : (
+                    "Nothing more to load"
+                )}
+            </Box>
+
+
+
         </React.Fragment>
     )
 }

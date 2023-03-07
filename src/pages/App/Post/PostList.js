@@ -3,7 +3,7 @@ import {
 } from "@tanstack/react-query";
 import * as React from "react";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import Stack from "@mui/material/Stack";
 import { Container } from "@mui/system";
@@ -70,31 +70,23 @@ export default function PostList(props) {
 
     if (postInfiniteList.isLoading)
         return (
-            <React.Fragment>
-                <Container maxWidth="sm">
-                    <PostSkeleton />
-                </Container>
-            </React.Fragment>
+            <PostSkeleton/>
         );
     if (postInfiniteList.isError)
         return (
-            <React.Fragment>
-                <Container maxWidth="sm">
-                    <p>something wrong</p>
-                </Container>
-            </React.Fragment>
+            <Typography>Something went wrong</Typography>
         );
 
 
     return (
         <React.Fragment>
+            
             <Stack
                 direction="column"
                 justifyContent="flex-start"
                 alignItems="center"
                 spacing={2}
             >
-
                 {postInfiniteList.data.pages.map((a) => (
                     <>
                         {/* {a.data.data.results.length == 0 && (<Typography>no posts found.</Typography>)} */}

@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,7 +13,8 @@ import * as React from "react";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ChatDrawer from "./ChatDrawer";
 import ChatRoom from "./ChatRoom";
-import ChatRoom2 from "./ChatRoom2";
+import { useDispatch, useSelector } from "react-redux";
+import { clearChatroom } from "../../../hooks/slices/chatroomSlice";
 
 
 const drawerWidth = 400;
@@ -25,16 +26,17 @@ function Chat(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
 
-  const [showRoom,setShowRoom] = React.useState(false);
-
-  const handleShowRoom = () => {
-    setShowRoom(!showRoom);
-  }
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const dispatch = useDispatch();
+  
+  const chatroomOpen = useSelector((state) => state.chatroom.open);
+  const chatroomData = useSelector((state) => state.chatroom.data);
+
+  
+  
   const drawer = (
     <React.Fragment>
       <Toolbar>
@@ -43,7 +45,7 @@ function Chat(props) {
           <ArrowBackIosIcon />
         </IconButton>
       </Toolbar>
-      <ChatDrawer onOpen={handleShowRoom}/>
+      <ChatDrawer />
     </React.Fragment>
 
   );
@@ -52,7 +54,7 @@ function Chat(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex",  }}>
+    <Box sx={{ display: "flex", }}>
       <CssBaseline />
       <AppBar
         sx={{
@@ -69,8 +71,8 @@ function Chat(props) {
           background: 'transparent', boxShadow: 'none',
         }}
       >
-        <Toolbar/>
-        
+        <Toolbar />
+
 
         <Toolbar >
           <IconButton
@@ -108,9 +110,9 @@ function Chat(props) {
           width: { md: drawerWidth },
           flexShrink: { lg: 0 },
           // bgcolor:'tomato',
-          
+
         }}
-        
+
       >
         {/* the temporary clickable drawer */}
         <Drawer
@@ -133,7 +135,7 @@ function Chat(props) {
             },
           }}
         >
-          <Toolbar/>
+          <Toolbar />
           {drawer}
         </Drawer>
         {/* the permanent drawer , only showed when md++ */}
@@ -153,25 +155,22 @@ function Chat(props) {
           }}
           open
         >
-          <Toolbar/>
+          <Toolbar />
           {drawer}
         </Drawer>
       </Box>
 
       <Box
         sx={{
-          flexGrow:1,
+          flexGrow: 1,
           width: { md: `calc(100% - ${drawerWidth}px)`, },
-          
-          
         }}
       >
-        <Toolbar/>
-        {/* <ChatRoom2/> */}
-        {/* <Typography>test</Typography> */}
+        <Toolbar />
 
-        {showRoom && <ChatRoom onClose={handleShowRoom}/>}
+        {chatroomOpen && <ChatRoom/> }
         
+
       </Box>
     </Box>
   );

@@ -1,81 +1,65 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import * as React from "react";
 
-import HomeIcon from "@mui/icons-material/Home";
-import ChatIcon from "@mui/icons-material/Chat";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
-
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-
-
-
-//
-
-import { styled, alpha } from "@mui/material/styles";
-
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import Button from "@mui/material/Button";
-import Tooltip from '@mui/material/Tooltip';
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import GrassIcon from "@mui/icons-material/Grass";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
+import Badge from "@mui/material/Badge";
+import Menu from "@mui/material/Menu";
+import Tooltip from '@mui/material/Tooltip';
+import NotificationMenuList from "./NotificationMenuList";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { NotificationWebsocketContext } from "../../pages/RootApp";
+import { memo } from "react";
 
-import PeopleIcon from "@mui/icons-material/People";
 
 
-import PersonIcon from "@mui/icons-material/Person";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import LogoutIcon from "@mui/icons-material/Logout";
 
-export default function NotificationMenuIcon(props) {
+
+function NotificationMenuIcon(props) {
+  const queryClient = useQueryClient();
+  const {sendJsonMessage,lastJsonMessage} = React.useContext(NotificationWebsocketContext);
+
+  const [badge,setBadge] = React.useState(null)
+  React.useEffect(() => {
+    if(lastJsonMessage){
+      setBadge(lastJsonMessage.unread_items)
+    }
+
+  },[lastJsonMessage])
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log(anchorEl);
+    queryClient.invalidateQueries("notifications");
+    sendJsonMessage({
+      'command':'notifications_are_read',
+      'data':null,
+    })
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+
+
+  
   return (
     <React.Fragment>
       <Tooltip title="Notification">
-      <IconButton
-        aria-controls={open ? "notification-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        size="large"
-        aria-label="show notification"
-        color="inherit"
-        onClick={handleClick}
-      >
-        <Badge badgeContent={12} color="error">
+        <IconButton
+          aria-controls={open ? "notification-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          size="large"
+          aria-label="show notification"
+          color="inherit"
+          onClick={handleClick}
+        >
+          <Badge badgeContent={badge} color="error">
             <NotificationsIcon />
-        </Badge>
-      </IconButton>
+          </Badge>
+        </IconButton>
       </Tooltip>
 
 
@@ -87,50 +71,46 @@ export default function NotificationMenuIcon(props) {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        PaperProps={{
+          elevation: 0,
 
+          sx: {
+            borderRadius: "10px 5px 10px 10px",
+            width: "400px",
+            height: '400px',
+            overflow: "scroll",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-      
-      <Typography variant="h6" sx={{px:'10px'}}>
-        Notification
-      </Typography>
 
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>John</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Jey</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Stev</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Kenny</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText>Bris</ListItemText>
-        </MenuItem>
-       
-        
+        <NotificationMenuList handleClose={handleClose}/>
 
       </Menu>
     </React.Fragment>
   );
 }
+
+
+export default memo(NotificationMenuIcon);

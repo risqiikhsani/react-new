@@ -139,6 +139,18 @@ const connection_api = {
     },
 }
 
+const notification_api = {
+    get_list: function(last_string) {
+        return instance.get(`realtime/notifications${last_string}`);
+    },
+}
+
+const chatroom_api = {
+    get_list: function(last_string) {
+        return instance.get(`realtime/chatrooms${last_string}`);
+    },
+}
+
 const relationship_api = {
     get_detail: function(id){
         return instance.get(`user/${id}/relationship`);
@@ -159,6 +171,8 @@ export {
     my_api,
     request_api,
     connection_api,
+    notification_api,
+    chatroom_api,
     relationship_api,
 }
 
