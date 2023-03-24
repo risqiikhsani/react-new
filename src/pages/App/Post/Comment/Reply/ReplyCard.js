@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import ReplyMoreMenuButton from "./ReplyMoreMenuButton";
 
-import AppApi from "../../../../../api/AppApi";
 import { like_api } from "../../../../../api/Api";
 function ReplyCard(props) {
   const queryClient = useQueryClient();

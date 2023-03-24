@@ -1,21 +1,19 @@
 import {
-    useInfiniteQuery, useQuery, useQueryClient
+    useInfiniteQuery, useQueryClient
 } from "@tanstack/react-query";
 import * as React from "react";
 
 import { Box, Typography } from "@mui/material";
 
 import Stack from "@mui/material/Stack";
-import { Container } from "@mui/system";
 import { useInView } from "react-intersection-observer";
 
 
-import AppApi from "../../../api/AppApi";
+import { useDispatch, useSelector } from "react-redux";
+import { post_api } from "../../../api/Api";
 import PostSkeleton from "../../../components/SuspenseFallback/PostSkeleton";
 import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 import PostCard from "../Post/PostCard";
-import { useDispatch, useSelector } from "react-redux";
-import { post_api } from "../../../api/Api";
 
 
 export default function PostList(props) {

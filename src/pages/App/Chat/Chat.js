@@ -109,7 +109,7 @@ function Chat(props) {
         sx={{
           width: { md: drawerWidth },
           flexShrink: { lg: 0 },
-          // bgcolor:'tomato',
+          bgcolor:'tomato',
 
         }}
 
@@ -164,6 +164,7 @@ function Chat(props) {
         sx={{
           flexGrow: 1,
           width: { md: `calc(100% - ${drawerWidth}px)`, },
+          bgcolor:'red',
         }}
       >
         <Toolbar />

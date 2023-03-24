@@ -4,7 +4,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { user_api } from "../../../api/Api";
-import AppApi from "../../../api/AppApi";
 import CreatePostDial from "../Global/CreatePostDial";
 import EditProfileDial from "../Global/EditProfileDial";
 import Profile from "./Profile";

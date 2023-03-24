@@ -10,11 +10,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
-import AppApi from "../../../../api/AppApi";
+import { like_api } from "../../../../api/Api";
 import CommentMoreMenuButton from "./CommentMoreMenuButton";
 import ReplyInput from "./Reply/ReplyInput";
 import ReplyList from "./Reply/ReplyList";
-import { like_api } from "../../../../api/Api";
 function CommentCard(props) {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();

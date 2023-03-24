@@ -8,7 +8,7 @@ import { memo } from "react";
 import { useState } from "react";
 
 function ChatInput(props) {
-  const {onSend} = props;
+  const { onSend } = props;
 
 
   const [input, setInput] = useState("");
@@ -16,31 +16,32 @@ function ChatInput(props) {
     setInput(event.target.value);
   };
 
-  
+
   const handleClick = () => {
     onSend({
-        'command':'chat',
-        'data':{
-            'text':input,
-        }
+      'command': 'chat',
+      'data': {
+        'text': input,
+      }
     })
+    setInput("")
   }
 
-  
+
   return (
     <React.Fragment>
 
-        <IconButton>
-          <EmojiEmotionsIcon />
-        </IconButton>
-        <IconButton aria-label="upload picture" component="label">
-          <input hidden accept="image/*" type="file" />
-          <AttachFileIcon />
-        </IconButton>
-  
-      
+      <IconButton>
+        <EmojiEmotionsIcon />
+      </IconButton>
+      <IconButton aria-label="upload picture" component="label">
+        <input hidden accept="image/*" type="file" />
+        <AttachFileIcon />
+      </IconButton>
+
+
       <TextField
-        sx={{ flexGrow: 1 ,mx:'10px'}}
+        sx={{ flexGrow: 1, mx: '10px' }}
         multiline
         maxRows={4}
         id="outlined-comment"
@@ -49,13 +50,13 @@ function ChatInput(props) {
         size="small"
       />
 
-        <IconButton>
-          <MicIcon />
-        </IconButton>
-        <IconButton onClick={handleClick}>
-          <SendIcon />
-        </IconButton>
- 
+      <IconButton>
+        <MicIcon />
+      </IconButton>
+      <IconButton onClick={handleClick}>
+        <SendIcon />
+      </IconButton>
+
     </React.Fragment>
   );
 }

@@ -2,13 +2,12 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import CommentIcon from "@mui/icons-material/Comment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Badge, Box, Button, Divider, Stack } from "@mui/material";
+import { Badge, Box, Button, Divider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import { red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
@@ -20,14 +19,13 @@ import { Link as LinkRouter } from "react-router-dom";
 
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
-import AppApi from "../../../api/AppApi";
+import { useDispatch } from "react-redux";
 import PostMoreMenuButton from "./Buttons/PostMoreMenuButton";
 import PostShareMenuButton from "./Buttons/PostShareMenuButton";
 
-import CommentList from "./Comment/CommentList";
-import CommentInput from "./Comment/CommentInput";
 import ReactImageGallery from "react-image-gallery";
+import CommentInput from "./Comment/CommentInput";
+import CommentList from "./Comment/CommentList";
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';

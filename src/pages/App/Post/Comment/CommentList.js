@@ -6,7 +6,6 @@ import { useInView } from "react-intersection-observer";
 import { useDispatch } from "react-redux";
 import { comment_api } from "../../../../api/Api";
 
-import AppApi from "../../../../api/AppApi";
 import CommentSkeleton from "../../../../components/SuspenseFallback/CommentSkeleton";
 import CommentCard from "./CommentCard";
 

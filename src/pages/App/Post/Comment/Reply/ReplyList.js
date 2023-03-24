@@ -7,7 +7,6 @@ import { reply_api } from "../../../../../api/Api";
 
 
 
-import AppApi from "../../../../../api/AppApi";
 import CommentSkeleton from "../../../../../components/SuspenseFallback/CommentSkeleton";
 import ReplyCard from "./ReplyCard";
 

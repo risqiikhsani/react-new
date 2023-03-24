@@ -85,6 +85,7 @@ function AppContainer(props) {
       display: "flex",
       minHeight: '100vh',
       background: backgroundColorTheme,
+      // alignItems:'stretch',
       // backgroundImage:'https://i0.wp.com/css-tricks.com/wp-content/uploads/2020/11/css-gradient.png?fit=1200%2C600&ssl=1',
       // backgroundRepeat:'no-repeat',
       // backgroundAttachment:'fixed',
@@ -100,7 +101,7 @@ function AppContainer(props) {
           ml: { lg: `${drawerWidth}px` },
           // zIndex: (theme) => theme.zIndex.drawer + 1,
           // bgcolor:BarColor,
-          background: 'transparent',
+          // background: 'transparent',
         }}
       >
         <Toolbar>

@@ -11,7 +11,7 @@ import { setUser } from "../hooks/slices/userSlice";
 import { useIsFetching } from "@tanstack/react-query";
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import SnackbarHandler from "./App/Global/SnackbarHandler";
 
@@ -93,9 +93,12 @@ export default function Root() {
 
   return (
     <React.Fragment>
+      {console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
       <ThemeProvider theme={theme}>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <SnackbarHandler />
       <Outlet />
+      </GoogleOAuthProvider>
       </ThemeProvider>
     </React.Fragment>
   );

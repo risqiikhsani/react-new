@@ -20,10 +20,8 @@ import TextField from "@mui/material/TextField";
 
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from '@mui/icons-material/Close';
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 
 import { useDropzone } from "react-dropzone";
-import AppApi from "../../../api/AppApi";
 import { setSnackbar } from "../../../hooks/slices/snackbarSlice";
 
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
@@ -31,7 +29,6 @@ import PollIcon from '@mui/icons-material/Poll';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { post_api } from "../../../api/Api";
-import EmojiPicker from "emoji-picker-react";
 import EmojiPickerButton from "./EmojiPickerButton";
 
 const actions = [

@@ -85,11 +85,10 @@ export default function RootApp() {
       >
         {lastMessage !== null && console.log(JSON.parse(lastMessage.data))}
         <AppContainer>
-          <Typography sx={{ color: "greenyellow", zIndex: '2000' }}>Connection status = {connectionStatus}</Typography>
-
           <Outlet />
         </AppContainer>
         {/* https://reactrouter.com/en/main/components/scroll-restoration */}
+        
         <ScrollRestoration
           getKey={(location, matches) => {
             return location.pathname;

@@ -1,11 +1,9 @@
 import { Container } from "@mui/system";
-import React from "react";
-import PostCard from "./PostCard";
-import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import AppApi from "../../../api/AppApi";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useNavigate, useParams } from "react-router";
 import { post_api } from "../../../api/Api";
+import PostCard from "./PostCard";
 
 export default function PostDetail(props) {
   const navigate = useNavigate();

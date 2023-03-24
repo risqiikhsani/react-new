@@ -1,6 +1,6 @@
 import axios from "axios";
 import localStorageApi from "./localStorageApi";
-import AuthApi from "./AuthApi";
+import { auth_api } from "./AuthApi";
 import { clearUser } from "../hooks/slices/userSlice";
 
 
@@ -54,7 +54,7 @@ instance.interceptors.response.use(
         originalConfig._retry = true;
 
         try {
-          const rs = await AuthApi.refreshAccessToken();
+          const rs = await auth_api.refresh_access_token();
           console.log("stage 1 running")
           const { access } = rs.data;
           localStorageApi.updateAccessToken(access);

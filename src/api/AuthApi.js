@@ -2,27 +2,31 @@
 import instance from "./instance";
 import localStorageApi from "./localStorageApi";
 
-class AuthApi {
-  login(data) {
-    console.log("login api is running ... ")
-    return instance.post("/login", JSON.stringify(data));
+const config = {
+  headers: { 'content-type': 'multipart/form-data' }
+}
+
+const auth_api = {
+  login: function (data) {
+    return instance.post(`/login`, data);
+  },
+
+  login_google: function (data) {
+    return instance.post(`/login/google`, data);
+  },
+
+  signup: function (data) {
+    return instance.post(`/signup`, data);
+  },
+
+  refresh_access_token: function(){
+    return instance.post(`/token-refresh`, JSON.stringify(localStorageApi.getRefreshToken()));
   }
 
-  // logout() {
-  //   localStorageAPI.removeUser();
-  // }
-
-  signup(data) {
-    console.log("signup api is running ... ")
-    return instance.post("/signup", JSON.stringify(data));
-  }
-
-  refreshAccessToken(){
-    caches.log("refresh acess token api is running")
-    return instance.post("/token-refresh",JSON.stringify(localStorageApi.getRefreshToken()))
-
-  }
 
 }
 
-export default new AuthApi();
+export {
+  auth_api,
+};
+

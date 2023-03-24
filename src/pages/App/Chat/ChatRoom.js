@@ -20,6 +20,11 @@ const ChatRoomBarColor = "#ffb703";
 
 export default function ChatRoom(props) {
   const { onClose } = props;
+
+  const messagesEndRef = React.useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: "end" })
+  }
   const dispatch = useDispatch();
 
   const chatroomOpen = useSelector((state) => state.chatroom.open);
@@ -45,91 +50,105 @@ export default function ChatRoom(props) {
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
   }[readyState];
 
+
+
   React.useEffect(() => {
     if (connectionStatus === "Open" && lastJsonMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastJsonMessage.data));
     }
+
   }, [lastJsonMessage, setMessageHistory])
+
+  React.useEffect(() => {
+    scrollToBottom()
+  })
 
   return (
     <React.Fragment>
       {console.log(messageHistory)}
-      <AppBar
-        sx={{
-          zIndex: "1059",
-          width: {
-            lg: `calc(100% - ${drawerWidth + drawerWidthOuter}px)`,
-            md: `calc(100% - ${drawerWidth}px)`,
-          },
-          ml: {
-            lg: `${drawerWidth + drawerWidthOuter}px`,
-            md: `${drawerWidth}px`,
-          },
-          background: 'transparent',
-          // bgcolor:ChatRoomBarColor,
-        }}
-      >
+      
+        <AppBar
+          sx={{
+            zIndex: "1059",
+            width: {
+              lg: `calc(100% - ${drawerWidth + drawerWidthOuter}px)`,
+              md: `calc(100% - ${drawerWidth}px)`,
+            },
+            ml: {
+              lg: `${drawerWidth + drawerWidthOuter}px`,
+              md: `${drawerWidth}px`,
+            },
+            background: 'transparent',
+            // bgcolor:ChatRoomBarColor,
+          }}
+        >
+          <Toolbar />
+          <Toolbar />
+          <Toolbar sx={{ bgcolor: "powderblue" }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <Avatar src={chatroomData.display.profile.profile_picture.small} />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              {chatroomData.display.profile.name}
+            </Typography>
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+            <IconButton onClick={chatRoomClickClose}>
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
         <Toolbar />
+
+
+          <Typography sx={{ color: "greenyellow", zIndex: '2000' }}>Connection status = {connectionStatus}</Typography>
+
+          <List>
+            {messageHistory.map((a) => (
+              <React.Fragment>
+                <Message key={a.id} data={a} />
+              </React.Fragment>
+
+            ))}
+
+          </List>
+        
+
+
         <Toolbar />
-        <Toolbar sx={{ bgcolor: "powderblue" }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Avatar src={chatroomData.display.profile.profile_picture.small} />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {chatroomData.display.profile.name}
-          </Typography>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-          <IconButton onClick={chatRoomClickClose}>
-            <CloseIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+        <Box ref={messagesEndRef} />
+        <AppBar position="fixed" color="primary"
 
-      <Toolbar />
-      <Typography sx={{ color: "greenyellow", zIndex: '2000' }}>Connection status = {connectionStatus}</Typography>
-
-      <List>
-        {messageHistory.map((a) => (
-          <React.Fragment>
-            <Message key={a.id} data={a} />
-          </React.Fragment>
-
-        ))}
-      </List>
-
-
-      <Toolbar/>
-      <AppBar position="fixed" color="primary"
-
-        sx={{
-          top: 'auto', bottom: 0,
-          zIndex: "1059",
-          width: {
-            lg: `calc(100% - ${drawerWidth + drawerWidthOuter}px)`,
-            md: `calc(100% - ${drawerWidth}px)`,
-          },
-          ml: {
-            lg: `${drawerWidth + drawerWidthOuter}px`,
-            md: `${drawerWidth}px`,
-          },
-          bgcolor: 'white'
-          // background: 'transparent',
-          // bgcolor:ChatRoomBarColor,
-        }}
-      >
-        <Toolbar>
-          <ChatInput onSend={sendJsonMessage} />
-        </Toolbar>
-      </AppBar>
-
+          sx={{
+            top: 'auto', bottom: 0,
+            zIndex: "1059",
+            width: {
+              lg: `calc(100% - ${drawerWidth + drawerWidthOuter}px)`,
+              md: `calc(100% - ${drawerWidth}px)`,
+            },
+            ml: {
+              lg: `${drawerWidth + drawerWidthOuter}px`,
+              md: `${drawerWidth}px`,
+            },
+            // bgcolor: 'white'
+            background: 'transparent',
+            // background: 'transparent',
+            // bgcolor:ChatRoomBarColor,
+          }}
+        >
+          <Toolbar>
+            <ChatInput onSend={sendJsonMessage} />
+          </Toolbar>
+        </AppBar>
+      
     </React.Fragment>
   );
 }

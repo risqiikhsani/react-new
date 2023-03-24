@@ -1,6 +1,5 @@
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import SendIcon from "@mui/icons-material/Send";
-import { Avatar, Box, IconButton, TextField } from "@mui/material";
+import { Avatar, Box, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
@@ -10,9 +9,8 @@ import { useDispatch } from "react-redux";
 
 import { LoadingButton } from "@mui/lab";
 import { memo } from "react";
-import AppApi from "../../../../api/AppApi";
-import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
 import { comment_api } from "../../../../api/Api";
+import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
 import EmojiPickerButton from "../../Global/EmojiPickerButton";
 
 function CommentInput(props) {

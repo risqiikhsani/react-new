@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import * as React from "react";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { googleLogout } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useMutation } from "@tanstack/react-query";
@@ -24,13 +26,13 @@ import { Link as LinkRouter } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import AuthApi from "../../api/AuthApi";
 
 import { useDispatch } from "react-redux";
 import localStorageApi from "../../api/localStorageApi";
 import BeatLoaderSpinner from "../../components/SuspenseFallback/BeatLoaderSpinner";
 import { setSnackbar } from "../../hooks/slices/snackbarSlice";
 import { setUser } from "../../hooks/slices/userSlice";
+import { auth_api } from "../../api/AuthApi";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -55,9 +57,32 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const mutation = useMutation(
+  const loginGoogleHandler = useMutation(
     (data) => {
-      return AuthApi.login(data);
+      return auth_api.login_google(data);
+    },
+    {
+      onError : (error,variables,context) => {
+        console.log(error);
+      },
+      onSuccess : (data,variables,context) => {
+        // put tokens in localstorage
+        localStorageApi.setUser(data.data);
+
+        // set user state
+        dispatch(setUser({
+          id: data.data.user.id,
+          name: data.data.user.profile.name,
+          public_username: data.data.user.profile.public_username,
+          profile_picture: data.data.user.profile.profile_picture.medium,
+        }));
+      }
+    }
+  )
+
+  const loginHandler = useMutation(
+    (data) => {
+      return auth_api.login(data);
     },
     {
       onError: (error, variables, context) => {
@@ -83,10 +108,10 @@ export default function Login() {
 
         // set user state
         dispatch(setUser({
-          id:data.data.user.id,
-          name:data.data.user.profile.name,
-          public_username:data.data.user.profile.public_username,
-          profile_picture:data.data.user.profile.profile_picture.medium,
+          id: data.data.user.id,
+          name: data.data.user.profile.name,
+          public_username: data.data.user.profile.public_username,
+          profile_picture: data.data.user.profile.profile_picture.medium,
         }));
       },
     }
@@ -95,7 +120,7 @@ export default function Login() {
   const onSubmit = (event) => {
     event.preventDefault();
     try {
-      mutation.mutate({
+      loginHandler.mutate({
         username: username,
         password: password,
       });
@@ -104,7 +129,9 @@ export default function Login() {
     }
   };
 
-  // if(mutation.error){
+
+
+  // if(loginHandler.error){
   //   return(
   //     <React.Fragment>
   //       something went wrong
@@ -112,12 +139,33 @@ export default function Login() {
   //   )
   // }
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: codeResponse => {
+      console.log(codeResponse);
+      
+      try {
+        loginGoogleHandler.mutate({
+          code:codeResponse.code
+        });
+      } catch (err) {
+        console.log(err);
+      }
+
+    },
+    onError: () => console.log("login error"),
+    // flow: 'auth-code',
+    // ux_mode: 'redirect',
+    // redirect_uri: 'http://localhost:3000/auth/login'
+
+  })
+
+
   return (
     <React.Fragment>
       {/* {
-        mutation.isLoading && <ProgressTopBar />
+        loginHandler.isLoading && <ProgressTopBar />
       } */}
-      {mutation.isLoading && <BeatLoaderSpinner />}
+      {loginHandler.isLoading && <BeatLoaderSpinner />}
       <Box>
         <Stack
           component="form"
@@ -167,7 +215,7 @@ export default function Login() {
             />
           </FormControl>
 
-          {mutation.isError && mutation.error.response !== undefined && (
+          {loginHandler.isError && loginHandler.error.response !== undefined && (
             <Alert variant="filled" severity="error">
               wrong username or password !
             </Alert>
@@ -185,9 +233,23 @@ export default function Login() {
               label="Remember me"
             />
           </FormGroup>
+
           <Button variant="contained" onClick={onSubmit}>
             LOG IN
           </Button>
+          {/* <GoogleLogin
+            onSuccess={credentialResponse => {
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              console.log('Login Failed');
+            }} /> */}
+          <Button variant="contained" onClick={() => googleLogin()}>
+            LOG IN with GOOGLE
+          </Button>
+
+
+
           <Stack
             direction="row"
             justifyContent="space-between"

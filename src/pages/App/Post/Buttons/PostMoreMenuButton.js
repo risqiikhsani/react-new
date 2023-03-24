@@ -4,7 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
 
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //
 
@@ -21,35 +21,28 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ReportIcon from "@mui/icons-material/Report";
-import CloseIcon from "@mui/icons-material/Close";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
-import ImageIcon from "@mui/icons-material/Image";
 import LoadingButton from "@mui/lab/LoadingButton";
-import FolderIcon from "@mui/icons-material/Folder";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import AppApi from "../../../../api/AppApi";
-import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
 import {
   Avatar,
-  Badge,
-  List,
-  ListItem,
-  ListItemButton,
-  Stack,
-  Typography,
+  Badge, Stack,
+  Typography
 } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { memo } from "react";
 import { useDropzone } from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
 import { post_api } from "../../../../api/Api";
+import { setSnackbar } from "../../../../hooks/slices/snackbarSlice";
 
 function PostMoreMenuButton(props) {
   const [currentFiles, setCurrentFiles] = React.useState(
