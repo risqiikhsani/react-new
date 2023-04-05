@@ -76,6 +76,7 @@ export default function Root() {
 
   useEffect(() => {
     if (!initialRender && !authenticated_user_id) {
+      
       console.log("test root")
       console.log(authenticated_user_id)
       // if there's no user in state , redirect to login page
