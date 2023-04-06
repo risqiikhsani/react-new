@@ -57,17 +57,21 @@ import SettingDrawerIcon from "./Navbar/SettingDrawerIcon";
 import OnlineContactIcon from "./Navbar/OnlineContactIcon";
 import { useQueryClient } from "@tanstack/react-query";
 import FixedBuggyToolbar from "../components/Others/FixedBuggyToolbar";
+import { useSelector } from "react-redux";
 
 // const drawerWidth = 240;
 const drawerWidth = 240;
 const drawerColor = "#111827";
 const BarColor = "#eaf4f4";
-const backgroundColorTheme = 'linear-gradient(to right, #fc5c7d, #6a82fb)'; //https://uigradients.com/
+// const backgroundColorTheme = 'linear-gradient(to right, #40e0d0, #ff8c00, #ff0080)'; //https://uigradients.com/
 
 function AppContainer(props) {
   const queryClient = useQueryClient()
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const backgroundColorTheme = useSelector((state) => state.theme.background)
+  // const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -148,7 +152,7 @@ function AppContainer(props) {
       <Box
         sx={{
           width: { lg: drawerWidth }, flexShrink: { lg: 0 },
-          bgcolor:"sienna",
+          bgcolor:drawerColor,
         }}
         aria-label="drawer"
       >
@@ -214,8 +218,8 @@ function AppContainer(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          
-          bgcolor: "thistle",
+          padding:'10px',
+          // bgcolor: "thistle",
           // ml: { lg: `${drawerWidth}px` },
           //width: { lg: `calc(100% - ${drawerWidth}px` },
         }}

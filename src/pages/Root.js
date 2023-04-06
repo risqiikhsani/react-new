@@ -14,28 +14,42 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import SnackbarHandler from "./App/Global/SnackbarHandler";
+import { CssBaseline } from "@mui/material";
 
-const theme = createTheme({
-  components: {
-    // Name of the component ⚛️
-    MuiButtonBase: {
-      defaultProps: {
-        // The default props to change
-        disableRipple: true, // No more ripple, on the whole application 💣!
-      },
-    },
-    MuiToolbar:{
-      styleOverrides:{
-        root:{
-          height:'70px',
-        },
-      },
-    },
-  },
-});
+
+
+
+
 
 
 export default function Root() {
+
+  const isDarkTheme = useSelector((state) => state.theme.darkTheme)
+
+
+  const theme = createTheme({
+    palette: {
+      mode: isDarkTheme? 'dark':'light',
+    },
+    components: {
+      // Name of the component ⚛️
+      MuiButtonBase: {
+        defaultProps: {
+          // The default props to change
+          disableRipple: true, // No more ripple, on the whole application 💣!
+        },
+      },
+      MuiToolbar: {
+        styleOverrides: {
+          root: {
+            height: '70px',
+          },
+        },
+      },
+    },
+  });
+
+
   const isFetching = useIsFetching();
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -45,7 +59,7 @@ export default function Root() {
   const authenticated_user_id = useSelector((state) => state.user.id);
   const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed);
 
-  const [initialRender,setInitialRender] = React.useState(true)
+  const [initialRender, setInitialRender] = React.useState(true)
 
 
   useEffect(() => {
@@ -64,7 +78,7 @@ export default function Root() {
       }));
 
     }
-    else{
+    else {
       return navigate("/auth/login");
     }
 
@@ -72,11 +86,11 @@ export default function Root() {
 
 
 
-  
+
 
   useEffect(() => {
     if (!initialRender && !authenticated_user_id) {
-      
+
       console.log("test root")
       console.log(authenticated_user_id)
       // if there's no user in state , redirect to login page
@@ -94,12 +108,12 @@ export default function Root() {
 
   return (
     <React.Fragment>
-      {console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
       <ThemeProvider theme={theme}>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <SnackbarHandler />
-      <Outlet />
-      </GoogleOAuthProvider>
+        <CssBaseline />
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <SnackbarHandler />
+          <Outlet />      {console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+        </GoogleOAuthProvider>
       </ThemeProvider>
     </React.Fragment>
   );

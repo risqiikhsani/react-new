@@ -53,7 +53,7 @@ export default function LeftDrawer(props) {
     <React.Fragment>
       <Toolbar />
       <Divider />
-      <List sx={{ color: fontDrawerColor }}>
+      <List>
         {routeDrawer.map((item) => (
           <NavLink to={item.route} style={({isActive,isPending}) => isActive ? {color:'violet',textDecoration:'none'} : {color:'white',textDecoration:'none'}}>
           <ListItem key={item} disablePadding>

@@ -35,11 +35,64 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useDispatch, useSelector } from "react-redux";
+import { setBackground, setDarkTheme } from "../../hooks/slices/themeSlice";
 
 
 
 const fontDrawerColor = "#9A9FA7";
 const iconDrawerColor = "#F9FAFC";
+
+
+const backgroundTheme = [
+  {
+    id: 1,
+    background: 'linear-gradient(to left, #74ebd5, #acb6e5)',
+    name: 'Default Light',
+  },
+  {
+    id: 2,
+    background: 'linear-gradient(to left, #0f2027, #203a43, #2c5364)',
+    name: 'Default Dark',
+  },
+  {
+    id: 3,
+    background: 'linear-gradient(to right, #40e0d0, #ff8c00, #ff0080)',
+    name: 'Wedding Day',
+  },
+  {
+    id: 4,
+    background: 'linear-gradient(to right, #fc5c7d, #6a82fb)',
+    name: 'Sublime Light',
+  },
+  {
+    id: 5,
+    background: 'linear-gradient(to left, #00b09b, #96c93d)',
+    name: 'Ohhappiness',
+  },
+  {
+    id: 6,
+    background: 'linear-gradient(to left, #cac531, #f3f9a7)',
+    name: 'Sulphur',
+  },
+  {
+    id: 7,
+    background: 'linear-gradient(to left, #800080, #ffc0cb)',
+    name: 'Pink Flavour',
+  },
+  {
+    id: 8,
+    background: 'linear-gradient(to left, #00f260, #0575e6)',
+    name: 'Rainbow Blue',
+  },
+  {
+    id: 9,
+    background: 'linear-gradient(to left, #667db6, #0082c8, #0082c8, #667db6)',
+    name: 'Hydrogen',
+  },
+]
+
+
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -90,11 +143,38 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function RightDrawer(props) {
+  const dispatch = useDispatch();
+
   const [age, setAge] = React.useState(10);
+
+  const defaultbg = useSelector((state) => state.theme.background)
+  const isDarkTheme = useSelector((state) => state.theme.darkTheme)
+
+  const [bgvalue, setBgvalue] = React.useState(null)
+  const [dt,setDt] = React.useState(null)
+
+  React.useEffect(() => {
+    backgroundTheme.map((a) => {
+      if(a.background === defaultbg){
+        setBgvalue(a.id)
+      }
+    })
+    setDt(isDarkTheme)
+  },[])
+
+  const handleDarkThemeChange = () => {
+    setDt(!dt)
+    dispatch(setDarkTheme(!dt))
+  }
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+
+  const handleBackgroundChange = (id,color) => {
+    setBgvalue(id)
+    dispatch(setBackground(color))
+  }
 
   return (
     <React.Fragment>
@@ -119,7 +199,7 @@ export default function RightDrawer(props) {
       >
         <FormGroup sx={{ mx: "20px", color: fontDrawerColor }}>
           <FormControlLabel
-            control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+            control={<MaterialUISwitch sx={{ m: 1 }} checked={dt} onChange={handleDarkThemeChange} />}
             label="switch Theme"
           />
         </FormGroup>
@@ -130,7 +210,7 @@ export default function RightDrawer(props) {
           alignItems="center"
           spacing={0.5}
         >
-          <PanoramaWideAngleIcon color="primary"/>
+          <PanoramaWideAngleIcon color="primary" />
           <Box sx={{ minWidth: 200 }}>
             <FormControl fullWidth size="small">
               <InputLabel
@@ -142,19 +222,23 @@ export default function RightDrawer(props) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
+                value={bgvalue}
                 label="Wallpaper Theme"
                 onChange={handleChange}
                 sx={{ color: fontDrawerColor }}
               >
-                <MenuItem value={10}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #74ebd5, #acb6e5)"}}>Default Light</Paper></MenuItem>
-                <MenuItem value={10}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #0f2027, #203a43, #2c5364)"}}>Default Dark</Paper></MenuItem>
-                <MenuItem value={10}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to right, #fc5c7d, #6a82fb)"}}>Sublime Light</Paper></MenuItem>
-                <MenuItem value={20}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #00b09b, #96c93d)"}}>Ohhapinness</Paper></MenuItem>
-                <MenuItem value={30}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #cac531, #f3f9a7)"}}>Sulphur</Paper></MenuItem>
-                <MenuItem value={40}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #800080, #ffc0cb)"}}>Pink Flavour</Paper></MenuItem>
-                <MenuItem value={50}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #00f260, #0575e6)"}}>Rainbow Blue</Paper></MenuItem>
-                <MenuItem value={20}><Paper sx={{textAlign:"center",width:'100%',background:"linear-gradient(to left, #667db6, #0082c8, #0082c8, #667db6)"}}>Hydrogen</Paper></MenuItem>
+                {
+                  backgroundTheme.map((a) => (
+                    <MenuItem
+                      key={a.id}
+                      onClick={() => handleBackgroundChange(a.id,a.background)}
+                      value={a.id}>
+                      <Paper sx={{ textAlign: "center", width: '100%', background: a.background }}>
+                        {a.name}
+                      </Paper>
+                    </MenuItem>
+                  ))
+                }
               </Select>
             </FormControl>
           </Box>
@@ -166,7 +250,7 @@ export default function RightDrawer(props) {
           alignItems="center"
           spacing={0.5}
         >
-          <LanguageIcon color="primary"/>
+          <LanguageIcon color="primary" />
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth size="small">
               <InputLabel

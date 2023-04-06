@@ -157,7 +157,7 @@ function PostCard(props) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"
-          //src={props.data.user.profile.profile_picture} 
+          src={props.data.user.profile.profile_picture.small} 
           />
         }
         action={
@@ -166,7 +166,7 @@ function PostCard(props) {
           // </IconButton>
           <PostMoreMenuButton data={props.data} />
         }
-        title={<Link underline="hover" component={LinkRouter} to={`/user/${props.data.user.id}`}>{props.data.user.profile.name}</Link>}
+        title={<Link underline="hover" sx={{fontSize:'18px'}} component={LinkRouter} to={`/user/${props.data.user.id}`}>{props.data.user.profile.name}</Link>}
         subheader={props.data.natural_time}
       />
       {images.length!==0 && (
@@ -193,7 +193,7 @@ function PostCard(props) {
       )}
       <Divider />
       <CardContent>
-        <Typography variant="body2" >
+        <Typography >
           {props.data.text}
         </Typography>
       </CardContent>
