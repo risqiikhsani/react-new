@@ -23,11 +23,17 @@ import { Link as LinkRouter } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+import { clearForgotPassword } from "../../hooks/slices/forgotPasswordSlice";
+import { useMutation } from "@tanstack/react-query";
+import { auth_api } from "../../api/AuthApi";
+import { setSnackbar } from "../../hooks/slices/snackbarSlice";
+import { memo } from "react";
 
 
 
 
-export default function ForgotPasswordResetPassword() {
+export default function ForgotPasswordResetPassword(props) {
 
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
@@ -50,6 +56,55 @@ export default function ForgotPasswordResetPassword() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  
+  const email = useSelector((state) => state.forgotPassword.email);
+  const code = useSelector((state) => state.forgotPassword.code);
+  console.log(email)
+  console.log(code)
+  const dispatch = useDispatch();
+  const forgotPasswordConfirm = useMutation(
+    (data) => {
+      return auth_api.forgot_password_confirm(data);
+    },
+    {
+      onError: (error, variables, context) => {
+        console.log("onError runninng");
+        console.log(error);
+        console.log(error.message);
+
+        dispatch(
+          setSnackbar({
+            type: "error",
+            string: "something went wrong",
+            detail: error.message,
+          })
+        );
+      },
+      onSuccess: (data, variables, context) => {
+        dispatch(clearForgotPassword())
+        props.nextStep();
+      },
+    }
+  );
+
+  const handleClick = (event) => {
+    console.log("email is")
+    console.log(email);
+    event.preventDefault();
+    try {
+      forgotPasswordConfirm.mutate({
+        email:email,
+        code:code,
+        password:password,
+        confirm_password:password2,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
 
   return (
     <React.Fragment>
@@ -119,7 +174,7 @@ export default function ForgotPasswordResetPassword() {
           />
         </FormControl>
 
-        <Button variant="contained">RESET PASSWORD</Button>
+        <Button variant="contained" onClick={handleClick}>RESET PASSWORD</Button>
 
 
       </Stack>

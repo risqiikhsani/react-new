@@ -35,6 +35,7 @@ const steps = ["Select Recover Method", "Confirm Code Sent", "Reset Password"];
 export default function ForgotPassword() {
   const [progress, setProgress] = React.useState(0);
 
+
   // perhatikan ini
   const nextStep = () => {
     setProgress(progress + 1);
@@ -51,9 +52,6 @@ export default function ForgotPassword() {
 
   return (
     <React.Fragment>
-
-
-
       <Stack
         direction="column"
         justifyContent="center"
@@ -62,15 +60,15 @@ export default function ForgotPassword() {
         textAlign="center"
       >
         <Box sx={{ width: "100%" }}>
-
-
-          {
-            progress>0&&progress<2 && (
-                <Button onClick={prevStep} sx={{ m: 2 }} startIcon={<ArrowBackIosIcon />}>
-                back
-              </Button>
-            )
-          }
+          {progress > 0 && progress < 2 && (
+            <Button
+              onClick={prevStep}
+              sx={{ m: 2 }}
+              startIcon={<ArrowBackIosIcon />}
+            >
+              back
+            </Button>
+          )}
 
           <Stepper activeStep={progress} alternativeLabel>
             {steps.map((label) => (
@@ -82,11 +80,14 @@ export default function ForgotPassword() {
         </Box>
 
         {progress == 0 ? (
-          <ForgotPasswordSelectMethod />
+          <ForgotPasswordSelectMethod nextStep={nextStep} prevStep={prevStep} 
+          />
         ) : progress == 1 ? (
-          <ForgotPasswordConfirmCode />
+          <ForgotPasswordConfirmCode nextStep={nextStep} prevStep={prevStep} 
+          />
         ) : progress == 2 ? (
-          <ForgotPasswordResetPassword />
+          <ForgotPasswordResetPassword nextStep={nextStep} prevStep={prevStep} 
+          />
         ) : (
           <ForgotPasswordDone />
         )}
@@ -102,7 +103,6 @@ export default function ForgotPassword() {
             component={LinkRouter}
             to="/auth/login"
             underline="hover"
-            component="button"
             variant="body2"
           >
             Already have an account? Log in
@@ -111,7 +111,6 @@ export default function ForgotPassword() {
             component={LinkRouter}
             to="/auth/signup"
             underline="hover"
-            component="button"
             variant="body2"
           >
             Don't have an account? Sign Up
@@ -121,21 +120,19 @@ export default function ForgotPassword() {
           </Typography>
         </Stack>
 
-        <Box>
-            <Typography>just trial for dev</Typography>
-            <Stack
-              direction="row"
-              justifyContent="space-around"
-              alignItems="center"
-              spacing={2}
-            >
-              <Button onClick={prevStep}>back</Button>
-              <Button onClick={nextStep}>next</Button>
-            </Stack>
-          </Box>
-
+        {/* <Box>
+          <Typography>just trial for dev</Typography>
+          <Stack
+            direction="row"
+            justifyContent="space-around"
+            alignItems="center"
+            spacing={2}
+          >
+            <Button onClick={prevStep}>back</Button>
+            <Button onClick={nextStep}>next</Button>
+          </Stack>
+        </Box> */}
       </Stack>
-
     </React.Fragment>
   );
 }

@@ -6,7 +6,7 @@ import userReducer from './slices/userSlice'
 import themeReducer from './slices/themeSlice'
 import snackbarReducer from './slices/snackbarSlice'
 import chatroomReducer from './slices/chatroomSlice'
-
+import forgotPasswordReducer from './slices/forgotPasswordSlice'
 
 export default configureStore({
   reducer: {
@@ -15,7 +15,7 @@ export default configureStore({
     theme:themeReducer,
     snackbar:snackbarReducer,
     chatroom:chatroomReducer,
-    
+    forgotPassword:forgotPasswordReducer,
   },
 
 })

@@ -91,8 +91,6 @@ export default function Root() {
   useEffect(() => {
     if (!initialRender && !authenticated_user_id) {
 
-      console.log("test root")
-      console.log(authenticated_user_id)
       // if there's no user in state , redirect to login page
       return navigate("/auth/login");
     } else if (!initialRender && authenticated_user_id && !authenticated_user_email_confirmed) {
@@ -112,7 +110,7 @@ export default function Root() {
         <CssBaseline />
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
           <SnackbarHandler />
-          <Outlet />      {console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)}
+          <Outlet />   
         </GoogleOAuthProvider>
       </ThemeProvider>
     </React.Fragment>

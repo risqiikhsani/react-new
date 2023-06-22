@@ -21,7 +21,20 @@ const auth_api = {
 
   refresh_access_token: function(){
     return instance.post(`/token-refresh`, JSON.stringify(localStorageApi.getRefreshToken()));
-  }
+  },
+
+  forgot_password: function (data) {
+    return instance.post(`/forgot-password`, data);
+  },
+
+  forgot_password_check_optional: function (data) {
+    return instance.post(`/forgot-password-check-optional`, data);
+  },
+
+  forgot_password_confirm: function (data) {
+    return instance.put(`/forgot-password-confirm`, data);
+  },
+
 
 
 }

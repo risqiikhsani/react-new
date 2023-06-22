@@ -25,31 +25,69 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import { useMutation } from "@tanstack/react-query";
+import { auth_api } from "../../api/AuthApi";
+import { setSnackbar } from "../../hooks/slices/snackbarSlice";
+import { useDispatch } from "react-redux";
+import { setForgotPassword } from "../../hooks/slices/forgotPasswordSlice";
 
 function ForgotPasswordMethod(props) {
   const [email, setEmail] = React.useState("");
-  const [phonenumber, setPhonenumber] = React.useState("");
+  const [phone, setPhone] = React.useState("");
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
   const handleChangePhonenumber = (event) => {
-    setPhonenumber(event.target.value);
+    setPhone(event.target.value);
   };
 
-  const sendCodeToEmail = () => {
-    console.log(email);
-  };
+  const dispatch = useDispatch();
+  const forgotPasswordHandler = useMutation(
+    (data) => {
+      return auth_api.forgot_password(data);
+    },
+    {
+      onError: (error, variables, context) => {
+        console.log("onError runninng");
+        console.log(error);
+        console.log(error.message);
 
-  const sendCodeToPhonenumber = () => {
-    console.log(phonenumber);
-  };
-
-  const handleClick = () => {
-    if (props.method == "email") {
-      sendCodeToEmail();
+        dispatch(
+          setSnackbar({
+            type: "error",
+            string: "something went wrong",
+            detail: error.message,
+          })
+        );
+      },
+      onSuccess: (data, variables, context) => {
+        dispatch(
+          setForgotPassword({
+            email:email,
+            method:"email",
+          })
+        )
+        props.nextStep();
+      },
     }
-    sendCodeToPhonenumber();
+  );
+
+  const handleClickPhoneMethod = (event) => {
+    console.log(phone);
   };
+
+  const handleClickEmailMethod = (event) => {
+    console.log(email);
+    event.preventDefault();
+    try {
+      forgotPasswordHandler.mutate({
+        email:email,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   // const [checked, setChecked] = React.useState(true);
 
@@ -94,29 +132,32 @@ function ForgotPasswordMethod(props) {
         )}
 
         {props.method == "email" ? (
-          <TextField
-            type="email"
-            id="outlined-email"
-            label="Email"
-            value={email}
-            onChange={handleChangeEmail}
-          />
+          <>
+            <TextField
+              type="email"
+              id="outlined-email"
+              label="Email"
+              value={email}
+              onChange={handleChangeEmail}
+            />
+            <Button variant="contained" onClick={handleClickEmailMethod}>
+              Send Code Verification
+            </Button>
+          </>
         ) : (
-          <TextField
-            type="number"
-            id="outlined-phonenumber"
-            label="Phone number"
-            value={phonenumber}
-            onChange={handleChangePhonenumber}
-          />
+          <>
+            <TextField
+              type="number"
+              id="outlined-phone"
+              label="Phone number"
+              value={phone}
+              onChange={handleChangePhonenumber}
+            />
+            <Button variant="contained" onClick={handleClickPhoneMethod}>
+              Send Code Verification
+            </Button>
+          </>
         )}
-
-        <Button
-          variant="contained"
-          onClick={handleClick}
-        >
-          Send Code Verification
-        </Button>
       </Stack>
     </React.Fragment>
   );
@@ -155,7 +196,8 @@ function a11yProps(index) {
   };
 }
 
-export default function ForgotPasswordSelectMethod() {
+export default function ForgotPasswordSelectMethod(props) {
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -179,13 +221,18 @@ export default function ForgotPasswordSelectMethod() {
           <Tab label="Recover by phone number" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <ForgotPasswordMethod method="email" />
+          <ForgotPasswordMethod 
+          method="email"
+          nextStep={props.nextStep} prevStep={props.prevStep}
+           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ForgotPasswordMethod method="phonenumber" />
+          <ForgotPasswordMethod 
+          method="phone"
+          nextStep={props.nextStep} prevStep={props.prevStep}
+           />
         </TabPanel>
       </Box>
-      
     </React.Fragment>
   );
 }

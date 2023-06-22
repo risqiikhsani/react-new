@@ -23,29 +23,69 @@ import { Link as LinkRouter } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+import { useMutation } from "@tanstack/react-query";
+import { setSnackbar } from "../../hooks/slices/snackbarSlice";
+import { setForgotPassword } from "../../hooks/slices/forgotPasswordSlice";
+import { auth_api } from "../../api/AuthApi";
 
 
 
 
-export default function ForgotPasswordConfirmCode() {
+export default function ForgotPasswordConfirmCode(props) {
 
   const [code,setCode] = React.useState("");
 
   const handleChangeCode = (event) => {
     setCode(event.target.value);
   };
+  
+  const email = useSelector((state) => state.forgotPassword.email);
+  const dispatch = useDispatch();
+  const forgotPasswordCheckCode = useMutation(
+    (data) => {
+      return auth_api.forgot_password_check_optional(data);
+    },
+    {
+      onError: (error, variables, context) => {
+        console.log("onError runninng");
+        console.log(error);
+        console.log(error.message);
 
+        dispatch(
+          setSnackbar({
+            type: "error",
+            string: "something went wrong",
+            detail: error.message,
+          })
+        );
+      },
+      onSuccess: (data, variables, context) => {
+        // save code to redux
+        dispatch(
+          setForgotPassword({
+            code:code,
+            email:email
+          })
+        );
+        props.nextStep();
+      },
+    }
+  );
 
-
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const ChangeShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
+  const handleClick = (event) => {
+    console.log(email);
     event.preventDefault();
+    try {
+      forgotPasswordCheckCode.mutate({
+        email:email,
+        code:code,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
+
 
   return (
     <React.Fragment>
@@ -71,34 +111,16 @@ export default function ForgotPasswordConfirmCode() {
           </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
+            type="text"
             value={code}
             onChange={handleChangeCode}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={ChangeShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
             label="Confirm Code"
           />
         </FormControl>
         
-        <Link
-            underline="hover"
-            component="button"
-            variant="body2"
-          >
-            Send code again
-          </Link>
+        <Button  sx={{textTransform:'none'}}>resend code</Button>
 
-        <Button variant="contained">Next</Button>
+        <Button variant="contained" onClick={handleClick}>Next</Button>
 
 
       </Stack>
