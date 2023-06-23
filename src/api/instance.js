@@ -4,7 +4,7 @@ import { auth_api } from "./AuthApi";
 import { clearUser } from "../hooks/slices/userSlice";
 
 
-const BASE_URL = "http://127.0.0.1:8000/api/";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const instance = axios.create({
   baseURL: BASE_URL,
