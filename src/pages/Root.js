@@ -10,26 +10,18 @@ import { setUser } from "../hooks/slices/userSlice";
 
 import { useIsFetching } from "@tanstack/react-query";
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import SnackbarHandler from "./App/Global/SnackbarHandler";
 import { CssBaseline } from "@mui/material";
-
-
-
-
-
-
+import SnackbarHandler from "./App/Global/SnackbarHandler";
 
 export default function Root() {
-
-  const isDarkTheme = useSelector((state) => state.theme.darkTheme)
-
+  const isDarkTheme = useSelector((state) => state.theme.darkTheme);
 
   const theme = createTheme({
     palette: {
-      mode: isDarkTheme? 'dark':'light',
+      mode: isDarkTheme ? "dark" : "light",
     },
     components: {
       // Name of the component ⚛️
@@ -42,58 +34,57 @@ export default function Root() {
       MuiToolbar: {
         styleOverrides: {
           root: {
-            height: '70px',
+            height: "70px",
           },
         },
       },
     },
   });
 
-
   const isFetching = useIsFetching();
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
-
-
   const authenticated_user_id = useSelector((state) => state.user.id);
-  const authenticated_user_email_confirmed = useSelector((state) => state.user.email_confirmed);
+  const authenticated_user_email_confirmed = useSelector(
+    (state) => state.user.email_confirmed
+  );
 
-  const [initialRender, setInitialRender] = React.useState(true)
+  // this because the 2nd useEffect will run at initial render too , to prevent it use this technique 
+  const [initialRender, setInitialRender] = React.useState(true);
 
-
+  // first useEffect
   useEffect(() => {
-    setInitialRender(false)
+    setInitialRender(false);
     const user = localStorageApi.getUser();
     console.log(user);
 
     // if there's user in localStorage , change user state , otherwise user state is remain null
     if (user !== null) {
       // set user state
-      dispatch(setUser({
-        id: user.user.id,
-        name: user.user.profile.name,
-        public_username: user.user.profile.public_username,
-        profile_picture: user.user.profile.profile_picture.medium,
-      }));
-
-    }
-    else {
+      dispatch(
+        setUser({
+          id: user.user.id,
+          name: user.user.profile.name,
+          public_username: user.user.profile.public_username,
+          profile_picture: user.user.profile.profile_picture.medium,
+        })
+      );
+    } else {
       return navigate("/auth/login");
     }
-
   }, []);
 
-
-
-
-
+  //second useEffect
   useEffect(() => {
     if (!initialRender && !authenticated_user_id) {
-
       // if there's no user in state , redirect to login page
       return navigate("/auth/login");
-    } else if (!initialRender && authenticated_user_id && !authenticated_user_email_confirmed) {
+    } else if (
+      !initialRender &&
+      authenticated_user_id &&
+      !authenticated_user_email_confirmed
+    ) {
       // if email isn't comfirmed , user should confirm first
       return navigate("/auth/signup-completion");
     }
@@ -102,15 +93,13 @@ export default function Root() {
     // }
   }, [authenticated_user_id, authenticated_user_email_confirmed]);
 
-
-
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
           <SnackbarHandler />
-          <Outlet />   
+          <Outlet />
         </GoogleOAuthProvider>
       </ThemeProvider>
     </React.Fragment>
