@@ -1,6 +1,5 @@
-import { Button, Container, Divider, Stack, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
 
 export default function DevicesSettings() {
   return (

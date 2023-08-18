@@ -1,17 +1,8 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Routes,
-  Link,
-  redirect,
-  createRoutesFromElements,
-} from "react-router-dom";
 import loadable from "@loadable/component";
-import pMinDelay from "p-min-delay";
-import BeatLoaderSpinner from "../components/SuspenseFallback/BeatLoaderSpinner";
+import React from "react";
+import {
+  createBrowserRouter
+} from "react-router-dom";
 import RingLoaderSpinner from "../components/SuspenseFallback/RingLoaderSpinner";
 // import Error from "../pages/Others/Error";
 // import Root from "../pages/Root";
@@ -73,7 +64,7 @@ const ChatRoom = loadable(() => import("../pages/App/Chat/ChatRoom"));
 const PostDetail = loadable(() => import("../pages/App/Post/PostDetail"));
 
 
-const Profile = loadable(() => import("../pages/App/Profile/Profile"));
+// const Profile = loadable(() => import("../pages/App/Profile/Profile"));
 const UserDetail = loadable(() => import("../pages/App/Profile/UserDetail"));
 
 
@@ -108,7 +99,7 @@ const SignupProgress = loadable(() => import('../pages/Auth/SignupProgress'))
 
 
 
-let user = false;
+
 
 const router = createBrowserRouter([
   {
@@ -230,3 +221,4 @@ const router = createBrowserRouter([
 
 
 export { router };
+

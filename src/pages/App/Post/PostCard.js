@@ -204,7 +204,7 @@ function PostCard(props) {
             color="primary"
           >
 
-            {props.data.liked == true ? (
+            {props.data.liked === true ? (
               <IconButton aria-label="like" color="error" onClick={onSubmitLikePost}>
                 <FavoriteIcon />
               </IconButton>
@@ -224,7 +224,7 @@ function PostCard(props) {
             color="primary"
           >
             {
-              props.detail == true ? (
+              props.detail === true ? (
                 <IconButton>
                   <CommentIcon />
                 </IconButton>
@@ -255,7 +255,7 @@ function PostCard(props) {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {props.detail != true && (<Button sx={{ textTransform: 'none' }} component={LinkRouter} to={`post/${props.data.id}`} variant="text" size="small">View Comments</Button>)}
+        {props.detail !== true && (<Button sx={{ textTransform: 'none' }} component={LinkRouter} to={`post/${props.data.id}`} variant="text" size="small">View Comments</Button>)}
         <Box sx={{ flexGrow: 1 }} />
         {props.data.saved ? (
           <IconButton color="primary" onClick={onSubmitSavePost}>
@@ -271,7 +271,7 @@ function PostCard(props) {
 
       </CardActions>
       <Divider />
-      {props.detail == true && (
+      {props.detail === true && (
         <CommentList post_id={props.data.id} />
       )}
       <CommentInput post_id={props.data.id} />

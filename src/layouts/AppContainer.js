@@ -94,6 +94,7 @@ function AppContainer(props) {
       // backgroundRepeat:'no-repeat',
       // backgroundAttachment:'fixed',
     }}>
+
       <CssBaseline />
       {/* this is the NavBar */}
       <AppBar

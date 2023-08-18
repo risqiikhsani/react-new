@@ -1,20 +1,11 @@
-import { Box, Stack } from "@mui/system";
-import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { TextField } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import {
-  Button,
-  Typography,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
+  Button, FormControl, IconButton, InputAdornment, InputLabel,
+  OutlinedInput, TextField, Typography
 } from "@mui/material";
+import { Box, Stack } from "@mui/system";
+import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { Link as LinkRouter } from "react-router-dom";
 
@@ -149,7 +140,6 @@ export default function Signup() {
             component={LinkRouter}
             to="/auth/forgot-password"
             underline="hover"
-            component="button"
             variant="body2"
           >
             Forgot Password?
@@ -158,7 +148,6 @@ export default function Signup() {
             component={LinkRouter}
             to="/auth/login"
             underline="hover"
-            component="button"
             variant="body2"
           >
             Already have an account? Log in

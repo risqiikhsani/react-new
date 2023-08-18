@@ -1,34 +1,23 @@
-import { Box, Stack } from "@mui/system";
-import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { TextField } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
 import {
   Button,
-  Typography,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
   FormControl,
+  IconButton,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
-  IconButton,
+  Typography
 } from "@mui/material";
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
+import { Stack } from "@mui/system";
+import * as React from "react";
 
-import { Link as LinkRouter } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useDispatch, useSelector } from "react-redux";
-import { clearForgotPassword } from "../../hooks/slices/forgotPasswordSlice";
 import { useMutation } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
 import { auth_api } from "../../api/AuthApi";
+import { clearForgotPassword } from "../../hooks/slices/forgotPasswordSlice";
 import { setSnackbar } from "../../hooks/slices/snackbarSlice";
-import { memo } from "react";
 
 
 

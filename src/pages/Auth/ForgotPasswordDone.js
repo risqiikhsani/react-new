@@ -1,25 +1,11 @@
-import { Box, Stack } from "@mui/system";
-import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { TextField } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import {
-  Button,
-  Typography,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
+  Typography
 } from "@mui/material";
+import { Stack } from "@mui/system";
+import * as React from "react";
 
-import { Link as LinkRouter } from "react-router-dom";
 
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function ForgotPasswordDone() {
 

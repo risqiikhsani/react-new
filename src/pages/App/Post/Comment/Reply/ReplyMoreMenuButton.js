@@ -37,7 +37,7 @@ import { reply_api } from "../../../../../api/Api";
 import { setSnackbar } from "../../../../../hooks/slices/snackbarSlice";
 function ReplyMoreMenuButton(props) {
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
+
   const dispatch = useDispatch()
 
   const authenticated_user_id = useSelector((state) => state.user.id)
@@ -55,10 +55,6 @@ function ReplyMoreMenuButton(props) {
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
 
-  const [value, setValue] = React.useState(props.data.text);
-  const handleChangeEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
 
 
 
@@ -152,7 +148,7 @@ function ReplyMoreMenuButton(props) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {
-          props.data.user.id == authenticated_user_id ? (
+          props.data.user.id === authenticated_user_id ? (
             <>
               <MenuItem onClick={() => { handleOpenDelete(); handleClose() }}>
                 <ListItemIcon>

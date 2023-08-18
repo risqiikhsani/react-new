@@ -95,6 +95,7 @@ export default function Root() {
 
   return (
     <React.Fragment>
+
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
