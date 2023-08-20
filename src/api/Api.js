@@ -14,15 +14,15 @@ const post_api = {
     },
 
     get_detail: function (id) {
-        return instance.get(`/app/post/${id}`);
+        return instance.get(`/app/posts/${id}`);
     },
 
     update: function (id, data) {
-        return instance.put(`/app/post/${id}`, data, config);
+        return instance.put(`/app/posts/${id}`, data, config);
     },
 
     del: function (id) {
-        return instance.delete(`/app/post/${id}`);
+        return instance.delete(`/app/posts/${id}`);
     },
 
 }
@@ -30,59 +30,59 @@ const post_api = {
 const comment_api = {
 
     create: function (post_id, data) {
-        return instance.post(`/app/post/${post_id}/comments`, JSON.stringify(data));
+        return instance.post(`/app/posts/${post_id}/comments`, JSON.stringify(data));
     },
 
     get_list: function (post_id, last_string) {
-        return instance.get(`/app/post/${post_id}/comments${last_string}`);
+        return instance.get(`/app/posts/${post_id}/comments${last_string}`);
     },
 
     update: function (id, data) {
-        return instance.put(`/app/comment/${id}`, JSON.stringify(data));
+        return instance.put(`/app/comments/${id}`, JSON.stringify(data));
     },
 
     del: function (id) {
-        return instance.delete(`/app/comment/${id}`);
+        return instance.delete(`/app/comments/${id}`);
     },
 }
 
 
 const reply_api = {
     create: function (comment_id, data) {
-        return instance.post(`/app/comment/${comment_id}/replies`, JSON.stringify(data));
+        return instance.post(`/app/comments/${comment_id}/replies`, JSON.stringify(data));
     },
 
     get_list: function (comment_id, last_string) {
-        return instance.get(`/app/comment/${comment_id}/replies${last_string}`);
+        return instance.get(`/app/comments/${comment_id}/replies${last_string}`);
     },
 
     update: function (id, data) {
-        return instance.put(`/app/reply/${id}`, JSON.stringify(data));
+        return instance.put(`/app/replies/${id}`, JSON.stringify(data));
     },
 
     del: function (id) {
-        return instance.delete(`/app/reply/${id}`);
+        return instance.delete(`/app/replies/${id}`);
     },
 
 }
 
 const like_api = {
     post_likehandler: function (id) {
-        return instance.get(`/app/post/${id}/likehandler`);
+        return instance.get(`/app/posts/${id}/likehandler`);
     },
 
     comment_likehandler: function (id) {
-        return instance.get(`/app/comment/${id}/likehandler`);
+        return instance.get(`/app/comments/${id}/likehandler`);
     },
 
     reply_likehandler: function (id) {
-        return instance.get(`/app/reply/${id}/likehandler`);
+        return instance.get(`/app/replies/${id}/likehandler`);
     },
 }
 
 const save_api = {
     post_savehandler: function (id) {
-        return instance.get(`/app/post/${id}/savehandler`);
+        return instance.get(`/app/posts/${id}/savehandler`);
     },
 }
 
